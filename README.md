@@ -60,9 +60,11 @@ etmek zorundadır.
    desteklenen olgun izlere göre hesaplanan artıkların ağırlıklı ortalamasıyla
    kestirilir. Kestirim tamamlanana kadar bu ölçümler izi güncellemez; sadece
    kimlik etiketi ve bias örneği sağlar [1].
-3. **İz ilişkilendirme:** Mahalanobis kapılama (χ², %99.9) [1] ve Macar
-   algoritması [3] (`scipy.optimize.linear_sum_assignment` [4]) kullanılır. Atanmayan ölçümden
-   aday iz başlatılır; güven ağırlıklı 3 vuruşla iz onaylanır. Aday iz 2.5 s,
+3. **İz ilişkilendirme:** Mahalanobis kapılama (χ², %99.9) [1] uygulanır;
+   iz-ölçüm atama problemi `scipy.optimize.linear_sum_assignment` [4] ile
+   çözülür. Bu fonksiyon Crouse'un [3] tarif ettiği en kısa artırma yolu
+   yöntemini uygular; Macar algoritmasıyla aynı optimal atamayı bulur.
+   Atanmayan ölçümden aday iz başlatılır; güven ağırlıklı 3 vuruşla iz onaylanır. Aday iz 2.5 s,
    onaylı iz 6 s güncellenmezse silinir. Çakışan çift izler birleştirilir [1].
 4. **Kalman filtresi** [2]**:** Sabit hız modeli [1] kullanılır; durum `[x, y, vx, vy]`,
    süreç gürültüsü beyaz ivme σ = 1 m/s².
@@ -79,7 +81,7 @@ etmek zorundadır.
    `[R,K,B]` = radar, kamera, konum bildirimi).
 
 **Değerlendirme:** Füzyon zamanında her saniye onaylı izler gerçek hedeflere
-Macar algoritmasıyla eşlenir (eşik 250 m).
+optimal atamayla (`linear_sum_assignment`) eşlenir (eşik 250 m).
 
 - **GOSPA** [8] (p = 2, α = 2, c = 250 m): Her anda eşleşen çiftlerin konum
   hatası ile kaçırılan ve sahte hedeflerin her biri için c²/2 cezası tek bir
@@ -102,7 +104,7 @@ cd Cok-Sensorlu-Veri-Fuzyonu
 python -m pip install -r requirements.txt
 ```
 
-Python 3.10+ ve numpy, scipy, matplotlib, pillow (pytest testler için) gerekir.
+Python 3.10+ ile numpy, scipy, matplotlib ve pillow gerekir; testler için pytest.
 
 ## Çalıştırma
 
@@ -127,6 +129,14 @@ python web.py                       # web arayüzü: http://localhost:8000
 > `karsilastirma.png` ve `sonuclar.*` sadece `--hepsi` ile güncellenir.
 
 ## Web arayüzü
+
+![Web arayüzü](results/web_arayuzu.png)
+
+*Karıştırma senaryosu, t = 150 s: Radar "KARIŞTIRMA" durumunda ve füzyonun
+ona verdiği güven 0.15'e düşmüş. Yanlış alarmlar (turuncu noktalar) haritada
+görünüyor ama sahte ize dönüşmüyor. Tablodaki "güven ağırlıklandırma kapalı"
+satırına göre aynı koşuda güven mekanizması kapatılınca 7 sahte iz oluşuyor;
+satıra tıklanınca bu izler haritada görülebilir.*
 
 ```bash
 python web.py              # tarayıcıda http://localhost:8000 açılır (Ctrl+C ile durur)
@@ -201,6 +211,13 @@ sensörlerin güveni 1'de sabit) çalıştırılmıştır.
 | karistirma | 0/30 | 30/30 |
 | sensor_kaybi | 0/30 | 30/30 |
 
+| Senaryo | Bias kestirimi x (m) | Bias kestirimi y (m) | Kestirim hatası (m) |
+|---|---:|---:|---:|
+| normal | 36.1 ± 2.5 | -19.9 ± 2.3 | 3.2 ± 1.6 |
+| sis | 36.0 ± 2.4 | -19.7 ± 2.4 | 3.1 ± 1.7 |
+| karistirma | 36.0 ± 2.5 | -19.9 ± 2.5 | 3.2 ± 1.7 |
+| sensor_kaybi | 36.0 ± 2.4 | -19.9 ± 2.5 | 3.1 ± 1.7 |
+
 ![Karşılaştırma](results/karsilastirma.png)
 
 ### Yorum
@@ -225,9 +242,10 @@ sensörlerin güveni 1'de sabit) çalıştırılmıştır.
   senaryolarında iki satır aynı; bu beklenen bir sonuç, çünkü bozulmuş bir
   sensör yokken güven zaten 1'de kalıyor. Bu sonuç hem yanlış iz ölçütünün
   çalıştığını hem de iyileşmenin NIS mekanizmasından geldiğini gösteriyor.
-- **Bias düzeltme:** Konum bildirimindeki (35, -20) m sapma, seed=42 koşusunda
-  her senaryoda ~(39, -19) m olarak kestiriliyor. Kalan hata ~4 m; tek başına
-  konum bildiriminin hatası ise ~40 m.
+- **Bias düzeltme:** Konum bildirimindeki (35, -20) m sapma, 30 koşu üzerinden
+  (36.0 ± 2.5, -19.9 ± 2.4) m olarak kestiriliyor; kestirim hatası
+  3.2 ± 1.6 m (dört senaryoda da aynı). Düzeltilmemiş konum bildiriminin
+  hatası ise ~40 m.
 - **Karıştırma:** Radarın güveni karıştırma süresince ~0.1'e düşüyor. Radarın
   tek başına GOSPA'sı 109 m'ye, RMSE'si 41 m'ye çıkarken füzyon 21.7 m GOSPA ve
   8.8 m RMSE'de kalıyor.
@@ -245,7 +263,7 @@ Cok-Sensorlu-Veri-Fuzyonu/
   src/saha.py              saha ve hedef rotaları
   src/sensorler.py         sensör modelleri ve senaryo olayları
   src/kalman.py            sabit hız Kalman filtresi
-  src/iliskilendirme.py    Mahalanobis kapılama + Macar algoritması
+  src/iliskilendirme.py    Mahalanobis kapılama + optimal atama
   src/fuzyon.py            füzyon merkezi (senkronizasyon, bias, güven, iz yönetimi)
   src/degerlendirme.py     RMSE, GOSPA, kaçırma, yanlış iz, ID switch
   src/gorsel.py            GIF animasyon, karşılaştırma ve özet figürleri

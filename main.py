@@ -24,7 +24,7 @@ from src.degerlendirme import degerlendir
 from src.fuzyon import fuzyon_calistir
 from src.gorsel import KONFIG_ETIKET, gif_olustur, karsilastirma_grafigi, ozet_figur
 from src.saha import hedefleri_olustur
-from src.sensorler import SENARYOLAR, olcumleri_uret
+from src.sensorler import SENARYOLAR, SENSORLER, olcumleri_uret
 
 TOHUM = 42
 SONUC_DIZINI = Path(__file__).parent / "results"
@@ -59,7 +59,19 @@ def _mc_isci(is_):
     """Paralel çalışan tek koşu: (senaryo, tohum) -> ölçütler."""
     senaryo, tohum = is_
     _, _, metrikler = senaryo_kos(senaryo, hedefleri_olustur(), tohum)
-    return senaryo, tohum, {k: {o: m[o] for o in OLCUTLER} for k, m in metrikler.items()}
+    return (senaryo, tohum, {k: {o: m[o] for o in OLCUTLER} for k, m in metrikler.items()},
+            metrikler["fuzyon"]["bias_kestirimi"])
+
+
+def bias_ozeti(kestirimler):
+    """Konum bildirimi bias kestirimlerinin (her koşudan bir tane) özeti."""
+    K = np.array(kestirimler, float)
+    gercek = np.array(SENSORLER["konum"].bias)
+    hata = np.linalg.norm(K - gercek, axis=1)
+    std = lambda d: float(d.std(ddof=1)) if len(d) > 1 else 0.0
+    return {"gercek": gercek.tolist(),
+            "ortalama": K.mean(axis=0).tolist(), "std": [std(K[:, 0]), std(K[:, 1])],
+            "hata_ort": float(hata.mean()), "hata_std": std(hata)}
 
 
 def mc_ozetle(kosular):
@@ -97,7 +109,7 @@ def tablo_yazdir(senaryo, ozet, kosular):
           f"GOSPA {kazanma_sayisi(kosular, 'gospa')}/{n}")
 
 
-def markdown_tablo(ozet_tum, kosular_tum):
+def markdown_tablo(ozet_tum, kosular_tum, bias_tum):
     satirlar = ["| Senaryo | Konfigürasyon | RMSE (m) | GOSPA (m) | Kaçırma (%) | Yanlış iz | ID switch |",
                 "|---|---|---:|---:|---:|---:|---:|"]
     for senaryo, ozet in ozet_tum.items():
@@ -116,6 +128,12 @@ def markdown_tablo(ozet_tum, kosular_tum):
     for senaryo, kosular in kosular_tum.items():
         n = len(kosular["fuzyon"])
         satirlar.append(f"| {senaryo} | {kazanma_sayisi(kosular)}/{n} | {kazanma_sayisi(kosular, 'gospa')}/{n} |")
+    satirlar.append("")
+    satirlar.append("| Senaryo | Bias kestirimi x (m) | Bias kestirimi y (m) | Kestirim hatası (m) |")
+    satirlar.append("|---|---:|---:|---:|")
+    for senaryo, b in bias_tum.items():
+        satirlar.append(f"| {senaryo} | {b['ortalama'][0]:.1f} ± {b['std'][0]:.1f} "
+                        f"| {b['ortalama'][1]:.1f} ± {b['std'][1]:.1f} | {b['hata_ort']:.1f} ± {b['hata_std']:.1f} |")
     return "\n".join(satirlar)
 
 
@@ -157,12 +175,19 @@ def main():
     with Pool(min(len(isler), os.cpu_count() or 1)) as havuz:
         sonuc_listesi = havuz.map(_mc_isci, isler)
     kosular_tum = {s: {k: [] for k in KONFIGLER} for s in senaryolar}
-    for senaryo, _, metrikler in sorted(sonuc_listesi, key=lambda r: (r[0], r[1])):
+    bias_kestirimleri = {s: [] for s in senaryolar}
+    for senaryo, _, metrikler, bias in sorted(sonuc_listesi, key=lambda r: (r[0], r[1])):
         for k in KONFIGLER:
             kosular_tum[senaryo][k].append(metrikler[k])
+        bias_kestirimleri[senaryo].append(bias)
     ozet_tum = {s: mc_ozetle(kosular_tum[s]) for s in senaryolar}
+    bias_tum = {s: bias_ozeti(bias_kestirimleri[s]) for s in senaryolar}
     for senaryo in senaryolar:
         tablo_yazdir(senaryo, ozet_tum[senaryo], kosular_tum[senaryo])
+        b = bias_tum[senaryo]
+        print(f"Konum bildirimi bias kestirimi: ({b['ortalama'][0]:.1f} ± {b['std'][0]:.1f}, "
+              f"{b['ortalama'][1]:.1f} ± {b['std'][1]:.1f}) m, gerçek ({b['gercek'][0]:.0f}, "
+              f"{b['gercek'][1]:.0f}) m, hata {b['hata_ort']:.1f} ± {b['hata_std']:.1f} m")
 
     # 3) Çıktılar. Tek senaryo koşusu, tüm senaryoların ortak tablosunu ezmesin diye
     # senaryo adını taşıyan ayrı dosyalara yazılır (ör. karsilastirma_sis.png).
@@ -170,10 +195,11 @@ def main():
     dosyalar = [f"karsilastirma{ek}.png", f"sonuclar{ek}.json", f"sonuclar{ek}.md"]
     karsilastirma_grafigi(ozet_tum, SONUC_DIZINI / dosyalar[0], tekrar)
     json_veri = {"tekrar": tekrar, "tohumlar": tohumlar, "ozet": ozet_tum,
-                 "kosular": kosular_tum, "ornek_kosu_seed42": ornek_metrikler}
+                 "kosular": kosular_tum, "bias_kestirimi": bias_tum,
+                 "ornek_kosu_seed42": ornek_metrikler}
     (SONUC_DIZINI / dosyalar[1]).write_text(json.dumps(json_veri, indent=1, ensure_ascii=False),
                                             encoding="utf-8")
-    (SONUC_DIZINI / dosyalar[2]).write_text(markdown_tablo(ozet_tum, kosular_tum) + "\n",
+    (SONUC_DIZINI / dosyalar[2]).write_text(markdown_tablo(ozet_tum, kosular_tum, bias_tum) +"\n",
                                             encoding="utf-8")
     print("\n-> " + ", ".join(f"results/{d}" for d in dosyalar) + " kaydedildi")
 

@@ -9,7 +9,7 @@ Adımlar:
 2. Bias düzeltme: Konum bildirimindeki sabit sapma, referans sensörlerle
    (radar/kamera) desteklenen izlere göre hesaplanan artıkların ortalamasıyla
    kestirilir ve ölçümlerden çıkarılır.
-3. İlişkilendirme: Mahalanobis kapılama + Macar algoritması.
+3. İlişkilendirme: Mahalanobis kapılama + optimal atama (linear_sum_assignment).
 4. Kalman güncellemesi: sensör güvenine göre ölçeklenmiş R ile.
 5. İz yönetimi: yeni iz başlatma, onaylama, silme ve çift izleri birleştirme.
 """

@@ -27,3 +27,10 @@
 | sis | 30/30 | 30/30 |
 | karistirma | 0/30 | 30/30 |
 | sensor_kaybi | 0/30 | 30/30 |
+
+| Senaryo | Bias kestirimi x (m) | Bias kestirimi y (m) | Kestirim hatası (m) |
+|---|---:|---:|---:|
+| normal | 36.1 ± 2.5 | -19.9 ± 2.3 | 3.2 ± 1.6 |
+| sis | 36.0 ± 2.4 | -19.7 ± 2.4 | 3.1 ± 1.7 |
+| karistirma | 36.0 ± 2.5 | -19.9 ± 2.5 | 3.2 ± 1.7 |
+| sensor_kaybi | 36.0 ± 2.4 | -19.9 ± 2.5 | 3.1 ± 1.7 |

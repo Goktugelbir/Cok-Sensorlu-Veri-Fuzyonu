@@ -27,7 +27,7 @@ def gospa(gercek, tahmin, c=GOSPA_C):
 def degerlendir(gecmis, hedefler):
     """Füzyon geçmişini gerçek rotalarla karşılaştırır.
 
-    Her kayıt anında onaylı izler gerçek hedeflere Macar algoritmasıyla
+    Her kayıt anında onaylı izler gerçek hedeflere optimal atamayla
     (Öklid mesafesi, eşikli) eşlenir.
     - RMSE: eşleşen çiftlerin konum hatasının karesel ortalamasının kökü (m)
     - GOSPA: konum hatası + kaçırılan + sahte hedefleri birlikte cezalandıran

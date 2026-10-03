@@ -1,4 +1,8 @@
-"""İz-ölçüm ilişkilendirme: Mahalanobis kapılama + Macar algoritması."""
+"""İz-ölçüm ilişkilendirme: Mahalanobis kapılama + optimal atama.
+
+Atama problemi (Macar algoritmasının çözdüğü problem) scipy.optimize.linear_sum_assignment
+ile çözülür; bu fonksiyon Crouse'un (2016) en kısa artırma yolu yöntemini uygular.
+"""
 
 import numpy as np
 from scipy.optimize import linear_sum_assignment
