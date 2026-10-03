@@ -9,6 +9,20 @@ konum ölçümlerini birleştirerek tek bir **ortak durum resmi** oluşturan ve
 füzyonun tek sensöre göre kazancını ölçen bir Python projesi [1, 5]. Sonuçlar ayrıca
 yerel bir web arayüzünde etkileşimli olarak izlenebilir ([Web arayüzü](#web-arayüzü)).
 
+> **Kısaca:** Bir sahada hareket eden beş hedefi üç farklı sensör izliyor:
+> uzağı gören ama kaba ölçen bir radar, hassas ama sadece yakını gören bir
+> kamera ve sadece dost birliklerin kendi konumunu bildirdiği bir sistem.
+> Her biri tek başına eksik kalıyor: Radar gürültülü, kamera hedeflerin üçte
+> birini hiç görmüyor, konum bildirimi dost olmayan hedefleri göremiyor. Bu proje, üç
+> sensörün ölçümlerini birleştirip tek ve güvenilir bir "kim nerede" resmi
+> çıkarıyor. Sis, radar karıştırma ve sensör arızası gibi durumlarda da
+> çalışıyor. Sonuç olarak füzyon, genel başarım ölçütü GOSPA'da (konum
+> hatası, kaçırılan ve sahte hedefler birlikte), dört senaryonun hepsinde ve
+> 30 tekrarın 30'unda tek başına en iyi sensörden daha iyi bir durum resmi
+> veriyor. Sadece konum hatasına bakan RMSE'de ise yakın hedefleri gören kamera
+> çoğu senaryoda daha düşük kalıyor (bkz. [Yorum](#yorum)). Bu bulgu, ayarlamada hiç kullanılmamış ikinci bir 30'luk tekrar setinde de
+> doğrulandı.
+
 ![Özet](results/ozet.png)
 
 *Üst satır (başarılı örnek, sis): Kamera sisten etkilenince tek başına hedeflerin
@@ -246,7 +260,14 @@ sensörlerin güveni 1'de sabit) çalıştırılmıştır.
 - **Bias düzeltme:** Konum bildirimindeki (35, -20) m sapma, 30 koşu üzerinden
   (36.0 ± 2.5, -19.9 ± 2.4) m olarak kestiriliyor; kestirim hatası
   3.2 ± 1.6 m (dört senaryoda da aynı). Düzeltilmemiş konum bildiriminin
-  hatası ise ~40 m.
+  hatası ise ~40 m. x bileşeninde küçük bir sistematik sapma olabilir:
+  Ortalamanın standart hatası ~0.5 m iken 42-71 kümesinde fark +1.1 m
+  (~2.3 standart hata). Bağımsız 100-129 kümesinde ise kestirim 35.2 m ve fark
+  belirgin değil; 60 koşunun birleşik ortalaması 35.6 ± 0.3 m. Olası kaynak,
+  bias'ın radar/kamera izlerine göre kestirilmesi ve bu izlerin kendi
+  hatalarının (ör. manevrada izin hedefin gerisinde kalması) kestirime
+  sızmasıdır. Etkisi, tek koşudaki kestirim belirsizliğinin (~2.5 m) yanında
+  küçüktür.
 - **Karıştırma:** Radarın güveni karıştırma süresince ~0.1'e düşüyor. Radarın
   tek başına GOSPA'sı 109 m'ye, RMSE'si 41 m'ye çıkarken füzyon 21.7 m GOSPA ve
   8.8 m RMSE'de kalıyor.
@@ -269,8 +290,13 @@ tam tablo: [`results/dogrulama_seed100.md`](results/dogrulama_seed100.md)).
 | karistirma | 21.7 ± 1.0 | 21.5 ± 1.1 | 110.3 ± 19.0 (radar) | 30/30 · 0/30 |
 | sensor_kaybi | 41.2 ± 0.9 | 41.3 ± 1.0 | 117.4 ± 1.4 (radar) | 30/30 · 0/30 |
 
-Sonuçlar iki seed kümesinde de istatistiksel olarak aynı: Füzyon her
-senaryoda 30/30 koşuda en düşük GOSPA'yı veriyor. Ablasyondaki sahte iz
+Sonuçlar iki seed kümesinde pratikte aynı. Füzyonun koşu başına GOSPA ve
+RMSE değerleri iki küme arasında Mann-Whitney U testiyle karşılaştırıldı;
+hiçbir senaryoda anlamlı fark yok (GOSPA p = 0.15 / 0.97 / 0.47 / 0.88,
+RMSE p = 0.86 / 0.86 / 0.96 / 0.41; sırasıyla normal, sis, karıştırma, sensör
+kaybı). Anlamlı fark bulunmaması tek başına eşitliği kanıtlamaz, ama ortalamalar
+arasındaki fark (≤ 0.3 m GOSPA) koşular arası saçılmanın da altında. Füzyon
+her senaryoda 30/30 koşuda en düşük GOSPA'yı veriyor. Ablasyondaki sahte iz
 sayısı (karıştırma: 7.9 ± 2.4) ve bias kestirim hatası (3.0 ± 1.6 m) da
 korunuyor. Tek fark, sis senaryosunda RMSE kazanımının 30/30 yerine 29/30
 koşuda gerçekleşmesi. Yani bulgular ayarlamada kullanılan seed'e özgü değil.
@@ -347,3 +373,7 @@ Cok-Sensorlu-Veri-Fuzyonu/
    Optimal Sub-Pattern Assignment Metric," *20th International Conference on
    Information Fusion (FUSION)*, Xi'an, Çin, 182-189, 2017.
    DOI: 10.23919/ICIF.2017.8009645
+
+## Lisans
+
+Bu proje [MIT Lisansı](LICENSE) ile lisanslanmıştır.

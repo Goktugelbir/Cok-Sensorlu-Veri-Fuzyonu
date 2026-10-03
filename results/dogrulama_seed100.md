@@ -34,3 +34,12 @@
 | sis | 35.3 ± 2.2 | -19.8 ± 2.6 | 3.0 ± 1.6 |
 | karistirma | 35.4 ± 2.4 | -19.7 ± 2.6 | 3.1 ± 1.7 |
 | sensor_kaybi | 35.3 ± 2.2 | -19.7 ± 2.6 | 3.0 ± 1.6 |
+
+Mann-Whitney U testi, füzyon: seed 42-71 ile bu küme (iki yönlü; p > 0.05 ise anlamlı fark yok)
+
+| Senaryo | GOSPA p | RMSE p |
+|---|---:|---:|
+| normal | 0.15 | 0.86 |
+| sis | 0.97 | 0.86 |
+| karistirma | 0.47 | 0.96 |
+| sensor_kaybi | 0.88 | 0.41 |

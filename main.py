@@ -19,6 +19,7 @@ from multiprocessing import Pool
 from pathlib import Path
 
 import numpy as np
+from scipy.stats import mannwhitneyu
 
 from src.degerlendirme import degerlendir
 from src.fuzyon import fuzyon_calistir
@@ -107,6 +108,21 @@ def tablo_yazdir(senaryo, ozet, kosular):
               f"{m['id_switch'][0]:>8.1f} ± {m['id_switch'][1]:<4.1f}")
     print(f"Füzyonun en iyi tek sensörden düşük olduğu koşu sayısı: RMSE {kazanma_sayisi(kosular)}/{n}, "
           f"GOSPA {kazanma_sayisi(kosular, 'gospa')}/{n}")
+
+
+def seed_kumesi_testi(ana, kosular_tum):
+    """Ana seed kümesi ile doğrulama kümesindeki füzyon sonuçlarını Mann-Whitney U testiyle karşılaştırır."""
+    satirlar = [f"Mann-Whitney U testi, füzyon: seed {ana['tohumlar'][0]}-{ana['tohumlar'][-1]} ile bu küme "
+                "(iki yönlü; p > 0.05 ise anlamlı fark yok)", "",
+                "| Senaryo | GOSPA p | RMSE p |", "|---|---:|---:|"]
+    for senaryo, kosular in kosular_tum.items():
+        if senaryo not in ana["kosular"]:
+            continue
+        p = [mannwhitneyu([m[o] for m in ana["kosular"][senaryo]["fuzyon"]],
+                          [m[o] for m in kosular["fuzyon"]]).pvalue for o in ("gospa", "rmse")]
+        print(f"[{senaryo}] seed kümeleri arası Mann-Whitney U: GOSPA p={p[0]:.2f}, RMSE p={p[1]:.2f}")
+        satirlar.append(f"| {senaryo} | {p[0]:.2f} | {p[1]:.2f} |")
+    return "\n".join(satirlar)
 
 
 def markdown_tablo(ozet_tum, kosular_tum, bias_tum):
@@ -204,8 +220,11 @@ def main():
                  "ornek_kosu_seed42": ornek_metrikler}
     (SONUC_DIZINI / dosyalar[1]).write_text(json.dumps(json_veri, indent=1, ensure_ascii=False),
                                             encoding="utf-8")
-    (SONUC_DIZINI / dosyalar[2]).write_text(markdown_tablo(ozet_tum, kosular_tum, bias_tum) +"\n",
-                                            encoding="utf-8")
+    md = markdown_tablo(ozet_tum, kosular_tum, bias_tum)
+    ana_json = SONUC_DIZINI / "sonuclar.json"
+    if args.ilk_seed != TOHUM and ana_json.exists():
+        md += "\n\n" + seed_kumesi_testi(json.loads(ana_json.read_text(encoding="utf-8")), kosular_tum)
+    (SONUC_DIZINI / dosyalar[2]).write_text(md + "\n", encoding="utf-8")
     print("\n-> " + ", ".join(f"results/{d}" for d in dosyalar) + " kaydedildi")
 
     # Özet figür: bir başarılı (sis) ve bir zorlu (sensör kaybı) örnek yan yana
