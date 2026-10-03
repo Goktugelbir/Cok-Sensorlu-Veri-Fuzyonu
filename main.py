@@ -159,15 +159,18 @@ def main():
     for senaryo in senaryolar:
         tablo_yazdir(senaryo, ozet_tum[senaryo], kosular_tum[senaryo])
 
-    # 3) Çıktılar
-    karsilastirma_grafigi(ozet_tum, SONUC_DIZINI / "karsilastirma.png", tekrar)
+    # 3) Çıktılar. Tek senaryo koşusu, tüm senaryoların ortak tablosunu ezmesin diye
+    # senaryo adını taşıyan ayrı dosyalara yazılır (ör. karsilastirma_sis.png).
+    ek = "" if args.hepsi else f"_{args.senaryo}"
+    dosyalar = [f"karsilastirma{ek}.png", f"sonuclar{ek}.json", f"sonuclar{ek}.md"]
+    karsilastirma_grafigi(ozet_tum, SONUC_DIZINI / dosyalar[0], tekrar)
     json_veri = {"tekrar": tekrar, "tohumlar": tohumlar, "ozet": ozet_tum,
                  "kosular": kosular_tum, "ornek_kosu_seed42": ornek_metrikler}
-    (SONUC_DIZINI / "sonuclar.json").write_text(json.dumps(json_veri, indent=1, ensure_ascii=False),
-                                                encoding="utf-8")
-    (SONUC_DIZINI / "sonuclar.md").write_text(markdown_tablo(ozet_tum, kosular_tum) + "\n",
-                                              encoding="utf-8")
-    print("\n-> results/karsilastirma.png, results/sonuclar.json, results/sonuclar.md kaydedildi")
+    (SONUC_DIZINI / dosyalar[1]).write_text(json.dumps(json_veri, indent=1, ensure_ascii=False),
+                                            encoding="utf-8")
+    (SONUC_DIZINI / dosyalar[2]).write_text(markdown_tablo(ozet_tum, kosular_tum) + "\n",
+                                            encoding="utf-8")
+    print("\n-> " + ", ".join(f"results/{d}" for d in dosyalar) + " kaydedildi")
 
     # Özet figür: bir başarılı (sis) ve bir zorlu (sensör kaybı) örnek yan yana
     if "sis" in kayitlar and "sensor_kaybi" in kayitlar:

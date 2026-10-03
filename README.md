@@ -6,7 +6,7 @@
 
 Radar, EO/termal kamera ve konum bildirimi sensörlerinden gelen simüle edilmiş
 konum ölçümlerini birleştirerek tek bir **ortak durum resmi** oluşturan ve
-füzyonun tek sensöre göre kazancını ölçen bir Python projesi.
+füzyonun tek sensöre göre kazancını ölçen bir Python projesi [1, 5, 7].
 
 ![Özet](results/ozet.png)
 
@@ -54,19 +54,19 @@ etmek zorundadır.
    bir pencere (2 s) kadar geriden çalışır. Pencere içindeki ölçümler alınış
    zamanına göre sıralanır, her taramadan önce bütün izler Kalman tahminiyle
    tam o ana taşınır ve sonunda 0.2 s'lik ortak zaman adımına hizalanır. Bu
-   sayede gecikmeli ve sırası bozuk gelen ölçümler doğru anda işlenir [2].
+   sayede gecikmeli ve sırası bozuk gelen ölçümler doğru anda işlenir [1].
 2. **Bias düzeltme:** Konum bildirimindeki sabit sapma, radar ve/veya kamerayla
    desteklenen olgun izlere göre hesaplanan artıkların ağırlıklı ortalamasıyla
    kestirilir. Kestirim tamamlanana kadar bu ölçümler izi güncellemez; sadece
-   kimlik etiketi ve bias örneği sağlar [2].
-3. **İz ilişkilendirme:** Mahalanobis kapılama (χ², %99.9) [1, 7] ve Macar
-   algoritması [3, 4] (`scipy.optimize.linear_sum_assignment` [6]) kullanılır. Atanmayan ölçümden
+   kimlik etiketi ve bias örneği sağlar [1].
+3. **İz ilişkilendirme:** Mahalanobis kapılama (χ², %99.9) [1] ve Macar
+   algoritması [3] (`scipy.optimize.linear_sum_assignment` [4]) kullanılır. Atanmayan ölçümden
    aday iz başlatılır; güven ağırlıklı 3 vuruşla iz onaylanır. Aday iz 2.5 s,
-   onaylı iz 6 s güncellenmezse silinir. Çakışan çift izler birleştirilir [2].
-4. **Kalman filtresi** [5]**:** Sabit hız modeli [1] kullanılır; durum `[x, y, vx, vy]`,
+   onaylı iz 6 s güncellenmezse silinir. Çakışan çift izler birleştirilir [1].
+4. **Kalman filtresi** [2]**:** Sabit hız modeli [1] kullanılır; durum `[x, y, vx, vy]`,
    süreç gürültüsü beyaz ivme σ = 1 m/s².
 5. **Sensör güveni ve çelişki çözümü:** Her sensör için normalize inovasyon
-   karesinin (NIS) [1] hareketli ortalaması tutulur. Ortalama tolerans değerini (4)
+   karesinin (NIS) [1, 6] hareketli ortalaması tutulur. Ortalama tolerans değerini (4)
    aşarsa sensörün güveni düşer ve ölçüm kovaryansı `R / güven` olarak
    büyütülür. Böylece karıştırılan radar ya da sisteki kamera, çelişkide daha
    az söz sahibi olur. Güveni düşük sensörün vuruşları da onaya daha az katkı
@@ -76,7 +76,8 @@ etmek zorundadır.
    `[R,K,B]` = radar, kamera, konum bildirimi).
 
 **Değerlendirme:** Füzyon zamanında her saniye onaylı izler gerçek hedeflere
-Macar algoritmasıyla eşlenir (eşik 250 m).
+Macar algoritmasıyla eşlenir (eşik 250 m). Ölçütler, optimal atamaya dayalı
+çok hedefli izleme değerlendirmesiyle [8] aynı mantıktadır.
 
 - **RMSE:** Eşleşen iz-hedef çiftlerinin konum hatası.
 - **Kaçırma oranı:** İz atanmamış (hedef, an) çiftlerinin oranı.
@@ -110,6 +111,12 @@ python -m pytest                    # birim testleri
 `ozet.png`, `sonuclar.json`, `sonuclar.md`. Animasyonlar ve özet figür
 `seed=42` örnek koşusundan, tablolar `seed=42…71` arasındaki 30 koşudan
 üretilir. Tohumlar sabit olduğu için sonuçlar her çalıştırmada aynıdır.
+
+> **Not:** `--senaryo` ile tek senaryo çalıştırıldığında tablo ve grafik,
+> dört senaryonun ortak dosyalarını ezmemek için senaryo adını taşıyan ayrı
+> dosyalara yazılır: `karsilastirma_<senaryo>.png`, `sonuclar_<senaryo>.json`,
+> `sonuclar_<senaryo>.md`. Bu dosyalar git'e eklenmez (`.gitignore`). Ortak
+> `karsilastirma.png` ve `sonuclar.*` sadece `--hepsi` ile güncellenir.
 
 ## Örnek animasyon
 
@@ -240,19 +247,23 @@ Cok-Sensorlu-Veri-Fuzyonu/
 
 ## Kaynakça
 
-1. Y. Bar-Shalom, X. R. Li, T. Kirubarajan, *Estimation with Applications to
-   Tracking and Navigation*, Wiley, 2001.
-2. S. Blackman, R. Popoli, *Design and Analysis of Modern Tracking Systems*,
-   Artech House, 1999.
-3. H. W. Kuhn, "The Hungarian Method for the Assignment Problem," *Naval
-   Research Logistics Quarterly*, 2(1-2), 83-97, 1955.
-4. J. Munkres, "Algorithms for the Assignment and Transportation Problems,"
-   *Journal of the SIAM*, 5(1), 32-38, 1957.
-5. R. E. Kalman, "A New Approach to Linear Filtering and Prediction Problems,"
-   *Journal of Basic Engineering*, 82(1), 35-45, 1960.
-6. D. F. Crouse, "On Implementing 2D Rectangular Assignment Algorithms,"
+1. Y. Bar-Shalom, P. K. Willett, X. Tian, *Tracking and Data Fusion: A Handbook
+   of Algorithms*, YBS Publishing, 2011.
+2. S. Särkkä, L. Svensson, *Bayesian Filtering and Smoothing*, 2. baskı,
+   Cambridge University Press, 2023.
+3. D. F. Crouse, "On Implementing 2D Rectangular Assignment Algorithms,"
    *IEEE Transactions on Aerospace and Electronic Systems*, 52(4), 1679-1696,
-   2016. (`scipy.optimize.linear_sum_assignment` bu yöntemi uygular.)
-7. P. C. Mahalanobis, "On the Generalized Distance in Statistics,"
-   *Proceedings of the National Institute of Sciences of India*, 2(1), 49-55,
-   1936.
+   2016.
+4. P. Virtanen ve diğ., "SciPy 1.0: Fundamental Algorithms for Scientific
+   Computing in Python," *Nature Methods*, 17, 261-272, 2020.
+5. B. Khaleghi, A. Khamis, F. O. Karray, S. N. Razavi, "Multisensor Data
+   Fusion: A Review of the State-of-the-Art," *Information Fusion*, 14(1),
+   28-44, 2013.
+6. Y. Huang, Y. Zhang, Z. Wu, N. Li, J. Chambers, "A Novel Adaptive Kalman
+   Filter With Inaccurate Process and Measurement Noise Covariance Matrices,"
+   *IEEE Transactions on Automatic Control*, 63(2), 594-601, 2018.
+7. R. P. S. Mahler, *Advances in Statistical Multisource-Multitarget Information
+   Fusion*, Artech House, 2014.
+8. A. S. Rahmathullah, Á. F. García-Fernández, L. Svensson, "Generalized
+   Optimal Sub-Pattern Assignment Metric," *20th International Conference on
+   Information Fusion (FUSION)*, 2017.

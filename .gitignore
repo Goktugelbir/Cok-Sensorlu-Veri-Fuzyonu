@@ -5,3 +5,8 @@ __pycache__/
 venv/
 .idea/
 .vscode/
+
+# Tek senaryo koşularının çıktıları (python main.py --senaryo ...)
+results/karsilastirma_*.png
+results/sonuclar_*.json
+results/sonuclar_*.md
