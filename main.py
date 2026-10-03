@@ -3,12 +3,19 @@
 Kullanım:
     python main.py --senaryo sis
     python main.py --hepsi
-    python main.py --hepsi --gif-yok     (animasyonları atla, daha hızlı)
+    python main.py --hepsi --tekrar 10   (daha az koşu, daha hızlı)
+    python main.py --hepsi --gif-yok     (animasyonları atla)
+
+Her senaryo önce seed=42 ile bir kez koşturulur (animasyon ve özet figür için),
+ardından seed=42, 43, ... ile --tekrar kez koşturulup ölçütlerin ortalaması ve
+standart sapması raporlanır.
 """
 
 import argparse
 import json
+import os
 import sys
+from multiprocessing import Pool
 from pathlib import Path
 
 import numpy as np
@@ -21,55 +28,89 @@ from src.sensorler import SENARYOLAR, olcumleri_uret
 
 TOHUM = 42
 SONUC_DIZINI = Path(__file__).parent / "results"
+TUM_SENSORLER = ["radar", "kamera", "konum"]
+# konfigürasyon -> (kullanılan sensörler, güven ağırlıklandırma açık mı)
 KONFIGLER = {
-    "radar": ["radar"],
-    "kamera": ["kamera"],
-    "konum": ["konum"],
-    "fuzyon": ["radar", "kamera", "konum"],
+    "radar": (["radar"], True),
+    "kamera": (["kamera"], True),
+    "konum": (["konum"], True),
+    "fuzyon_guvensiz": (TUM_SENSORLER, False),   # ablasyon
+    "fuzyon": (TUM_SENSORLER, True),
 }
+TEK_SENSORLER = ("radar", "kamera", "konum")
+OLCUTLER = ("rmse", "kacirma", "yanlis_iz", "id_switch")
 
 
-def senaryo_kos(senaryo, hedefler, gif=True):
-    """Bir senaryoyu tüm sensör konfigürasyonlarıyla koşturur ve değerlendirir."""
-    rng = np.random.default_rng(TOHUM)
+def senaryo_kos(senaryo, hedefler, tohum=TOHUM):
+    """Bir senaryoyu tüm konfigürasyonlarla bir kez koşturur ve değerlendirir."""
+    rng = np.random.default_rng(tohum)
     olcumler = olcumleri_uret(hedefler, senaryo, rng)
     gecmisler, metrikler = {}, {}
-    for ad, sensorler in KONFIGLER.items():
-        gecmis, merkez = fuzyon_calistir(olcumler, sensorler)
+    for ad, (sensorler, guven) in KONFIGLER.items():
+        gecmis, merkez = fuzyon_calistir(olcumler, sensorler, guven_agirliklandirma=guven)
         gecmisler[ad] = gecmis
         metrikler[ad] = degerlendir(gecmis, hedefler)
         if ad == "fuzyon":
             metrikler[ad]["bias_kestirimi"] = merkez.bias["konum"].round(1).tolist()
-    if gif:
-        yol = SONUC_DIZINI / f"{senaryo}.gif"
-        gif_olustur(senaryo, hedefler, olcumler, gecmisler["fuzyon"], yol)
-        print(f"  -> {yol.relative_to(Path(__file__).parent)} kaydedildi")
     return olcumler, gecmisler, metrikler
 
 
-def tablo_yazdir(senaryo, metrikler):
-    print(f"\n=== Senaryo: {senaryo} ===")
-    print(f"{'Konfigürasyon':<24}{'RMSE (m)':>10}{'Kaçırma':>10}{'Yanlış iz':>11}{'ID switch':>11}")
-    print("-" * 66)
+def _mc_isci(is_):
+    """Paralel çalışan tek koşu: (senaryo, tohum) -> ölçütler."""
+    senaryo, tohum = is_
+    _, _, metrikler = senaryo_kos(senaryo, hedefleri_olustur(), tohum)
+    return senaryo, tohum, {k: {o: m[o] for o in OLCUTLER} for k, m in metrikler.items()}
+
+
+def mc_ozetle(kosular):
+    """kosular[konfig] = [ölçüt sözlüğü, ...] -> ozet[konfig][ölçüt] = (ortalama, std)."""
+    ozet = {}
+    for k, liste in kosular.items():
+        ozet[k] = {}
+        for o in OLCUTLER:
+            d = np.array([m[o] for m in liste], float)
+            ozet[k][o] = (float(d.mean()), float(d.std(ddof=1)) if len(d) > 1 else 0.0)
+    return ozet
+
+
+def kazanma_sayisi(kosular):
+    """Füzyonun RMSE'sinin, aynı koşudaki en iyi tek sensörden düşük olduğu koşu sayısı."""
+    return sum(f["rmse"] < min(kosular[t][i]["rmse"] for t in TEK_SENSORLER)
+               for i, f in enumerate(kosular["fuzyon"]))
+
+
+def tablo_yazdir(senaryo, ozet, kosular):
+    n = len(kosular["fuzyon"])
+    print(f"\n=== Senaryo: {senaryo}  ({n} koşu, ortalama ± std) ===")
+    print(f"{'Konfigürasyon':<40}{'RMSE (m)':>14}{'Kaçırma (%)':>15}{'Yanlış iz':>14}{'ID switch':>14}")
+    print("-" * 97)
     for ad in KONFIGLER:
-        m = metrikler[ad]
-        print(f"{KONFIG_ETIKET[ad]:<24}{m['rmse']:>10.1f}{100 * m['kacirma']:>9.1f}%"
-              f"{m['yanlis_iz']:>11d}{m['id_switch']:>11d}")
-    tek = min(metrikler[a]["rmse"] for a in ("radar", "kamera", "konum"))
-    durum = "DAHA DÜŞÜK" if metrikler["fuzyon"]["rmse"] < tek else "daha düşük değil"
-    print(f"Füzyon RMSE'si en iyi tek sensöre göre {durum} "
-          f"({metrikler['fuzyon']['rmse']:.1f} m / {tek:.1f} m)")
+        m = ozet[ad]
+        print(f"{KONFIG_ETIKET[ad]:<40}"
+              f"{m['rmse'][0]:>8.1f} ± {m['rmse'][1]:<4.1f}"
+              f"{100 * m['kacirma'][0]:>8.1f} ± {100 * m['kacirma'][1]:<5.1f}"
+              f"{m['yanlis_iz'][0]:>8.1f} ± {m['yanlis_iz'][1]:<4.1f}"
+              f"{m['id_switch'][0]:>8.1f} ± {m['id_switch'][1]:<4.1f}")
+    print(f"Füzyon RMSE'si en iyi tek sensörden düşük olan koşu sayısı: {kazanma_sayisi(kosular)}/{n}")
 
 
-def markdown_tablo(sonuclar):
-    satirlar = ["| Senaryo | Konfigürasyon | RMSE (m) | Kaçırma oranı | Yanlış iz | ID switch |",
+def markdown_tablo(ozet_tum, kosular_tum):
+    satirlar = ["| Senaryo | Konfigürasyon | RMSE (m) | Kaçırma (%) | Yanlış iz | ID switch |",
                 "|---|---|---:|---:|---:|---:|"]
-    for senaryo, metrikler in sonuclar.items():
+    for senaryo, ozet in ozet_tum.items():
         for ad in KONFIGLER:
-            m = metrikler[ad]
+            m = ozet[ad]
             ad_metin = f"**{KONFIG_ETIKET[ad]}**" if ad == "fuzyon" else KONFIG_ETIKET[ad]
-            satirlar.append(f"| {senaryo} | {ad_metin} | {m['rmse']:.1f} | %{100 * m['kacirma']:.1f} "
-                            f"| {m['yanlis_iz']} | {m['id_switch']} |")
+            satirlar.append(
+                f"| {senaryo} | {ad_metin} | {m['rmse'][0]:.1f} ± {m['rmse'][1]:.1f} "
+                f"| {100 * m['kacirma'][0]:.1f} ± {100 * m['kacirma'][1]:.1f} "
+                f"| {m['yanlis_iz'][0]:.1f} ± {m['yanlis_iz'][1]:.1f} "
+                f"| {m['id_switch'][0]:.1f} ± {m['id_switch'][1]:.1f} |")
+    satirlar.append("")
+    satirlar.append("| Senaryo | Füzyonun en iyi tek sensörden düşük RMSE verdiği koşu |")
+    satirlar.append("|---|---:|")
+    for senaryo, kosular in kosular_tum.items():
+        satirlar.append(f"| {senaryo} | {kazanma_sayisi(kosular)}/{len(kosular['fuzyon'])} |")
     return "\n".join(satirlar)
 
 
@@ -82,33 +123,58 @@ def main():
     grup = parser.add_mutually_exclusive_group(required=True)
     grup.add_argument("--senaryo", choices=list(SENARYOLAR), help="tek bir senaryo çalıştır")
     grup.add_argument("--hepsi", action="store_true", help="tüm senaryoları çalıştır")
+    parser.add_argument("--tekrar", type=int, default=30,
+                        help="istatistik için farklı seed'li koşu sayısı (varsayılan 30)")
     parser.add_argument("--gif-yok", action="store_true", help="GIF animasyonlarını üretme")
     args = parser.parse_args()
 
     SONUC_DIZINI.mkdir(exist_ok=True)
     hedefler = hedefleri_olustur()
     senaryolar = list(SENARYOLAR) if args.hepsi else [args.senaryo]
+    tekrar = max(1, args.tekrar)
+    tohumlar = list(range(TOHUM, TOHUM + tekrar))
 
-    sonuclar, kayitlar = {}, {}
+    # 1) seed=42 ile örnek koşu: animasyon ve özet figür
+    kayitlar, ornek_metrikler = {}, {}
     for senaryo in senaryolar:
-        print(f"[{senaryo}] çalıştırılıyor...")
-        olcumler, gecmisler, metrikler = senaryo_kos(senaryo, hedefler, gif=not args.gif_yok)
-        sonuclar[senaryo] = metrikler
+        print(f"[{senaryo}] örnek koşu (seed={TOHUM})...")
+        olcumler, gecmisler, metrikler = senaryo_kos(senaryo, hedefler)
         kayitlar[senaryo] = (olcumler, gecmisler)
-        tablo_yazdir(senaryo, metrikler)
+        ornek_metrikler[senaryo] = metrikler
+        if not args.gif_yok:
+            yol = SONUC_DIZINI / f"{senaryo}.gif"
+            gif_olustur(senaryo, hedefler, olcumler, gecmisler["fuzyon"], yol)
+            print(f"  -> results/{yol.name} kaydedildi")
 
-    karsilastirma_grafigi(sonuclar, SONUC_DIZINI / "karsilastirma.png")
-    (SONUC_DIZINI / "sonuclar.json").write_text(json.dumps(sonuclar, indent=2, ensure_ascii=False),
+    # 2) Çok seed'li koşular (paralel)
+    print(f"\n{len(senaryolar)} senaryo x {tekrar} seed koşturuluyor (seed {tohumlar[0]}-{tohumlar[-1]})...")
+    isler = [(s, t) for s in senaryolar for t in tohumlar]
+    with Pool(min(len(isler), os.cpu_count() or 1)) as havuz:
+        sonuc_listesi = havuz.map(_mc_isci, isler)
+    kosular_tum = {s: {k: [] for k in KONFIGLER} for s in senaryolar}
+    for senaryo, _, metrikler in sorted(sonuc_listesi, key=lambda r: (r[0], r[1])):
+        for k in KONFIGLER:
+            kosular_tum[senaryo][k].append(metrikler[k])
+    ozet_tum = {s: mc_ozetle(kosular_tum[s]) for s in senaryolar}
+    for senaryo in senaryolar:
+        tablo_yazdir(senaryo, ozet_tum[senaryo], kosular_tum[senaryo])
+
+    # 3) Çıktılar
+    karsilastirma_grafigi(ozet_tum, SONUC_DIZINI / "karsilastirma.png", tekrar)
+    json_veri = {"tekrar": tekrar, "tohumlar": tohumlar, "ozet": ozet_tum,
+                 "kosular": kosular_tum, "ornek_kosu_seed42": ornek_metrikler}
+    (SONUC_DIZINI / "sonuclar.json").write_text(json.dumps(json_veri, indent=1, ensure_ascii=False),
                                                 encoding="utf-8")
-    (SONUC_DIZINI / "sonuclar.md").write_text(markdown_tablo(sonuclar) + "\n", encoding="utf-8")
+    (SONUC_DIZINI / "sonuclar.md").write_text(markdown_tablo(ozet_tum, kosular_tum) + "\n",
+                                              encoding="utf-8")
     print("\n-> results/karsilastirma.png, results/sonuclar.json, results/sonuclar.md kaydedildi")
 
     # Özet figür: bir başarılı (sis) ve bir zorlu (sensör kaybı) örnek yan yana
     if "sis" in kayitlar and "sensor_kaybi" in kayitlar:
         veriler = [
-            ("sis", *kayitlar["sis"], sonuclar["sis"],
+            ("sis", *kayitlar["sis"], ornek_metrikler["sis"],
              "Başarılı örnek — sis: kamera bozulur, füzyon radar ve konum bildirimiyle telafi eder"),
-            ("sensor_kaybi", *kayitlar["sensor_kaybi"], sonuclar["sensor_kaybi"],
+            ("sensor_kaybi", *kayitlar["sensor_kaybi"], ornek_metrikler["sensor_kaybi"],
              "Zorlu örnek — sensör kaybı: radar ve kamera sırayla düşer, izler kopar ve ID değişir"),
         ]
         ozet_figur(hedefler, veriler, SONUC_DIZINI / "ozet.png")

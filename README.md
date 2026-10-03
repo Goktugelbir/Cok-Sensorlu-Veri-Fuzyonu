@@ -1,4 +1,8 @@
-# Çok Sensörlü Veri Füzyonu ile Harekât Sahasında Durumsal Farkındalık
+# Çok Sensörlü Veri Füzyonu
+
+[![Testler](https://github.com/Goktugelbir/Cok-Sensorlu-Veri-Fuzyonu/actions/workflows/testler.yml/badge.svg)](https://github.com/Goktugelbir/Cok-Sensorlu-Veri-Fuzyonu/actions/workflows/testler.yml)
+
+*Harekât sahasında durumsal farkındalığın artırılması*
 
 Radar, EO/termal kamera ve konum bildirimi sensörlerinden gelen simüle edilmiş
 konum ölçümlerini birleştirerek tek bir **ortak durum resmi** oluşturan ve
@@ -11,7 +15,8 @@ füzyonun tek sensöre göre kazancını ölçen bir Python projesi.
 düşük RMSE'yi veriyor. Alt satır (zorlu örnek, sensör kaybı): Radar ve kamera
 150-170 s arasında aynı anda kapalı kalıyor. Bu sürede sadece dost birlikler
 izlenebiliyor; diğer hedeflerin izleri kopuyor ve geri geldiklerinde yeni ID
-alıyor. Kırmızı: dost olmayan iz, mavi: dost iz, gri: gerçek rota.*
+alıyor. Kırmızı: dost olmayan iz, mavi: dost iz, gri: gerçek rota.
+Figür seed=42 örnek koşusundandır; istatistikler için [Sonuçlar](#sonuçlar).*
 
 ## Amaç
 
@@ -49,19 +54,19 @@ etmek zorundadır.
    bir pencere (2 s) kadar geriden çalışır. Pencere içindeki ölçümler alınış
    zamanına göre sıralanır, her taramadan önce bütün izler Kalman tahminiyle
    tam o ana taşınır ve sonunda 0.2 s'lik ortak zaman adımına hizalanır. Bu
-   sayede gecikmeli ve sırası bozuk gelen ölçümler doğru anda işlenir.
+   sayede gecikmeli ve sırası bozuk gelen ölçümler doğru anda işlenir [2].
 2. **Bias düzeltme:** Konum bildirimindeki sabit sapma, radar ve/veya kamerayla
    desteklenen olgun izlere göre hesaplanan artıkların ağırlıklı ortalamasıyla
    kestirilir. Kestirim tamamlanana kadar bu ölçümler izi güncellemez; sadece
-   kimlik etiketi ve bias örneği sağlar.
-3. **İz ilişkilendirme:** Mahalanobis kapılama (χ², %99.9) ve Macar algoritması
-   (`scipy.optimize.linear_sum_assignment`) kullanılır. Atanmayan ölçümden
+   kimlik etiketi ve bias örneği sağlar [2].
+3. **İz ilişkilendirme:** Mahalanobis kapılama (χ², %99.9) [1, 7] ve Macar
+   algoritması [3, 4] (`scipy.optimize.linear_sum_assignment` [6]) kullanılır. Atanmayan ölçümden
    aday iz başlatılır; güven ağırlıklı 3 vuruşla iz onaylanır. Aday iz 2.5 s,
-   onaylı iz 6 s güncellenmezse silinir. Çakışan çift izler birleştirilir.
-4. **Kalman filtresi:** Sabit hız modeli kullanılır; durum `[x, y, vx, vy]`,
+   onaylı iz 6 s güncellenmezse silinir. Çakışan çift izler birleştirilir [2].
+4. **Kalman filtresi** [5]**:** Sabit hız modeli [1] kullanılır; durum `[x, y, vx, vy]`,
    süreç gürültüsü beyaz ivme σ = 1 m/s².
 5. **Sensör güveni ve çelişki çözümü:** Her sensör için normalize inovasyon
-   karesinin (NIS) hareketli ortalaması tutulur. Ortalama tolerans değerini (4)
+   karesinin (NIS) [1] hareketli ortalaması tutulur. Ortalama tolerans değerini (4)
    aşarsa sensörün güveni düşer ve ölçüm kovaryansı `R / güven` olarak
    büyütülür. Böylece karıştırılan radar ya da sisteki kamera, çelişkide daha
    az söz sahibi olur. Güveni düşük sensörün vuruşları da onaya daha az katkı
@@ -84,8 +89,8 @@ elde edilir.
 ## Kurulum
 
 ```bash
-git clone <depo-adresi>
-cd fusion-demo
+git clone https://github.com/Goktugelbir/Cok-Sensorlu-Veri-Fuzyonu.git
+cd Cok-Sensorlu-Veri-Fuzyonu
 python -m pip install -r requirements.txt
 ```
 
@@ -95,14 +100,16 @@ Python 3.10+ ve numpy, scipy, matplotlib, pillow (pytest testler için) gerekir.
 
 ```bash
 python main.py --senaryo sis        # tek senaryo: normal | sis | karistirma | sensor_kaybi
-python main.py --hepsi              # tüm senaryolar (~1 dk)
-python main.py --hepsi --gif-yok    # animasyonsuz, hızlı
+python main.py --hepsi              # tüm senaryolar, 30 seed (~3 dk, çok çekirdekli)
+python main.py --hepsi --tekrar 5   # daha az koşu, daha hızlı
+python main.py --hepsi --gif-yok    # animasyonsuz
 python -m pytest                    # birim testleri
 ```
 
 Çıktılar `results/` klasörüne yazılır: `<senaryo>.gif`, `karsilastirma.png`,
-`ozet.png`, `sonuclar.json`, `sonuclar.md`. Tüm rastgelelik `seed=42` ile
-sabittir, sonuçlar her çalıştırmada aynıdır.
+`ozet.png`, `sonuclar.json`, `sonuclar.md`. Animasyonlar ve özet figür
+`seed=42` örnek koşusundan, tablolar `seed=42…71` arasındaki 30 koşudan
+üretilir. Tohumlar sabit olduğu için sonuçlar her çalıştırmada aynıdır.
 
 ## Örnek animasyon
 
@@ -117,53 +124,79 @@ dairesi küçülür, kapalı sensör noktalı gri çizilir. Diğer senaryolar:
 
 ## Sonuçlar
 
-| Senaryo | Konfigürasyon | RMSE (m) | Kaçırma oranı | Yanlış iz | ID switch |
+Her senaryo 30 farklı seed ile (42-71) koşturulmuştur; değerler
+**ortalama ± standart sapma** olarak verilmiştir. Hedef rotaları sabit,
+sensör gürültüsü, tespitler, yanlış alarmlar ve gecikmeler her seed'de
+farklıdır. **Füzyon (güven ağırlıklandırma kapalı)** satırı bir ablasyondur:
+aynı füzyon hattı, NIS tabanlı sensör güveni devre dışı bırakılarak (bütün
+sensörlerin güveni 1'de sabit) çalıştırılmıştır.
+
+| Senaryo | Konfigürasyon | RMSE (m) | Kaçırma (%) | Yanlış iz | ID switch |
 |---|---|---:|---:|---:|---:|
-| normal | Sadece radar | 15.1 | %1.3 | 0 | 0 |
-| normal | Sadece kamera | 6.5 | %33.9 | 0 | 0 |
-| normal | Sadece konum bildirimi | 40.1 | %60.8 | 0 | 0 |
-| normal | **Füzyon** | **8.2** | **%1.1** | 0 | 0 |
-| sis | Sadece radar | 15.1 | %1.3 | 0 | 0 |
-| sis | Sadece kamera | 16.1 | %65.2 | 0 | 1 |
-| sis | Sadece konum bildirimi | 40.5 | %61.2 | 0 | 1 |
-| sis | **Füzyon** | **12.1** | **%1.1** | 0 | **0** |
-| karistirma | Sadece radar | 39.7 | %4.6 | 0 | 1 |
-| karistirma | Sadece kamera | 6.6 | %33.8 | 0 | 0 |
-| karistirma | Sadece konum bildirimi | 40.4 | %61.5 | 0 | 1 |
-| karistirma | **Füzyon** | **8.4** | **%1.1** | 0 | **0** |
-| sensor_kaybi | Sadece radar | 14.4 | %23.8 | 0 | 5 |
-| sensor_kaybi | Sadece kamera | 7.3 | %56.5 | 0 | 4 |
-| sensor_kaybi | Sadece konum bildirimi | 40.3 | %69.4 | 0 | 3 |
-| sensor_kaybi | **Füzyon** | **9.6** | **%4.6** | 0 | 3 |
+| normal | Sadece radar | 14.8 ± 0.6 | 1.5 ± 0.1 | 0.0 ± 0.0 | 0.0 ± 0.0 |
+| normal | Sadece kamera | 6.4 ± 0.2 | 33.8 ± 0.0 | 0.0 ± 0.0 | 0.0 ± 0.0 |
+| normal | Sadece konum bildirimi | 40.2 ± 0.1 | 61.0 ± 0.3 | 0.0 ± 0.0 | 0.2 ± 0.4 |
+| normal | Füzyon (güven ağırlıklandırma kapalı) | 8.4 ± 0.5 | 1.1 ± 0.1 | 0.0 ± 0.0 | 0.0 ± 0.0 |
+| normal | **Füzyon** | 8.4 ± 0.5 | 1.1 ± 0.1 | 0.0 ± 0.0 | 0.0 ± 0.0 |
+| sis | Sadece radar | 14.8 ± 0.6 | 1.5 ± 0.1 | 0.0 ± 0.0 | 0.0 ± 0.0 |
+| sis | Sadece kamera | 16.0 ± 2.4 | 65.0 ± 0.2 | 0.2 ± 0.5 | 1.3 ± 0.8 |
+| sis | Sadece konum bildirimi | 40.2 ± 0.2 | 61.0 ± 0.3 | 0.0 ± 0.0 | 0.3 ± 0.5 |
+| sis | Füzyon (güven ağırlıklandırma kapalı) | 14.8 ± 1.6 | 1.2 ± 0.1 | 2.4 ± 1.8 | 2.5 ± 2.4 |
+| sis | **Füzyon** | 12.4 ± 0.7 | 1.1 ± 0.1 | 0.0 ± 0.0 | 0.0 ± 0.0 |
+| karistirma | Sadece radar | 41.3 ± 4.6 | 8.7 ± 4.8 | 0.0 ± 0.0 | 2.9 ± 1.7 |
+| karistirma | Sadece kamera | 6.4 ± 0.3 | 33.9 ± 0.0 | 0.0 ± 0.0 | 0.0 ± 0.0 |
+| karistirma | Sadece konum bildirimi | 40.3 ± 0.2 | 61.0 ± 0.2 | 0.0 ± 0.0 | 0.4 ± 0.5 |
+| karistirma | Füzyon (güven ağırlıklandırma kapalı) | 10.3 ± 1.8 | 1.3 ± 0.3 | 7.7 ± 2.4 | 1.0 ± 1.2 |
+| karistirma | **Füzyon** | 8.8 ± 0.7 | 1.1 ± 0.1 | 0.0 ± 0.0 | 0.0 ± 0.0 |
+| sensor_kaybi | Sadece radar | 14.4 ± 0.5 | 23.8 ± 0.2 | 0.0 ± 0.0 | 5.0 ± 0.0 |
+| sensor_kaybi | Sadece kamera | 7.5 ± 0.4 | 56.5 ± 0.0 | 0.0 ± 0.0 | 4.0 ± 0.0 |
+| sensor_kaybi | Sadece konum bildirimi | 40.2 ± 0.3 | 68.9 ± 0.2 | 0.0 ± 0.0 | 2.2 ± 0.4 |
+| sensor_kaybi | Füzyon (güven ağırlıklandırma kapalı) | 10.0 ± 0.5 | 4.6 ± 0.1 | 0.0 ± 0.0 | 3.0 ± 0.0 |
+| sensor_kaybi | **Füzyon** | 10.0 ± 0.5 | 4.6 ± 0.1 | 0.0 ± 0.0 | 3.0 ± 0.0 |
+
+| Senaryo | Füzyonun en iyi tek sensörden düşük RMSE verdiği koşu |
+|---|---:|
+| normal | 0/30 |
+| sis | 30/30 |
+| karistirma | 0/30 |
+| sensor_kaybi | 0/30 |
 
 ![Karşılaştırma](results/karsilastirma.png)
 
 ### Yorum
 
-- **Kapsama:** Füzyon her senaryoda en düşük kaçırma oranını veriyor (%1-5).
-  Tek sensörlerde bu oran %1-70 arasında.
+- **Kapsama:** Füzyon her senaryoda en düşük kaçırma oranını veriyor
+  (%1.1-4.6). Tek sensörlerde bu oran %1.5-69 arasında.
 - **Doğruluk:** Füzyon her senaryoda radar ve konum bildiriminden daha doğru.
-  **Sis senaryosunda bütün tek sensörlerden daha düşük RMSE veriyor** (12.1 m;
-  en iyi tek sensör radar 15.1 m).
+  **Sis senaryosunda 30 koşunun 30'unda bütün tek sensörlerden daha düşük
+  RMSE veriyor** (12.4 ± 0.7 m; en iyi tek sensör radar 14.8 ± 0.6 m).
 - **Kamera ile karşılaştırma:** Normal, karıştırma ve sensör kaybında sadece
-  kameranın RMSE'si daha düşük görünüyor. Ancak kamera bu sürede hedeflerin
-  %34-57'sini hiç görmüyor; RMSE'si sadece menzili içindeki yakın hedeflerden
-  hesaplanıyor. Füzyon ise uzak hedefleri de (radarın daha gürültülü
-  ölçümleriyle) izliyor. RMSE'yi kaçırma oranıyla birlikte okumak gerekir.
-- **Bias düzeltme:** Konum bildirimindeki (35, -20) m sapma her senaryoda
-  ~(39, -19) m olarak kestiriliyor. Kalan hata ~4 m; tek başına konum
-  bildiriminin hatası ise ~40 m.
+  kameranın RMSE'si daha düşük (30 koşunun hiçbirinde füzyon kameranın altına
+  inmiyor). Ancak kamera bu sürede hedeflerin %34-57'sini hiç görmüyor;
+  RMSE'si sadece menzili içindeki yakın hedeflerden hesaplanıyor. Füzyon ise
+  uzak hedefleri de (radarın daha gürültülü ölçümleriyle) izliyor. RMSE'yi
+  kaçırma oranıyla birlikte okumak gerekir.
+- **Ablasyon, sensör güveninin değeri:** Güven ağırlıklandırma kapatılınca
+  karıştırma senaryosunda ortalama **7.7 ± 2.4 sahte iz** oluşuyor, RMSE
+  8.8'den 10.3 m'ye çıkıyor ve ID switch'ler beliriyor. Sis senaryosunda da
+  2.4 sahte iz, 2.5 ID switch ve 12.4 → 14.8 m RMSE artışı görülüyor. Normal
+  ve sensör kaybı senaryolarında iki satır aynı; bu beklenen bir sonuç, çünkü
+  bozulmuş bir sensör yokken güven zaten 1'de kalıyor. Bu sonuç hem yanlış iz
+  ölçütünün çalıştığını hem de iyileşmenin NIS mekanizmasından geldiğini
+  gösteriyor.
+- **Bias düzeltme:** Konum bildirimindeki (35, -20) m sapma, seed=42 koşusunda
+  her senaryoda ~(39, -19) m olarak kestiriliyor. Kalan hata ~4 m; tek başına
+  konum bildiriminin hatası ise ~40 m.
 - **Karıştırma:** Radarın güveni karıştırma süresince ~0.1'e düşüyor. Radarın
-  tek başına RMSE'si 39.7 m'ye çıkarken füzyon 8.4 m'de kalıyor. Güven ağırlıklı
-  onay sayesinde yoğun yanlış alarmlar sahte ize dönüşmüyor.
+  tek başına RMSE'si 41.3 ± 4.6 m'ye çıkarken füzyon 8.8 ± 0.7 m'de kalıyor.
 - **Sensör kaybı (zayıf nokta):** Radar ve kamera 150-170 s arasında aynı anda
   kapalı. Dost olmayan hedeflerin izleri 6 s sonra siliniyor ve sensörler geri
-  gelince yeni ID ile başlıyor (3 ID switch).
+  gelince yeni ID ile başlıyor (her koşuda 3 ID switch).
 
 ## Proje yapısı
 
 ```
-fusion-demo/
+Cok-Sensorlu-Veri-Fuzyonu/
   main.py                  komut satırı, senaryo koşturma, tablo ve grafik üretimi
   src/saha.py              saha ve hedef rotaları
   src/sensorler.py         sensör modelleri ve senaryo olayları
@@ -173,6 +206,7 @@ fusion-demo/
   src/degerlendirme.py     RMSE, kaçırma, yanlış iz, ID switch
   src/gorsel.py            GIF animasyon, karşılaştırma ve özet figürleri
   tests/                   pytest birim testleri
+  .github/workflows/       her push'ta testleri çalıştıran GitHub Actions iş akışı
   results/                 üretilen çıktılar
 ```
 
@@ -201,4 +235,24 @@ fusion-demo/
 - Yoğun yanlış alarm ortamı için JPDA / MHT ilişkilendirme.
 - Sensör konumlarındaki ve zaman damgalarındaki hataların da kestirildiği tam
   sensör kaydı (registration).
-- Monte Carlo koşuları ile sonuçların güven aralıklarıyla verilmesi.
+- Senaryo geometrisinin (rotalar, sensör yerleşimi) de rastgele örneklendiği
+  daha geniş bir Monte Carlo çalışması.
+
+## Kaynakça
+
+1. Y. Bar-Shalom, X. R. Li, T. Kirubarajan, *Estimation with Applications to
+   Tracking and Navigation*, Wiley, 2001.
+2. S. Blackman, R. Popoli, *Design and Analysis of Modern Tracking Systems*,
+   Artech House, 1999.
+3. H. W. Kuhn, "The Hungarian Method for the Assignment Problem," *Naval
+   Research Logistics Quarterly*, 2(1-2), 83-97, 1955.
+4. J. Munkres, "Algorithms for the Assignment and Transportation Problems,"
+   *Journal of the SIAM*, 5(1), 32-38, 1957.
+5. R. E. Kalman, "A New Approach to Linear Filtering and Prediction Problems,"
+   *Journal of Basic Engineering*, 82(1), 35-45, 1960.
+6. D. F. Crouse, "On Implementing 2D Rectangular Assignment Algorithms,"
+   *IEEE Transactions on Aerospace and Electronic Systems*, 52(4), 1679-1696,
+   2016. (`scipy.optimize.linear_sum_assignment` bu yöntemi uygular.)
+7. P. C. Mahalanobis, "On the Generalized Distance in Statistics,"
+   *Proceedings of the National Institute of Sciences of India*, 2(1), 49-55,
+   1936.

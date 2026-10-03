@@ -50,8 +50,10 @@ class Iz:
 
 
 class FuzyonMerkezi:
-    def __init__(self, sensorler):
+    def __init__(self, sensorler, guven_agirliklandirma=True):
         self.sensorler = list(sensorler)
+        # Kapalıysa tüm sensörlerin güveni 1'de sabit kalır (ablasyon deneyi için)
+        self.guven_agirliklandirma = guven_agirliklandirma
         self.zaman = 0.0
         self.izler = []
         self.sonraki_id = 1
@@ -168,7 +170,7 @@ class FuzyonMerkezi:
         kaynaklanan model uyumsuzluğu) sensöre fatura edilmez.
         """
         onayli = [iz for iz in self.izler if iz.onayli]
-        if not onayli:
+        if not onayli or not self.guven_agirliklandirma:
             return
         for z, R in zip(Z, R_listesi):
             nis_min = np.inf
@@ -239,12 +241,12 @@ class FuzyonMerkezi:
         return resim
 
 
-def fuzyon_calistir(olcumler, sensorler, kayit_araligi=1.0):
+def fuzyon_calistir(olcumler, sensorler, kayit_araligi=1.0, guven_agirliklandirma=True):
     """Verilen sensörlerle tüm senaryoyu koşturur.
 
     Dönüş: [(füzyon_zamanı, durum_resmi, sensör_güvenleri), ...] (kayit_araligi saniyede bir)
     """
-    merkez = FuzyonMerkezi(sensorler)
+    merkez = FuzyonMerkezi(sensorler, guven_agirliklandirma)
     tum = sorted((o for s in sensorler for o in olcumler[s]), key=lambda o: o.t_varis)
     gecmis = []
     k_idx = 0

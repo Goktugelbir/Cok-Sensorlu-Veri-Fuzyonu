@@ -21,7 +21,8 @@ RENK = {
 SENSOR_ETIKET = {"radar": "Radar", "kamera": "EO/termal kamera", "konum": "Konum bildirimi"}
 KISALTMA = {"radar": "R", "kamera": "K", "konum": "B"}
 KONFIG_ETIKET = {"radar": "Sadece radar", "kamera": "Sadece kamera",
-                 "konum": "Sadece konum bildirimi", "fuzyon": "Füzyon"}
+                 "konum": "Sadece konum bildirimi", "fuzyon": "Füzyon",
+                 "fuzyon_guvensiz": "Füzyon (güven ağırlıklandırma kapalı)"}
 KONFIG_RENK = {"fuzyon": RENK["fuzyon"], "radar": RENK["radar"],
                "kamera": RENK["kamera"], "konum": RENK["konum"]}
 
@@ -136,43 +137,43 @@ def gif_olustur(senaryo, hedefler, olcumler, gecmis, yol, kare_araligi=3.0, iz_k
     kareler[0].save(yol, save_all=True, append_images=kareler[1:], duration=150, loop=0, optimize=True)
 
 
-def karsilastirma_grafigi(sonuclar, yol):
-    """sonuclar[senaryo][konfig] = ölçüt sözlüğü -> 2x2 gruplu çubuk grafik."""
-    senaryolar = list(sonuclar)
-    konfigler = ["fuzyon", "radar", "kamera", "konum"]
+def karsilastirma_grafigi(ozet, yol, tekrar):
+    """ozet[senaryo][konfig][ölçüt] = (ortalama, std) -> 2x2 gruplu çubuk grafik (hata çubuğu = ±1 std)."""
+    senaryolar = list(ozet)
+    konfigler = ["fuzyon", "fuzyon_guvensiz", "radar", "kamera", "konum"]
     olcutler = [("rmse", "RMSE (m) — düşük iyi"), ("kacirma", "Kaçırma oranı (%) — düşük iyi"),
                 ("yanlis_iz", "Yanlış iz sayısı — düşük iyi"), ("id_switch", "ID switch sayısı — düşük iyi")]
-    fig, eksenler = plt.subplots(2, 2, figsize=(11, 7), dpi=110)
+    fig, eksenler = plt.subplots(2, 2, figsize=(12, 7.5), dpi=110)
     fig.patch.set_facecolor(RENK["zemin"])
-    genislik = 0.2
+    genislik = 0.16
     x = np.arange(len(senaryolar))
     for ax, (anahtar, baslik) in zip(eksenler.flat, olcutler):
         ax.set_facecolor(RENK["zemin"])
         for i, k in enumerate(konfigler):
-            deger = np.array([sonuclar[s][k][anahtar] for s in senaryolar], float)
+            ort = np.array([ozet[s][k][anahtar][0] for s in senaryolar], float)
+            std = np.array([ozet[s][k][anahtar][1] for s in senaryolar], float)
             if anahtar == "kacirma":
-                deger = deger * 100
-            ax.bar(x + (i - 1.5) * genislik, deger, genislik * 0.9, color=KONFIG_RENK[k],
-                   label=KONFIG_ETIKET[k], zorder=2)
+                ort, std = ort * 100, std * 100
+            # Ablasyon (güven kapalı) füzyonla aynı aileden: açık mavi + tarama deseni
+            stil = (dict(color="#86b6ef", hatch="///", edgecolor=RENK["fuzyon"], linewidth=0)
+                    if k == "fuzyon_guvensiz" else dict(color=KONFIG_RENK[k]))
+            ax.bar(x + (i - 2) * genislik, ort, genislik * 0.9, yerr=std, label=KONFIG_ETIKET[k],
+                   error_kw=dict(ecolor=RENK["ikincil"], elinewidth=0.8, capsize=2), zorder=2, **stil)
         ax.set_xticks(x, senaryolar, fontsize=9, color=RENK["metin"])
         ax.set_title(baslik, fontsize=10, color=RENK["metin"], loc="left")
         ax.grid(axis="y", color=RENK["izgara"], lw=0.6, zorder=0)
         ax.tick_params(axis="y", colors=RENK["ikincil"], labelsize=8)
+        ax.set_ylim(bottom=0)
         for k in ("top", "right"):
             ax.spines[k].set_visible(False)
         for k in ("left", "bottom"):
             ax.spines[k].set_color(RENK["gercek"])
-        if anahtar in ("yanlis_iz", "id_switch"):
-            # Sayma ölçütleri: tamsayı eksen, sıfırdan başlar (hepsi sıfırsa da okunur kalır)
-            ax.yaxis.get_major_locator().set_params(integer=True)
-            ax.set_ylim(0, max(ax.get_ylim()[1], 1))
-            if all(sonuclar[s][k][anahtar] == 0 for s in senaryolar for k in konfigler):
-                ax.text(0.5, 0.5, "Hiçbir senaryo ve konfigürasyonda oluşmadı (tümü 0)",
-                        transform=ax.transAxes, ha="center", fontsize=9, color=RENK["ikincil"])
     tutamac, etiket = eksenler[0, 0].get_legend_handles_labels()
-    fig.legend(tutamac, etiket, loc="upper right", ncol=4, fontsize=9, frameon=False)
-    fig.suptitle("Füzyon ve tek sensör karşılaştırması", fontsize=12, color=RENK["metin"], x=0.02, ha="left")
-    fig.tight_layout(rect=(0, 0, 1, 0.96))
+    fig.legend(tutamac, etiket, loc="upper left", bbox_to_anchor=(0.015, 0.955), ncol=5, fontsize=8.5,
+               frameon=False)
+    fig.suptitle(f"Füzyon ve tek sensör karşılaştırması ({tekrar} koşu, ortalama ± std)", fontsize=12,
+                 color=RENK["metin"], x=0.02, ha="left")
+    fig.tight_layout(rect=(0, 0, 1, 0.92))
     fig.savefig(yol, facecolor=fig.get_facecolor())
     plt.close(fig)
 
