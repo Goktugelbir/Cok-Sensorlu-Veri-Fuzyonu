@@ -54,6 +54,10 @@
     "id_switch": [
      0.0,
      0.0
+    ],
+    "etiket": [
+     0.6001525410508693,
+     0.0005334423420766304
     ]
    },
    "kamera": {
@@ -76,6 +80,10 @@
     "id_switch": [
      0.0,
      0.0
+    ],
+    "etiket": [
+     0.7066675225659864,
+     0.00010160817106387306
     ]
    },
    "konum": {
@@ -98,6 +106,10 @@
     "id_switch": [
      0.23333333333333334,
      0.43018306715207627
+    ],
+    "etiket": [
+     1.0,
+     0.0
     ]
    },
    "fuzyon_guvensiz": {
@@ -120,6 +132,10 @@
     "id_switch": [
      0.0,
      0.0
+    ],
+    "etiket": [
+     1.0,
+     0.0
     ]
    },
    "fuzyon": {
@@ -141,6 +157,10 @@
     ],
     "id_switch": [
      0.0,
+     0.0
+    ],
+    "etiket": [
+     1.0,
      0.0
     ]
    }
@@ -166,6 +186,10 @@
     "id_switch": [
      0.0,
      0.0
+    ],
+    "etiket": [
+     0.6001525410508693,
+     0.0005334423420766304
     ]
    },
    "kamera": {
@@ -188,6 +212,10 @@
     "id_switch": [
      1.3333333333333333,
      0.802295557085754
+    ],
+    "etiket": [
+     0.8316551603665754,
+     0.00232174827222185
     ]
    },
    "konum": {
@@ -210,6 +238,10 @@
     "id_switch": [
      0.3,
      0.466091599699399
+    ],
+    "etiket": [
+     1.0,
+     0.0
     ]
    },
    "fuzyon_guvensiz": {
@@ -232,6 +264,10 @@
     "id_switch": [
      2.5,
      2.417607823077783
+    ],
+    "etiket": [
+     1.0,
+     0.0
     ]
    },
    "fuzyon": {
@@ -253,6 +289,10 @@
     ],
     "id_switch": [
      0.0,
+     0.0
+    ],
+    "etiket": [
+     1.0,
      0.0
     ]
    }
@@ -278,6 +318,10 @@
     "id_switch": [
      2.8666666666666667,
      1.696514344041992
+    ],
+    "etiket": [
+     0.5946058956063713,
+     0.021234403880329236
     ]
    },
    "kamera": {
@@ -300,6 +344,10 @@
     "id_switch": [
      0.0,
      0.0
+    ],
+    "etiket": [
+     0.7066813306292266,
+     0.00017752611564989502
     ]
    },
    "konum": {
@@ -322,6 +370,10 @@
     "id_switch": [
      0.4,
      0.4982728791224399
+    ],
+    "etiket": [
+     1.0,
+     0.0
     ]
    },
    "fuzyon_guvensiz": {
@@ -344,6 +396,10 @@
     "id_switch": [
      1.0,
      1.2317635241028795
+    ],
+    "etiket": [
+     1.0,
+     0.0
     ]
    },
    "fuzyon": {
@@ -365,6 +421,10 @@
     ],
     "id_switch": [
      0.0,
+     0.0
+    ],
+    "etiket": [
+     1.0,
      0.0
     ]
    }
@@ -390,6 +450,10 @@
     "id_switch": [
      5.0,
      0.0
+    ],
+    "etiket": [
+     0.6003424648371255,
+     0.0009891004785879396
     ]
    },
    "kamera": {
@@ -412,6 +476,10 @@
     "id_switch": [
      4.0,
      0.0
+    ],
+    "etiket": [
+     0.7320340052715596,
+     0.00016613650829333962
     ]
    },
    "konum": {
@@ -434,6 +502,10 @@
     "id_switch": [
      2.2,
      0.40683810217248617
+    ],
+    "etiket": [
+     1.0,
+     0.0
     ]
    },
    "fuzyon_guvensiz": {
@@ -455,6 +527,10 @@
     ],
     "id_switch": [
      3.0,
+     0.0
+    ],
+    "etiket": [
+     1.0,
      0.0
     ]
    },
@@ -478,6 +554,10 @@
     "id_switch": [
      3.0,
      0.0
+    ],
+    "etiket": [
+     1.0,
+     0.0
     ]
    }
   }
@@ -490,210 +570,240 @@
      "gospa": 36.51878910057727,
      "kacirma": 0.013245033112582781,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6
     },
     {
      "rmse": 14.997926514781057,
      "gospa": 36.887086217573504,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6004029550033579
     },
     {
      "rmse": 14.447143110067557,
      "gospa": 35.98621937620174,
      "kacirma": 0.015894039735099338,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6002691790040376
     },
     {
      "rmse": 15.410379483670075,
      "gospa": 37.41258825408249,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.5997313633310947
     },
     {
      "rmse": 14.463556463528064,
      "gospa": 35.93062356853724,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.5997313633310947
     },
     {
      "rmse": 16.109974259056575,
      "gospa": 40.37434678185117,
      "kacirma": 0.017218543046357615,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6004043126684636
     },
     {
      "rmse": 14.89118589409852,
      "gospa": 39.003891469815656,
      "kacirma": 0.017880794701986755,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6001348617666892
     },
     {
      "rmse": 16.31692249470699,
      "gospa": 39.49114733311151,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.5997313633310947
     },
     {
      "rmse": 14.551092611131642,
      "gospa": 35.99391950216518,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6004029550033579
     },
     {
      "rmse": 14.934502410586973,
      "gospa": 37.23436157281708,
      "kacirma": 0.01456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6008064516129032
     },
     {
      "rmse": 14.046945494166263,
      "gospa": 35.30645358803488,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6004029550033579
     },
     {
      "rmse": 15.923056660410946,
      "gospa": 37.8892077522467,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6004029550033579
     },
     {
      "rmse": 14.673452116141888,
      "gospa": 36.38209541392788,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.5997313633310947
     },
     {
      "rmse": 14.240532205106733,
      "gospa": 37.80657770695902,
      "kacirma": 0.017218543046357615,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6017520215633423
     },
     {
      "rmse": 14.887182055423022,
      "gospa": 35.70760443138902,
      "kacirma": 0.013245033112582781,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6
     },
     {
      "rmse": 14.186530884115355,
      "gospa": 35.52282464600962,
      "kacirma": 0.01456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6001344086021505
     },
     {
      "rmse": 14.224078089870572,
      "gospa": 35.78862544075304,
      "kacirma": 0.01456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6001344086021505
     },
     {
      "rmse": 14.215592353331777,
      "gospa": 35.655252356701695,
      "kacirma": 0.015231788079470199,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6005379959650302
     },
     {
      "rmse": 15.65248513654632,
      "gospa": 39.279773207936664,
      "kacirma": 0.015894039735099338,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6009421265141319
     },
     {
      "rmse": 14.566542906469502,
      "gospa": 36.91852363735665,
      "kacirma": 0.015894039735099338,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6002691790040376
     },
     {
      "rmse": 13.787084587803765,
      "gospa": 36.2846922978815,
      "kacirma": 0.016556291390728478,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.5993265993265994
     },
     {
      "rmse": 15.138060088461055,
      "gospa": 38.45019136022302,
      "kacirma": 0.015894039735099338,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6009421265141319
     },
     {
      "rmse": 14.913144228622148,
      "gospa": 36.18587259994143,
      "kacirma": 0.013245033112582781,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6
     },
     {
      "rmse": 15.551975409868716,
      "gospa": 38.284354082542315,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6004029550033579
     },
     {
      "rmse": 14.626161788502372,
      "gospa": 35.80619017987327,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.5997313633310947
     },
     {
      "rmse": 15.052721635934242,
      "gospa": 36.18876956328505,
      "kacirma": 0.013245033112582781,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6
     },
     {
      "rmse": 14.108824156129904,
      "gospa": 35.968436728443685,
      "kacirma": 0.015231788079470199,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.5991930060524546
     },
     {
      "rmse": 14.192323430971529,
      "gospa": 34.60584537928285,
      "kacirma": 0.013245033112582781,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6
     },
     {
      "rmse": 14.258073582619366,
      "gospa": 35.423011510745965,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.5997313633310947
     },
     {
      "rmse": 14.767338955216282,
      "gospa": 38.18184391321565,
      "kacirma": 0.016556291390728478,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.5993265993265994
     }
    ],
    "kamera": [
@@ -702,210 +812,240 @@
      "gospa": 197.6072815711528,
      "kacirma": 0.3390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7064128256513026
     },
     {
      "rmse": 6.147785535597746,
      "gospa": 197.04611748298325,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.196384372597413,
      "gospa": 197.40947560038828,
      "kacirma": 0.3390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7064128256513026
     },
     {
      "rmse": 6.374096017556294,
      "gospa": 197.33672442922557,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.410896716427196,
      "gospa": 197.14736860284248,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.062725733811884,
      "gospa": 197.18894821666774,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.140844469901351,
      "gospa": 197.2495819429541,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.356122585879511,
      "gospa": 197.0906014539342,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.558451816633475,
      "gospa": 197.4299400676392,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.223920058961753,
      "gospa": 197.33807087354936,
      "kacirma": 0.3390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7064128256513026
     },
     {
      "rmse": 6.420126624849529,
      "gospa": 197.16259533268976,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.523424473780877,
      "gospa": 197.55883946802206,
      "kacirma": 0.3390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7064128256513026
     },
     {
      "rmse": 6.073035166138368,
      "gospa": 197.0458886361604,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.302284667828312,
      "gospa": 197.21824180019985,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.705844301285022,
      "gospa": 197.42559014548982,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.69777336746467,
      "gospa": 197.15097546057618,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.393023259137968,
      "gospa": 197.28661722994312,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.7348454247669265,
      "gospa": 197.3661498960015,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.132075612245347,
      "gospa": 197.15067365854156,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.239198305843136,
      "gospa": 197.21778724347402,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.1766097584870385,
      "gospa": 197.27196536486807,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.560523970587792,
      "gospa": 197.42643199457189,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.232754881316949,
      "gospa": 197.32871333019972,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.028017644884602,
      "gospa": 197.22512143995237,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.56773588761737,
      "gospa": 197.30778569757803,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.353338179860673,
      "gospa": 197.34011650043738,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.070026880569892,
      "gospa": 197.03899771821511,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.603064781598506,
      "gospa": 197.54077031800824,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.068803030814963,
      "gospa": 196.97757066448827,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.8331035298623295,
      "gospa": 197.48401237354008,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     }
    ],
    "konum": [
@@ -914,210 +1054,240 @@
      "gospa": 313.05809759593876,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.076132164315545,
      "gospa": 314.2315459510367,
      "kacirma": 0.6132450331125828,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.24007396902597,
      "gospa": 313.0953631221024,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.1935269669982,
      "gospa": 313.0835486633654,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.31292883670602,
      "gospa": 313.11382941578285,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.34379609146963,
      "gospa": 315.7679788510412,
      "kacirma": 0.6198675496688741,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.307994478670174,
      "gospa": 313.69991348345974,
      "kacirma": 0.6105960264900663,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 39.901432183691014,
      "gospa": 313.0099805370362,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.199380369125066,
      "gospa": 313.08512361032007,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.50063907598716,
      "gospa": 314.0422127569495,
      "kacirma": 0.6119205298013245,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.295381801211235,
      "gospa": 313.10941557839067,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.23963555979149,
      "gospa": 313.09527793605406,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.26650456708082,
      "gospa": 313.1021065138701,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.19707376214845,
      "gospa": 313.9670083371698,
      "kacirma": 0.6119205298013245,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.151715811727605,
      "gospa": 313.0730573367442,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.14921617812279,
      "gospa": 313.65961185696995,
      "kacirma": 0.6105960264900663,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.354767689386485,
      "gospa": 313.1245753795108,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.26820036439126,
      "gospa": 313.10255384926114,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.15313049860046,
      "gospa": 313.07335647481,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.0314013532363,
      "gospa": 313.04263255072124,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.16168067367794,
      "gospa": 313.0755781823548,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.353485075202926,
      "gospa": 313.1241330622106,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.15417733428527,
      "gospa": 313.07359896978153,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.26349824061419,
      "gospa": 313.6895549807514,
      "kacirma": 0.6105960264900663,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.28376003300249,
      "gospa": 314.2845014027134,
      "kacirma": 0.6132450331125828,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.01547413488111,
      "gospa": 313.03868216554,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.31743189909613,
      "gospa": 313.11505069880457,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.075494592557206,
      "gospa": 314.23037325560995,
      "kacirma": 0.6132450331125828,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.37553858658466,
      "gospa": 313.12978067651215,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.20490236021283,
      "gospa": 313.96898135035764,
      "kacirma": 0.6119205298013245,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     }
    ],
    "fuzyon_guvensiz": [
@@ -1126,210 +1296,240 @@
      "gospa": 20.501128671819252,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.232069235923571,
      "gospa": 20.180932513047694,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.334954604463022,
      "gospa": 20.58496747882957,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.38406419950925,
      "gospa": 21.205539635436182,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.304534241608552,
      "gospa": 20.756352160251662,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.394279677388637,
      "gospa": 22.209380752031098,
      "kacirma": 0.012582781456953643,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.002775526034737,
      "gospa": 22.481636831929286,
      "kacirma": 0.01456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.019366915933933,
      "gospa": 20.190456405919175,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.149347988222985,
      "gospa": 19.891773605214777,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.588956584170646,
      "gospa": 20.86828861495701,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 7.90548109449737,
      "gospa": 20.150253002342847,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.02803025223531,
      "gospa": 21.318245708590446,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 7.38330552470157,
      "gospa": 19.428444955529347,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.319445090478876,
      "gospa": 21.157424467822533,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.583173751317247,
      "gospa": 20.332960165822303,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 7.742118520918778,
      "gospa": 19.879050460650173,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.25220067312391,
      "gospa": 20.581233859612897,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.083612051631123,
      "gospa": 20.984024226748012,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.022340459940779,
      "gospa": 21.447681020904323,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.104444301559324,
      "gospa": 20.843892351179477,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 7.6407343241472025,
      "gospa": 21.3817536077939,
      "kacirma": 0.013245033112582781,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.574013313346493,
      "gospa": 23.442715573831467,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.441242474251887,
      "gospa": 20.638459057678155,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.434139314174228,
      "gospa": 21.465316670788535,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 7.968053435830303,
      "gospa": 19.437370758566146,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.41970247289722,
      "gospa": 20.5119252755304,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.069420420926575,
      "gospa": 21.232056597912493,
      "kacirma": 0.012582781456953643,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.911683495081208,
      "gospa": 20.959485313956094,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.157396653269137,
      "gospa": 20.08690753515722,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.015680110145682,
      "gospa": 20.449348230916872,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     }
    ],
    "fuzyon": [
@@ -1338,210 +1538,240 @@
      "gospa": 20.501128671819252,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.232152390694603,
      "gospa": 20.181225708213336,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.334954604463022,
      "gospa": 20.58496747882957,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.38406419950925,
      "gospa": 21.205539635436182,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.304534241608552,
      "gospa": 20.756352160251662,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.394279677388637,
      "gospa": 22.209380752031098,
      "kacirma": 0.012582781456953643,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.002775526034737,
      "gospa": 22.481636831929286,
      "kacirma": 0.01456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.019380355230401,
      "gospa": 20.190508672945043,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.149347988222985,
      "gospa": 19.891773605214777,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.588956584170646,
      "gospa": 20.86828861495701,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 7.90548109449737,
      "gospa": 20.150253002342847,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.02803025223531,
      "gospa": 21.318245708590446,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 7.38330552470157,
      "gospa": 19.428444955529347,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.319280832440823,
      "gospa": 21.15066337235138,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.583173751317247,
      "gospa": 20.332960165822303,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 7.742118520918778,
      "gospa": 19.879050460650173,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.252308749667666,
      "gospa": 20.58156577550377,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.08751685415128,
      "gospa": 20.993902409772957,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.022340459940779,
      "gospa": 21.447681020904323,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.101642038273484,
      "gospa": 20.839622237626244,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 7.6407343241472025,
      "gospa": 21.3817536077939,
      "kacirma": 0.013245033112582781,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.573956069067984,
      "gospa": 23.442600434491602,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.441098278596,
      "gospa": 20.638270569713463,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.434139314174228,
      "gospa": 21.465316670788535,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 7.968053435830303,
      "gospa": 19.437370758566146,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.42010379223508,
      "gospa": 20.512992247257774,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.069420420926575,
      "gospa": 21.232056597912493,
      "kacirma": 0.012582781456953643,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.911683495081208,
      "gospa": 20.959485313956094,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.157396653269137,
      "gospa": 20.08690753515722,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.01524804581061,
      "gospa": 20.448735388405197,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     }
    ]
   },
@@ -1552,210 +1782,240 @@
      "gospa": 36.51878910057727,
      "kacirma": 0.013245033112582781,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6
     },
     {
      "rmse": 14.997926514781057,
      "gospa": 36.887086217573504,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6004029550033579
     },
     {
      "rmse": 14.447143110067557,
      "gospa": 35.98621937620174,
      "kacirma": 0.015894039735099338,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6002691790040376
     },
     {
      "rmse": 15.410379483670075,
      "gospa": 37.41258825408249,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.5997313633310947
     },
     {
      "rmse": 14.463556463528064,
      "gospa": 35.93062356853724,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.5997313633310947
     },
     {
      "rmse": 16.109974259056575,
      "gospa": 40.37434678185117,
      "kacirma": 0.017218543046357615,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6004043126684636
     },
     {
      "rmse": 14.89118589409852,
      "gospa": 39.003891469815656,
      "kacirma": 0.017880794701986755,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6001348617666892
     },
     {
      "rmse": 16.31692249470699,
      "gospa": 39.49114733311151,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.5997313633310947
     },
     {
      "rmse": 14.551092611131642,
      "gospa": 35.99391950216518,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6004029550033579
     },
     {
      "rmse": 14.934502410586973,
      "gospa": 37.23436157281708,
      "kacirma": 0.01456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6008064516129032
     },
     {
      "rmse": 14.046945494166263,
      "gospa": 35.30645358803488,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6004029550033579
     },
     {
      "rmse": 15.923056660410946,
      "gospa": 37.8892077522467,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6004029550033579
     },
     {
      "rmse": 14.673452116141888,
      "gospa": 36.38209541392788,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.5997313633310947
     },
     {
      "rmse": 14.240532205106733,
      "gospa": 37.80657770695902,
      "kacirma": 0.017218543046357615,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6017520215633423
     },
     {
      "rmse": 14.887182055423022,
      "gospa": 35.70760443138902,
      "kacirma": 0.013245033112582781,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6
     },
     {
      "rmse": 14.186530884115355,
      "gospa": 35.52282464600962,
      "kacirma": 0.01456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6001344086021505
     },
     {
      "rmse": 14.224078089870572,
      "gospa": 35.78862544075304,
      "kacirma": 0.01456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6001344086021505
     },
     {
      "rmse": 14.215592353331777,
      "gospa": 35.655252356701695,
      "kacirma": 0.015231788079470199,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6005379959650302
     },
     {
      "rmse": 15.65248513654632,
      "gospa": 39.279773207936664,
      "kacirma": 0.015894039735099338,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6009421265141319
     },
     {
      "rmse": 14.566542906469502,
      "gospa": 36.91852363735665,
      "kacirma": 0.015894039735099338,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6002691790040376
     },
     {
      "rmse": 13.787084587803765,
      "gospa": 36.2846922978815,
      "kacirma": 0.016556291390728478,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.5993265993265994
     },
     {
      "rmse": 15.138060088461055,
      "gospa": 38.45019136022302,
      "kacirma": 0.015894039735099338,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6009421265141319
     },
     {
      "rmse": 14.913144228622148,
      "gospa": 36.18587259994143,
      "kacirma": 0.013245033112582781,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6
     },
     {
      "rmse": 15.551975409868716,
      "gospa": 38.284354082542315,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6004029550033579
     },
     {
      "rmse": 14.626161788502372,
      "gospa": 35.80619017987327,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.5997313633310947
     },
     {
      "rmse": 15.052721635934242,
      "gospa": 36.18876956328505,
      "kacirma": 0.013245033112582781,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6
     },
     {
      "rmse": 14.108824156129904,
      "gospa": 35.968436728443685,
      "kacirma": 0.015231788079470199,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.5991930060524546
     },
     {
      "rmse": 14.192323430971529,
      "gospa": 34.60584537928285,
      "kacirma": 0.013245033112582781,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.6
     },
     {
      "rmse": 14.258073582619366,
      "gospa": 35.423011510745965,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.5997313633310947
     },
     {
      "rmse": 14.767338955216282,
      "gospa": 38.18184391321565,
      "kacirma": 0.016556291390728478,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.5993265993265994
     }
    ],
    "kamera": [
@@ -1764,210 +2024,240 @@
      "gospa": 316.98743246683233,
      "kacirma": 0.6516556291390728,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8365019011406845
     },
     {
      "rmse": 17.61731034243261,
      "gospa": 318.7345392781031,
      "kacirma": 0.6470198675496689,
      "yanlis_iz": 1,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 0.8292682926829268
     },
     {
      "rmse": 14.291926617194337,
      "gospa": 316.66878906322177,
      "kacirma": 0.6509933774834437,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8349146110056926
     },
     {
      "rmse": 17.33957930061127,
      "gospa": 319.26447843346045,
      "kacirma": 0.6516556291390728,
      "yanlis_iz": 1,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8365019011406845
     },
     {
      "rmse": 16.014980630528427,
      "gospa": 316.52500725438364,
      "kacirma": 0.6496688741721854,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8298676748582231
     },
     {
      "rmse": 17.154977553428555,
      "gospa": 323.64752215667664,
      "kacirma": 0.6503311258278146,
      "yanlis_iz": 2,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 0.8333333333333334
     },
     {
      "rmse": 15.816207314089622,
      "gospa": 316.9709592161571,
      "kacirma": 0.6516556291390728,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8365019011406845
     },
     {
      "rmse": 14.273455935842767,
      "gospa": 315.8444939574865,
      "kacirma": 0.6476821192052981,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8327067669172933
     },
     {
      "rmse": 15.726418136897918,
      "gospa": 316.56490693590376,
      "kacirma": 0.6496688741721854,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8298676748582231
     },
     {
      "rmse": 15.81975496575924,
      "gospa": 316.99947930425765,
      "kacirma": 0.6516556291390728,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8288973384030418
     },
     {
      "rmse": 12.608411880694126,
      "gospa": 316.88023960651094,
      "kacirma": 0.652317880794702,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8323809523809523
     },
     {
      "rmse": 14.427413222347797,
      "gospa": 316.69574153459894,
      "kacirma": 0.6509933774834437,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8330170777988615
     },
     {
      "rmse": 15.852199947204168,
      "gospa": 316.5939331154193,
      "kacirma": 0.6503311258278146,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8314393939393939
     },
     {
      "rmse": 16.361948845229335,
      "gospa": 316.5092460312399,
      "kacirma": 0.6496688741721854,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8355387523629489
     },
     {
      "rmse": 15.918783588545352,
      "gospa": 316.08105367765387,
      "kacirma": 0.6476821192052981,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8289473684210527
     },
     {
      "rmse": 15.956898479647808,
      "gospa": 317.01862034854446,
      "kacirma": 0.6496688741721854,
      "yanlis_iz": 1,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8298676748582231
     },
     {
      "rmse": 14.397448652543535,
      "gospa": 316.53688945449244,
      "kacirma": 0.6503311258278146,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8295454545454546
     },
     {
      "rmse": 15.156018551619605,
      "gospa": 316.9628215831788,
      "kacirma": 0.6516556291390728,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8307984790874525
     },
     {
      "rmse": 15.36512096311582,
      "gospa": 316.66068440554176,
      "kacirma": 0.6503311258278146,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8314393939393939
     },
     {
      "rmse": 15.558196661709093,
      "gospa": 316.6941621310788,
      "kacirma": 0.6503311258278146,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8314393939393939
     },
     {
      "rmse": 13.198305378890206,
      "gospa": 316.2260714275753,
      "kacirma": 0.6496688741721854,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.831758034026465
     },
     {
      "rmse": 17.55601925132379,
      "gospa": 318.68760832795704,
      "kacirma": 0.6536423841059603,
      "yanlis_iz": 1,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8298279158699808
     },
     {
      "rmse": 22.881629902089724,
      "gospa": 318.4439473686654,
      "kacirma": 0.6483443708609271,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.8305084745762712
     },
     {
      "rmse": 18.396477311029063,
      "gospa": 317.37749144193293,
      "kacirma": 0.6490066225165563,
      "yanlis_iz": 1,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 0.8320754716981132
     },
     {
      "rmse": 23.547099310658513,
      "gospa": 325.94553805099054,
      "kacirma": 0.6503311258278146,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 0.8314393939393939
     },
     {
      "rmse": 13.434064306455792,
      "gospa": 315.8050623590343,
      "kacirma": 0.6476821192052981,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8289473684210527
     },
     {
      "rmse": 14.575520174777237,
      "gospa": 316.2113528979395,
      "kacirma": 0.6490066225165563,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8301886792452831
     },
     {
      "rmse": 15.097861968941485,
      "gospa": 315.9490724437208,
      "kacirma": 0.6476821192052981,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8308270676691729
     },
     {
      "rmse": 13.334057927246262,
      "gospa": 316.44211312582286,
      "kacirma": 0.6503311258278146,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8314393939393939
     },
     {
      "rmse": 15.359235543808323,
      "gospa": 316.5011010998254,
      "kacirma": 0.6496688741721854,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.8298676748582231
     }
    ],
    "konum": [
@@ -1976,210 +2266,240 @@
      "gospa": 314.0309735042075,
      "kacirma": 0.6119205298013245,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.114986568842305,
      "gospa": 313.0638093824953,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.18920171824194,
      "gospa": 314.55340901357937,
      "kacirma": 0.614569536423841,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.49489098294783,
      "gospa": 314.3349370442531,
      "kacirma": 0.6132450331125828,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.15490763145791,
      "gospa": 314.25207781947114,
      "kacirma": 0.6132450331125828,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.03682691102691,
      "gospa": 313.04407589602965,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.02532010622089,
      "gospa": 313.04112259988693,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.12730166196258,
      "gospa": 314.24365907497577,
      "kacirma": 0.6132450331125828,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.08403582826299,
      "gospa": 315.11455683493546,
      "kacirma": 0.6172185430463576,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.50128227370562,
      "gospa": 313.1616608194372,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.35510707526084,
      "gospa": 313.124675918649,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.39143542290771,
      "gospa": 313.1337677790542,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.53138287671033,
      "gospa": 313.7573958100257,
      "kacirma": 0.6105960264900663,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.019633977531434,
      "gospa": 313.0396716663056,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.07371540105561,
      "gospa": 313.05336901495366,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.486504914290165,
      "gospa": 313.1578976730076,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.37624332746678,
      "gospa": 313.12995982158714,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 39.849721414044325,
      "gospa": 312.99708209365593,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.18365883594411,
      "gospa": 313.96378079797125,
      "kacirma": 0.6119205298013245,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.4912289644368,
      "gospa": 313.1592196025922,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.03140637519373,
      "gospa": 313.04273845409864,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.053378575257796,
      "gospa": 314.2240061485799,
      "kacirma": 0.6132450331125828,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.264762308524354,
      "gospa": 313.68934564627835,
      "kacirma": 0.6105960264900663,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.24373934331915,
      "gospa": 313.0962739802966,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.36964055274621,
      "gospa": 313.12825538066886,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.210250572111285,
      "gospa": 314.26337709619787,
      "kacirma": 0.6132450331125828,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.388516832018475,
      "gospa": 313.13308533789007,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.3342444015639,
      "gospa": 313.1193022534236,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.18004453240039,
      "gospa": 313.08019755269584,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.29119275124116,
      "gospa": 314.283898404458,
      "kacirma": 0.6132450331125828,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     }
    ],
    "fuzyon_guvensiz": [
@@ -2188,210 +2508,240 @@
      "gospa": 48.287086425096604,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 5,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 14.800465769843182,
      "gospa": 44.38232651744218,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 1,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 13.158242074415753,
      "gospa": 53.68439082527312,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 3,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 15.533657295475102,
      "gospa": 39.795301719749084,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 1,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 13.077528622258509,
      "gospa": 37.935380192242455,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 2,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 14.616088644135477,
      "gospa": 52.79203646388996,
      "kacirma": 0.012582781456953643,
      "yanlis_iz": 4,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 1.0
     },
     {
      "rmse": 14.362476420917604,
      "gospa": 49.368368961926,
      "kacirma": 0.01456953642384106,
      "yanlis_iz": 3,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 1.0
     },
     {
      "rmse": 15.726943833980455,
      "gospa": 44.95250445010166,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 13.40686598091774,
      "gospa": 38.72487917391838,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 2,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 13.611868452670926,
      "gospa": 41.593891492865076,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 3,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 16.281060526034583,
      "gospa": 48.50106904737674,
      "kacirma": 0.015894039735099338,
      "yanlis_iz": 3,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 1.0
     },
     {
      "rmse": 15.379549887271429,
      "gospa": 49.75607032663789,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 4,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 15.474234416068507,
      "gospa": 43.383048018569404,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 1,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 1.0
     },
     {
      "rmse": 13.683835522043537,
      "gospa": 39.227631725986704,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 2,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 14.70618466613742,
      "gospa": 38.62386691846327,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 1,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 13.956226753474407,
      "gospa": 39.808717188038166,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 2,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 13.26891492556741,
      "gospa": 49.26751467169249,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 5,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 20.695326904236634,
      "gospa": 65.71013667174269,
      "kacirma": 0.015894039735099338,
      "yanlis_iz": 7,
-     "id_switch": 11
+     "id_switch": 11,
+     "etiket": 1.0
     },
     {
      "rmse": 15.098275200455594,
      "gospa": 50.080272520447494,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 5,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 13.67079253139853,
      "gospa": 41.406204630670054,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 2,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 13.348304154710636,
      "gospa": 35.753061383219425,
      "kacirma": 0.013245033112582781,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 15.428366500883046,
      "gospa": 56.97410974288791,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 5,
-     "id_switch": 6
+     "id_switch": 6,
+     "etiket": 1.0
     },
     {
      "rmse": 15.150987532235606,
      "gospa": 38.95918375107956,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 1,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 15.00998511124304,
      "gospa": 56.62620144157459,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 5,
-     "id_switch": 6
+     "id_switch": 6,
+     "etiket": 1.0
     },
     {
      "rmse": 13.519825336327155,
      "gospa": 31.905916646427908,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 15.244309317669742,
      "gospa": 40.09024974431034,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 1,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 1.0
     },
     {
      "rmse": 14.738999729594852,
      "gospa": 48.054549453238565,
      "kacirma": 0.012582781456953643,
      "yanlis_iz": 1,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 18.037048800631123,
      "gospa": 48.62404319732634,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 2,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 14.414529219889086,
      "gospa": 36.92770962884017,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 1,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 16.12512302547673,
      "gospa": 41.15417644752085,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 1,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     }
    ],
    "fuzyon": [
@@ -2400,210 +2750,240 @@
      "gospa": 29.50343946328383,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 12.453353946089166,
      "gospa": 29.901265893290855,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 12.146605080914973,
      "gospa": 29.660629442062643,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 14.121220721428434,
      "gospa": 33.41901086104038,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 11.998352151012833,
      "gospa": 29.316652190027828,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 13.093190580684134,
      "gospa": 32.398260780534855,
      "kacirma": 0.012582781456953643,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 12.198818817741888,
      "gospa": 31.811897709578176,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 13.778063741541914,
      "gospa": 32.783779082144314,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 12.540904173356939,
      "gospa": 29.902246399142868,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 12.28199648459889,
      "gospa": 30.083787173935065,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 11.427097631063694,
      "gospa": 28.461689490504476,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 12.931266507520432,
      "gospa": 30.473872050517908,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 11.889540308675233,
      "gospa": 29.47481295778838,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 12.811440260792258,
      "gospa": 30.03357580449657,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 13.020753417723531,
      "gospa": 30.46340077364782,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 12.271983865546533,
      "gospa": 29.727939234492304,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 11.698542612556361,
      "gospa": 28.604242253235903,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 12.057601353909185,
      "gospa": 29.926937824475836,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 13.508276261732238,
      "gospa": 32.47017784694033,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 12.259289000686005,
      "gospa": 30.533692383012852,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 11.148083129436731,
      "gospa": 29.389107684905582,
      "kacirma": 0.013245033112582781,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 13.5887711684324,
      "gospa": 33.30229903964029,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 11.52001411543358,
      "gospa": 28.56182627864569,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 12.895375168788874,
      "gospa": 30.773937730400647,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 12.38091651166559,
      "gospa": 29.03173946330552,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 12.58734225884975,
      "gospa": 30.244230229036372,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 11.198848013734992,
      "gospa": 28.726368979578755,
      "kacirma": 0.012582781456953643,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 12.07492979562493,
      "gospa": 29.1735715206125,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 11.706202950512038,
      "gospa": 28.87536445046519,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 12.69181182565699,
      "gospa": 31.00232773762,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     }
    ]
   },
@@ -2614,210 +2994,240 @@
      "gospa": 93.51495884515289,
      "kacirma": 0.046357615894039736,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.6208333333333333
     },
     {
      "rmse": 33.71820093376813,
      "gospa": 101.586664248961,
      "kacirma": 0.07947019867549669,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 0.625179856115108
     },
     {
      "rmse": 41.34468721252096,
      "gospa": 88.90911060034396,
      "kacirma": 0.03708609271523179,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 0.6024759284731774
     },
     {
      "rmse": 41.29734233835988,
      "gospa": 129.11758832233076,
      "kacirma": 0.14370860927152318,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.5808197989172467
     },
     {
      "rmse": 38.51952409405949,
      "gospa": 77.48320212250403,
      "kacirma": 0.02052980132450331,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.6037863421230562
     },
     {
      "rmse": 41.82961213868362,
      "gospa": 123.52014939683733,
      "kacirma": 0.11456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 0.6103216155572176
     },
     {
      "rmse": 41.013215469125825,
      "gospa": 84.72686726752661,
      "kacirma": 0.033112582781456956,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.5938356164383561
     },
     {
      "rmse": 35.169882236877854,
      "gospa": 84.22166331274279,
      "kacirma": 0.04039735099337748,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.5886818495514148
     },
     {
      "rmse": 46.58155105518636,
      "gospa": 129.29536805591522,
      "kacirma": 0.123841059602649,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.5691609977324263
     },
     {
      "rmse": 43.181450528945454,
      "gospa": 115.43666302253222,
      "kacirma": 0.09271523178807947,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 0.5751824817518248
     },
     {
      "rmse": 34.23700391898147,
      "gospa": 144.87290243980777,
      "kacirma": 0.2052980132450331,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.63
     },
     {
      "rmse": 54.77516732067977,
      "gospa": 137.30663796792075,
      "kacirma": 0.13112582781456952,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.5754573170731707
     },
     {
      "rmse": 37.17831999003074,
      "gospa": 96.21280427573303,
      "kacirma": 0.059602649006622516,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.5802816901408451
     },
     {
      "rmse": 39.68234620407147,
      "gospa": 115.03190667285656,
      "kacirma": 0.09801324503311258,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 0.5770925110132159
     },
     {
      "rmse": 40.50202944242007,
      "gospa": 89.24077711044704,
      "kacirma": 0.03708609271523179,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 0.5900962861072903
     },
     {
      "rmse": 46.83789489242409,
      "gospa": 107.49864837639824,
      "kacirma": 0.0728476821192053,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 0.5928571428571429
     },
     {
      "rmse": 45.41978834328845,
      "gospa": 117.14629125249297,
      "kacirma": 0.0913907284768212,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.6129737609329446
     },
     {
      "rmse": 42.21696725503109,
      "gospa": 108.20801852864403,
      "kacirma": 0.07019867549668875,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 0.5933048433048433
     },
     {
      "rmse": 38.879956989011035,
      "gospa": 85.29160350408918,
      "kacirma": 0.030463576158940398,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.5949453551912568
     },
     {
      "rmse": 40.80189780633898,
      "gospa": 106.6763162995919,
      "kacirma": 0.08211920529801324,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.5909090909090909
     },
     {
      "rmse": 40.23974541913509,
      "gospa": 88.5340203536693,
      "kacirma": 0.039735099337748346,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 0.6027586206896551
     },
     {
      "rmse": 41.24740882087733,
      "gospa": 136.72365139341244,
      "kacirma": 0.16026490066225166,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.5394321766561514
     },
     {
      "rmse": 44.149420571185814,
      "gospa": 107.42067450399898,
      "kacirma": 0.07350993377483443,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 0.6132952108649035
     },
     {
      "rmse": 47.56366634822793,
      "gospa": 124.60799595159673,
      "kacirma": 0.10463576158940398,
      "yanlis_iz": 0,
-     "id_switch": 7
+     "id_switch": 7,
+     "etiket": 0.6257396449704142
     },
     {
      "rmse": 48.39338532759355,
      "gospa": 127.6706975620567,
      "kacirma": 0.1205298013245033,
      "yanlis_iz": 0,
-     "id_switch": 6
+     "id_switch": 6,
+     "etiket": 0.6114457831325302
     },
     {
      "rmse": 34.354490165729274,
      "gospa": 126.24436148717677,
      "kacirma": 0.14437086092715232,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 0.5959752321981424
     },
     {
      "rmse": 42.21408863785825,
      "gospa": 123.87660285357083,
      "kacirma": 0.1205298013245033,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 0.6121987951807228
     },
     {
      "rmse": 38.634062305634274,
      "gospa": 135.33164615602587,
      "kacirma": 0.16225165562913907,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.5478260869565217
     },
     {
      "rmse": 38.11739638573782,
      "gospa": 93.0671174302423,
      "kacirma": 0.048344370860927154,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.5852470424495476
     },
     {
      "rmse": 40.698080357829376,
      "gospa": 83.46446714282442,
      "kacirma": 0.024503311258278145,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 0.5960624575695859
     }
    ],
    "kamera": [
@@ -2826,210 +3236,240 @@
      "gospa": 197.43068164106026,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.703620657941694,
      "gospa": 197.72277269634583,
      "kacirma": 0.3390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7064128256513026
     },
     {
      "rmse": 6.245227867932012,
      "gospa": 197.1254553050054,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.302585916979437,
      "gospa": 197.45421749615795,
      "kacirma": 0.3390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7064128256513026
     },
     {
      "rmse": 6.145330002586227,
      "gospa": 197.0463426431133,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.5304421962688295,
      "gospa": 197.33167686133348,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.623534212867369,
      "gospa": 197.63653137862562,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 5.99927733410561,
      "gospa": 196.90886810900602,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 5.765904502913949,
      "gospa": 196.85827728793353,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.4198434825011415,
      "gospa": 197.2799348491385,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.824332624569493,
      "gospa": 197.67028824468093,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.684836908666117,
      "gospa": 197.50224892920053,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.67315659295772,
      "gospa": 197.62871187962253,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.725368638584923,
      "gospa": 197.41805673302076,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.4723442096892185,
      "gospa": 197.31688091774166,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.044938436647224,
      "gospa": 197.13393221066246,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.2944670850769,
      "gospa": 197.1632950475079,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.412234654594071,
      "gospa": 197.02616293566896,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.287774762605162,
      "gospa": 197.2216439075845,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 5.971563945795952,
      "gospa": 197.05586282981852,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.081507875900265,
      "gospa": 197.12696501618748,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.292730192185014,
      "gospa": 197.14077889319114,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 5.802752512645954,
      "gospa": 197.3542201841407,
      "kacirma": 0.3390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7074148296593187
     },
     {
      "rmse": 6.251089790471123,
      "gospa": 197.1919430660467,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.390462307245996,
      "gospa": 197.78071912635602,
      "kacirma": 0.3390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7064128256513026
     },
     {
      "rmse": 6.5931999665825245,
      "gospa": 197.4647706970919,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.3340182565137075,
      "gospa": 197.03004827585005,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     },
     {
      "rmse": 6.189824443368164,
      "gospa": 197.27042925873482,
      "kacirma": 0.3390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7064128256513026
     },
     {
      "rmse": 6.584762801317154,
      "gospa": 197.59828584764122,
      "kacirma": 0.3390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7064128256513026
     },
     {
      "rmse": 6.34621486191668,
      "gospa": 197.08256587929867,
      "kacirma": 0.33841059602649004,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 0.7067067067067067
     }
    ],
    "konum": [
@@ -3038,210 +3478,240 @@
      "gospa": 314.6077077251805,
      "kacirma": 0.614569536423841,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.01578274653408,
      "gospa": 313.0387148508385,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.561009002401995,
      "gospa": 313.17692903802066,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.29871964034799,
      "gospa": 313.1101906351202,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.32003660671079,
      "gospa": 313.99676471810295,
      "kacirma": 0.6119205298013245,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.41507428490542,
      "gospa": 313.13980146861525,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.52726841015422,
      "gospa": 314.343984181521,
      "kacirma": 0.6132450331125828,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.11315956467224,
      "gospa": 313.0632421828657,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.131632110156715,
      "gospa": 313.06801389233914,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.468693535351356,
      "gospa": 314.3283674663551,
      "kacirma": 0.6132450331125828,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.44889664432334,
      "gospa": 313.4422806421997,
      "kacirma": 0.609271523178808,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.099679435933446,
      "gospa": 313.0598493872047,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.3940611927775,
      "gospa": 314.0156387758157,
      "kacirma": 0.6119205298013245,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.04756992658396,
      "gospa": 313.92935312221346,
      "kacirma": 0.6119205298013245,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.448180468523155,
      "gospa": 314.0301430554447,
      "kacirma": 0.6119205298013245,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.3162876676641,
      "gospa": 314.29089741304097,
      "kacirma": 0.6132450331125828,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.29778699431485,
      "gospa": 313.6975490840103,
      "kacirma": 0.6105960264900663,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.45422728917524,
      "gospa": 313.1498037346295,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.0633925399157,
      "gospa": 313.05077684555266,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.18941412376194,
      "gospa": 313.0824364314639,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.31240163142268,
      "gospa": 313.1137286624028,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.3217757859287,
      "gospa": 313.9973542722261,
      "kacirma": 0.6119205298013245,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.19251463032321,
      "gospa": 313.08340357801364,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.71505411756684,
      "gospa": 313.2163359905866,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.4383957107742,
      "gospa": 314.0264874431464,
      "kacirma": 0.6119205298013245,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.409887292420876,
      "gospa": 313.13851915171506,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.14898710307887,
      "gospa": 313.0724112361203,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 40.17446482634662,
      "gospa": 313.9612352223793,
      "kacirma": 0.6119205298013245,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.23195438074076,
      "gospa": 313.97536311175037,
      "kacirma": 0.6119205298013245,
      "yanlis_iz": 0,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 40.170284715642495,
      "gospa": 313.077692803957,
      "kacirma": 0.6079470198675496,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     }
    ],
    "fuzyon_guvensiz": [
@@ -3250,210 +3720,240 @@
      "gospa": 55.754350968152025,
      "kacirma": 0.017880794701986755,
      "yanlis_iz": 7,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 11.93931157547088,
      "gospa": 47.43414348201273,
      "kacirma": 0.017218543046357615,
      "yanlis_iz": 6,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 10.816914471461194,
      "gospa": 53.38551659527973,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 10,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.249011679706976,
      "gospa": 29.07399410159073,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 2,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.913636637592301,
      "gospa": 51.753201980566935,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 7,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 11.618142060126027,
      "gospa": 58.16355166085514,
      "kacirma": 0.017880794701986755,
      "yanlis_iz": 9,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 12.518844218446652,
      "gospa": 62.52480575602896,
      "kacirma": 0.019205298013245033,
      "yanlis_iz": 9,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 8.559033805975977,
      "gospa": 47.31696844208931,
      "kacirma": 0.015894039735099338,
      "yanlis_iz": 6,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 8.559887756784429,
      "gospa": 47.686278394079665,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 7,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 11.764577564911935,
      "gospa": 47.8028660733884,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 7,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 12.78921675922227,
      "gospa": 58.24167888919003,
      "kacirma": 0.015231788079470199,
      "yanlis_iz": 9,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 11.091215220077398,
      "gospa": 67.50652455499849,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 10,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.219141516794052,
      "gospa": 59.694072456059374,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 10,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.771233469370296,
      "gospa": 38.96926717012814,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 5,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.687039142377802,
      "gospa": 51.50911084484763,
      "kacirma": 0.013245033112582781,
      "yanlis_iz": 8,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 14.389162491592131,
      "gospa": 53.99625038515275,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 7,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 1.0
     },
     {
      "rmse": 9.689543792903459,
      "gospa": 56.47782360694662,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 8,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 8.418654916262208,
      "gospa": 43.861554009766564,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 6,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 13.516830591878188,
      "gospa": 64.30924001201122,
      "kacirma": 0.015231788079470199,
      "yanlis_iz": 9,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 10.054038764323229,
      "gospa": 42.11155932925697,
      "kacirma": 0.017218543046357615,
      "yanlis_iz": 6,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 8.221358224665208,
      "gospa": 56.23732656456445,
      "kacirma": 0.016556291390728478,
      "yanlis_iz": 11,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 10.143025943054628,
      "gospa": 64.9195655791599,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 7,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.499009997936216,
      "gospa": 59.89484414024491,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 11,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.478475976492422,
      "gospa": 41.679234303372574,
      "kacirma": 0.017218543046357615,
      "yanlis_iz": 5,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 9.58434148112246,
      "gospa": 58.87832875057696,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 9,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.066206087392406,
      "gospa": 47.952839308593354,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 6,
-     "id_switch": 1
+     "id_switch": 1,
+     "etiket": 1.0
     },
     {
      "rmse": 8.95018622208891,
      "gospa": 42.86522379186652,
      "kacirma": 0.012582781456953643,
      "yanlis_iz": 6,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.798598307494187,
      "gospa": 39.12220912988059,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 5,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 10.15886819664908,
      "gospa": 71.20551781356694,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 14,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 14.587155609960398,
      "gospa": 54.79585998642338,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 9,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 1.0
     }
    ],
    "fuzyon": [
@@ -3462,210 +3962,240 @@
      "gospa": 21.112595753684886,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.467868621273428,
      "gospa": 20.916646939785643,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.446720414393216,
      "gospa": 22.1934871966125,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.121395255247256,
      "gospa": 22.30958323553608,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.290662942546678,
      "gospa": 22.135554737617507,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.856342203449993,
      "gospa": 23.675578402000017,
      "kacirma": 0.012582781456953643,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.267944392315249,
      "gospa": 22.954277004670235,
      "kacirma": 0.01390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 7.9212830414735285,
      "gospa": 19.871884542222634,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.142093003463714,
      "gospa": 19.67177967614774,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.472875592240005,
      "gospa": 23.08697004823675,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.72231397376393,
      "gospa": 21.669848837959997,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.499955799009538,
      "gospa": 22.493747418032708,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 7.792434529185935,
      "gospa": 20.372170756527357,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 10.00755149989947,
      "gospa": 22.597908075179703,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.001923350541523,
      "gospa": 21.144410331350013,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.040920907179665,
      "gospa": 20.697606269229187,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.926260831957757,
      "gospa": 21.457550866068797,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.235758206582464,
      "gospa": 21.270907811310504,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.128123983467455,
      "gospa": 21.55236304061127,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.284875519295198,
      "gospa": 21.130852692908523,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 7.872847346442633,
      "gospa": 21.810214814053527,
      "kacirma": 0.013245033112582781,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 10.187887991640702,
      "gospa": 24.129403429356852,
      "kacirma": 0.011920529801324504,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.655532045787035,
      "gospa": 20.892681383036223,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.427619944409116,
      "gospa": 21.524352837994588,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.80638800019005,
      "gospa": 20.751211439467294,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.58796481631708,
      "gospa": 20.940827676953813,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.250614103237531,
      "gospa": 21.78997645103112,
      "kacirma": 0.012582781456953643,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.546948163397499,
      "gospa": 21.72358292058197,
      "kacirma": 0.010596026490066225,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 8.874279928334479,
      "gospa": 21.967785223740925,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     },
     {
      "rmse": 9.07470083711698,
      "gospa": 22.166547369147665,
      "kacirma": 0.011258278145695364,
      "yanlis_iz": 0,
-     "id_switch": 0
+     "id_switch": 0,
+     "etiket": 1.0
     }
    ]
   },
@@ -3676,210 +4206,240 @@
      "gospa": 117.55060769002992,
      "kacirma": 0.23841059602649006,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.6
     },
     {
      "rmse": 14.250353677743103,
      "gospa": 116.65613145759593,
      "kacirma": 0.23642384105960265,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.6001734605377277
     },
     {
      "rmse": 14.525139280668627,
      "gospa": 117.92378961206715,
      "kacirma": 0.2390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.6005221932114883
     },
     {
      "rmse": 14.307257091458471,
      "gospa": 117.98183849453116,
      "kacirma": 0.23841059602649006,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.6008695652173913
     },
     {
      "rmse": 14.120297180608516,
      "gospa": 116.63989491483845,
      "kacirma": 0.2370860927152318,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.5989583333333334
     },
     {
      "rmse": 15.269642117051724,
      "gospa": 120.28735855282893,
      "kacirma": 0.2410596026490066,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.6020942408376964
     },
     {
      "rmse": 14.4202297634688,
      "gospa": 119.34901393433601,
      "kacirma": 0.24172185430463577,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.6
     },
     {
      "rmse": 15.7628010447965,
      "gospa": 118.533865417447,
      "kacirma": 0.23576158940397351,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.5996533795493935
     },
     {
      "rmse": 14.453508278288465,
      "gospa": 116.86146349993263,
      "kacirma": 0.23642384105960265,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.601040763226366
     },
     {
      "rmse": 14.96493529049378,
      "gospa": 118.12751954515292,
      "kacirma": 0.2370860927152318,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.6015625
     },
     {
      "rmse": 13.760311616756004,
      "gospa": 116.51237980179677,
      "kacirma": 0.2370860927152318,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.5998263888888888
     },
     {
      "rmse": 14.851203256130699,
      "gospa": 117.69450941012921,
      "kacirma": 0.23841059602649006,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.6008695652173913
     },
     {
      "rmse": 14.349704494567646,
      "gospa": 117.35854488178921,
      "kacirma": 0.2370860927152318,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.6006944444444444
     },
     {
      "rmse": 14.391869904044295,
      "gospa": 118.72531461977324,
      "kacirma": 0.2390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.6022628372497825
     },
     {
      "rmse": 14.336128128138931,
      "gospa": 116.29459567597095,
      "kacirma": 0.23576158940397351,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.5996533795493935
     },
     {
      "rmse": 14.211359423007531,
      "gospa": 116.3552602947665,
      "kacirma": 0.2370860927152318,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.5998263888888888
     },
     {
      "rmse": 14.04011550778742,
      "gospa": 117.14299948247567,
      "kacirma": 0.23774834437086093,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.5994787141615986
     },
     {
      "rmse": 13.697361671266918,
      "gospa": 115.93284595858276,
      "kacirma": 0.2370860927152318,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.6006944444444444
     },
     {
      "rmse": 15.525237333582181,
      "gospa": 119.03464108848732,
      "kacirma": 0.23774834437086093,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.6012163336229366
     },
     {
      "rmse": 14.680806630437091,
      "gospa": 118.39866924602583,
      "kacirma": 0.23841059602649006,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.6
     },
     {
      "rmse": 14.385058488206402,
      "gospa": 118.61926112501793,
      "kacirma": 0.23973509933774834,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.6001742160278746
     },
     {
      "rmse": 14.758556547003268,
      "gospa": 119.40330270128942,
      "kacirma": 0.24172185430463577,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.6008733624454149
     },
     {
      "rmse": 14.40256478031832,
      "gospa": 118.92912064856164,
      "kacirma": 0.24039735099337747,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.6024411508282476
     },
     {
      "rmse": 14.94683889942333,
      "gospa": 119.03728706597705,
      "kacirma": 0.23973509933774834,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.5993031358885017
     },
     {
      "rmse": 14.744273197285562,
      "gospa": 117.2293196950477,
      "kacirma": 0.2370860927152318,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.5989583333333334
     },
     {
      "rmse": 13.865667608983587,
      "gospa": 115.38702415309163,
      "kacirma": 0.23576158940397351,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.6005199306759099
     },
     {
      "rmse": 14.112907073589769,
      "gospa": 117.70924106223258,
      "kacirma": 0.23841059602649006,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.5982608695652174
     },
     {
      "rmse": 14.220479632983348,
      "gospa": 116.21920274793884,
      "kacirma": 0.23642384105960265,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.601040763226366
     },
     {
      "rmse": 14.275251307970729,
      "gospa": 116.33240848789006,
      "kacirma": 0.23576158940397351,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.5996533795493935
     },
     {
      "rmse": 13.327960215525096,
      "gospa": 117.0557200771649,
      "kacirma": 0.2390728476821192,
      "yanlis_iz": 0,
-     "id_switch": 5
+     "id_switch": 5,
+     "etiket": 0.5996518711923412
     }
    ],
    "kamera": [
@@ -3888,210 +4448,240 @@
      "gospa": 274.48316076732374,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 7.170570478280407,
      "gospa": 274.4099187177538,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 7.484960716197852,
      "gospa": 274.84196403215765,
      "kacirma": 0.5655629139072847,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7317073170731707
     },
     {
      "rmse": 7.790003982365913,
      "gospa": 274.44585328445623,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 7.403139729967439,
      "gospa": 274.68433355120777,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 7.639333279966615,
      "gospa": 274.38270756063076,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 7.010150855441805,
      "gospa": 274.53106447748837,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 6.73969109961046,
      "gospa": 274.42446513302525,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 7.672766382418492,
      "gospa": 274.4487330642936,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 7.382122784100082,
      "gospa": 274.4825732114787,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 7.332652995162235,
      "gospa": 274.4976472556545,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 7.846638044765714,
      "gospa": 274.5448221668898,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 8.268698075004792,
      "gospa": 274.6367152878779,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 7.556252104780812,
      "gospa": 274.53610516742884,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 7.786757578691581,
      "gospa": 274.62180911829387,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 7.41043353857703,
      "gospa": 274.4504455421678,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 7.430199257409833,
      "gospa": 274.56299177420635,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 7.520550545307268,
      "gospa": 274.4529248123152,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 7.10196985179729,
      "gospa": 274.43008773885754,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 7.641963872980087,
      "gospa": 274.6129591411399,
      "kacirma": 0.5655629139072847,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7317073170731707
     },
     {
      "rmse": 7.630729890700796,
      "gospa": 274.4428531516427,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 7.7726935392287615,
      "gospa": 274.5161576153103,
      "kacirma": 0.5655629139072847,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7317073170731707
     },
     {
      "rmse": 7.864379783752707,
      "gospa": 274.8633306145097,
      "kacirma": 0.5655629139072847,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7317073170731707
     },
     {
      "rmse": 8.069800494466113,
      "gospa": 274.7148509371422,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 8.202186130310903,
      "gospa": 274.50941383611786,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 7.926604381942307,
      "gospa": 274.47885455567183,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 7.5786134491818276,
      "gospa": 274.5026009294039,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 7.1417229708347065,
      "gospa": 274.20282032961603,
      "kacirma": 0.5649006622516556,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7321156773211568
     },
     {
      "rmse": 6.986084836943795,
      "gospa": 274.5072583000605,
      "kacirma": 0.5655629139072847,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7317073170731707
     },
     {
      "rmse": 7.69299246258257,
      "gospa": 274.7296307904606,
      "kacirma": 0.5655629139072847,
      "yanlis_iz": 0,
-     "id_switch": 4
+     "id_switch": 4,
+     "etiket": 0.7317073170731707
     }
    ],
    "konum": [
@@ -4100,210 +4690,240 @@
      "gospa": 331.2446941560909,
      "kacirma": 0.6940397350993377,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 40.67951334988119,
      "gospa": 330.7265067455825,
      "kacirma": 0.6913907284768211,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 40.24101898211605,
      "gospa": 329.755450465223,
      "kacirma": 0.6874172185430464,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 40.07408576587882,
      "gospa": 329.7218735584813,
      "kacirma": 0.6874172185430464,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 40.329823075258,
      "gospa": 330.95031988351144,
      "kacirma": 0.6927152317880795,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 40.64296421612312,
      "gospa": 329.8370336332537,
      "kacirma": 0.6874172185430464,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 40.105775307508544,
      "gospa": 330.61007903914617,
      "kacirma": 0.6913907284768211,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 40.16238726175504,
      "gospa": 329.7397715168738,
      "kacirma": 0.6874172185430464,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 40.23172314967995,
      "gospa": 329.7537500987299,
      "kacirma": 0.6874172185430464,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 40.00382129742237,
      "gospa": 329.7078066516236,
      "kacirma": 0.6874172185430464,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 40.75661573331188,
      "gospa": 329.8602000110658,
      "kacirma": 0.6874172185430464,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 40.07926331016026,
      "gospa": 329.72300156688465,
      "kacirma": 0.6874172185430464,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 40.29555622253839,
      "gospa": 330.3540206811387,
      "kacirma": 0.6900662251655629,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 40.24235364942248,
      "gospa": 329.75585131517363,
      "kacirma": 0.6874172185430464,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 39.85613842804318,
      "gospa": 329.67813348703567,
      "kacirma": 0.6874172185430464,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 40.31323697243672,
      "gospa": 329.7701906769514,
      "kacirma": 0.6874172185430464,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 40.06098732329243,
      "gospa": 329.719319277591,
      "kacirma": 0.6874172185430464,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 40.683978738241784,
      "gospa": 331.01888599990315,
      "kacirma": 0.6927152317880795,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 40.158289589844735,
      "gospa": 329.73889691527614,
      "kacirma": 0.6874172185430464,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 39.792901269838865,
      "gospa": 329.6655428374078,
      "kacirma": 0.6874172185430464,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 39.804434989221726,
      "gospa": 329.6679948882464,
      "kacirma": 0.6874172185430464,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 40.16364774839078,
      "gospa": 329.7398315751284,
      "kacirma": 0.6874172185430464,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 40.4666410624743,
      "gospa": 330.6488105665478,
      "kacirma": 0.6913907284768211,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 40.28162205510506,
      "gospa": 330.05806102298044,
      "kacirma": 0.6887417218543046,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 40.31783489909457,
      "gospa": 329.7710913813052,
      "kacirma": 0.6874172185430464,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 40.44352448781382,
      "gospa": 329.7965401950876,
      "kacirma": 0.6874172185430464,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 39.73376311457727,
      "gospa": 329.9471838875104,
      "kacirma": 0.6887417218543046,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 40.19093265421353,
      "gospa": 329.74541909157233,
      "kacirma": 0.6874172185430464,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     },
     {
      "rmse": 39.81490131612354,
      "gospa": 330.84767165062357,
      "kacirma": 0.6927152317880795,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 40.27743701265373,
      "gospa": 330.645317894529,
      "kacirma": 0.6913907284768211,
      "yanlis_iz": 0,
-     "id_switch": 2
+     "id_switch": 2,
+     "etiket": 1.0
     }
    ],
    "fuzyon_guvensiz": [
@@ -4312,210 +4932,240 @@
      "gospa": 40.96253597099924,
      "kacirma": 0.0456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.949872998666738,
      "gospa": 41.158667773720865,
      "kacirma": 0.0456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 10.113701781509024,
      "gospa": 41.57757137466637,
      "kacirma": 0.0456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.993213905425424,
      "gospa": 40.93794827802612,
      "kacirma": 0.045033112582781455,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.750693298087176,
      "gospa": 41.434503203522915,
      "kacirma": 0.046357615894039736,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 10.053067337173681,
      "gospa": 42.14595754697572,
      "kacirma": 0.046357615894039736,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.62490385900336,
      "gospa": 42.67263667395841,
      "kacirma": 0.04900662251655629,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 10.083939809546159,
      "gospa": 40.75481825962037,
      "kacirma": 0.04437086092715232,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.783521477673156,
      "gospa": 40.34034566103109,
      "kacirma": 0.045033112582781455,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 10.550306241339015,
      "gospa": 41.54624943246652,
      "kacirma": 0.045033112582781455,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.678991883042919,
      "gospa": 41.00629541591413,
      "kacirma": 0.0456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 10.667385798590908,
      "gospa": 41.79827897492647,
      "kacirma": 0.046357615894039736,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.151550294745105,
      "gospa": 39.73947409799045,
      "kacirma": 0.045033112582781455,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 10.928470380301476,
      "gospa": 41.30043507315523,
      "kacirma": 0.04437086092715232,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.955314062412208,
      "gospa": 40.760445546096044,
      "kacirma": 0.045033112582781455,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.33879946668589,
      "gospa": 40.095683664081044,
      "kacirma": 0.045033112582781455,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.633714915491034,
      "gospa": 41.02177689452913,
      "kacirma": 0.0456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.892446058337168,
      "gospa": 41.1251067792909,
      "kacirma": 0.0456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 10.558886212566334,
      "gospa": 41.47974937603173,
      "kacirma": 0.045033112582781455,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.585494132443767,
      "gospa": 40.72544415253273,
      "kacirma": 0.0456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.844475372857065,
      "gospa": 42.36903977365934,
      "kacirma": 0.04701986754966887,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 11.105843973596093,
      "gospa": 43.084099656014416,
      "kacirma": 0.0456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 10.217886893126103,
      "gospa": 42.06915103131505,
      "kacirma": 0.0456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 10.633595027614444,
      "gospa": 43.04747133272084,
      "kacirma": 0.048344370860927154,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.827669144543462,
      "gospa": 40.65974621642343,
      "kacirma": 0.0456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.866476217923218,
      "gospa": 40.28002327705676,
      "kacirma": 0.04437086092715232,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.93646900471701,
      "gospa": 42.20295615343209,
      "kacirma": 0.04701986754966887,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 10.06089387950698,
      "gospa": 40.14812855710839,
      "kacirma": 0.04437086092715232,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.464616859808912,
      "gospa": 39.74908013454618,
      "kacirma": 0.045033112582781455,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.395097887904413,
      "gospa": 40.37910155727813,
      "kacirma": 0.045033112582781455,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     }
    ],
    "fuzyon": [
@@ -4524,210 +5174,240 @@
      "gospa": 40.96253597099924,
      "kacirma": 0.0456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.949872998666738,
      "gospa": 41.158667773720865,
      "kacirma": 0.0456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 10.113701781509024,
      "gospa": 41.57757137466637,
      "kacirma": 0.0456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.993213905425424,
      "gospa": 40.93794827802612,
      "kacirma": 0.045033112582781455,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.750365651197828,
      "gospa": 41.43366765643814,
      "kacirma": 0.046357615894039736,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 10.054372995500811,
      "gospa": 42.149040171211375,
      "kacirma": 0.046357615894039736,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.625102936720051,
      "gospa": 42.672862647004536,
      "kacirma": 0.04900662251655629,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 10.083939809546159,
      "gospa": 40.75481825962037,
      "kacirma": 0.04437086092715232,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.783521477673156,
      "gospa": 40.34034566103109,
      "kacirma": 0.045033112582781455,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 10.550306241339015,
      "gospa": 41.54624943246652,
      "kacirma": 0.045033112582781455,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.678991883042919,
      "gospa": 41.00629541591413,
      "kacirma": 0.0456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 10.667385798590908,
      "gospa": 41.79827897492647,
      "kacirma": 0.046357615894039736,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.151825940917558,
      "gospa": 39.7397930685091,
      "kacirma": 0.045033112582781455,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 10.928169253978353,
      "gospa": 41.29574018212669,
      "kacirma": 0.04437086092715232,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.955314062412208,
      "gospa": 40.760445546096044,
      "kacirma": 0.045033112582781455,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.33879946668589,
      "gospa": 40.095683664081044,
      "kacirma": 0.045033112582781455,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.633714915491034,
      "gospa": 41.02177689452913,
      "kacirma": 0.0456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.892446058337168,
      "gospa": 41.1251067792909,
      "kacirma": 0.0456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 10.558886212566334,
      "gospa": 41.47974937603173,
      "kacirma": 0.045033112582781455,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.583962201984692,
      "gospa": 40.72335457712399,
      "kacirma": 0.0456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.849451614839705,
      "gospa": 42.37703267102076,
      "kacirma": 0.04701986754966887,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 11.105390096572927,
      "gospa": 43.082923540077346,
      "kacirma": 0.0456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 10.217886893126103,
      "gospa": 42.06915103131505,
      "kacirma": 0.0456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 10.633595027614444,
      "gospa": 43.04747133272084,
      "kacirma": 0.048344370860927154,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.827669144543462,
      "gospa": 40.65974621642343,
      "kacirma": 0.0456953642384106,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.866476217923218,
      "gospa": 40.28002327705676,
      "kacirma": 0.04437086092715232,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.936947549760049,
      "gospa": 42.20373570329059,
      "kacirma": 0.04701986754966887,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 10.060860689806594,
      "gospa": 40.147946057637355,
      "kacirma": 0.04437086092715232,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.464616859808912,
      "gospa": 39.74908013454618,
      "kacirma": 0.045033112582781455,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     },
     {
      "rmse": 9.394792517212437,
      "gospa": 40.3785053905948,
      "kacirma": 0.045033112582781455,
      "yanlis_iz": 0,
-     "id_switch": 3
+     "id_switch": 3,
+     "etiket": 1.0
     }
    ]
   }
@@ -4805,28 +5485,32 @@
     "gospa": 36.51878910057727,
     "kacirma": 0.013245033112582781,
     "yanlis_iz": 0,
-    "id_switch": 0
+    "id_switch": 0,
+    "etiket": 0.6
    },
    "kamera": {
     "rmse": 6.509610593137394,
     "gospa": 197.6072815711528,
     "kacirma": 0.3390728476821192,
     "yanlis_iz": 0,
-    "id_switch": 0
+    "id_switch": 0,
+    "etiket": 0.7064128256513026
    },
    "konum": {
     "rmse": 40.0921246721893,
     "gospa": 313.05809759593876,
     "kacirma": 0.6079470198675496,
     "yanlis_iz": 0,
-    "id_switch": 0
+    "id_switch": 0,
+    "etiket": 1.0
    },
    "fuzyon_guvensiz": {
     "rmse": 8.218214513409484,
     "gospa": 20.501128671819252,
     "kacirma": 0.010596026490066225,
     "yanlis_iz": 0,
-    "id_switch": 0
+    "id_switch": 0,
+    "etiket": 1.0
    },
    "fuzyon": {
     "rmse": 8.218214513409484,
@@ -4834,6 +5518,7 @@
     "kacirma": 0.010596026490066225,
     "yanlis_iz": 0,
     "id_switch": 0,
+    "etiket": 1.0,
     "bias_kestirimi": [
      39.5,
      -19.1
@@ -4846,28 +5531,32 @@
     "gospa": 36.51878910057727,
     "kacirma": 0.013245033112582781,
     "yanlis_iz": 0,
-    "id_switch": 0
+    "id_switch": 0,
+    "etiket": 0.6
    },
    "kamera": {
     "rmse": 16.050637986602883,
     "gospa": 316.98743246683233,
     "kacirma": 0.6516556291390728,
     "yanlis_iz": 0,
-    "id_switch": 1
+    "id_switch": 1,
+    "etiket": 0.8365019011406845
    },
    "konum": {
     "rmse": 40.45353470763262,
     "gospa": 314.0309735042075,
     "kacirma": 0.6119205298013245,
     "yanlis_iz": 0,
-    "id_switch": 1
+    "id_switch": 1,
+    "etiket": 1.0
    },
    "fuzyon_guvensiz": {
     "rmse": 13.51113426407936,
     "gospa": 48.287086425096604,
     "kacirma": 0.010596026490066225,
     "yanlis_iz": 5,
-    "id_switch": 0
+    "id_switch": 0,
+    "etiket": 1.0
    },
    "fuzyon": {
     "rmse": 12.125198411514058,
@@ -4875,6 +5564,7 @@
     "kacirma": 0.010596026490066225,
     "yanlis_iz": 0,
     "id_switch": 0,
+    "etiket": 1.0,
     "bias_kestirimi": [
      39.0,
      -19.6
@@ -4887,28 +5577,32 @@
     "gospa": 93.51495884515289,
     "kacirma": 0.046357615894039736,
     "yanlis_iz": 0,
-    "id_switch": 1
+    "id_switch": 1,
+    "etiket": 0.6208333333333333
    },
    "kamera": {
     "rmse": 6.5970447320666645,
     "gospa": 197.43068164106026,
     "kacirma": 0.33841059602649004,
     "yanlis_iz": 0,
-    "id_switch": 0
+    "id_switch": 0,
+    "etiket": 0.7067067067067067
    },
    "konum": {
     "rmse": 40.40596032493258,
     "gospa": 314.6077077251805,
     "kacirma": 0.614569536423841,
     "yanlis_iz": 0,
-    "id_switch": 1
+    "id_switch": 1,
+    "etiket": 1.0
    },
    "fuzyon_guvensiz": {
     "rmse": 8.654399171626215,
     "gospa": 55.754350968152025,
     "kacirma": 0.017880794701986755,
     "yanlis_iz": 7,
-    "id_switch": 3
+    "id_switch": 3,
+    "etiket": 1.0
    },
    "fuzyon": {
     "rmse": 8.406926642839068,
@@ -4916,6 +5610,7 @@
     "kacirma": 0.010596026490066225,
     "yanlis_iz": 0,
     "id_switch": 0,
+    "etiket": 1.0,
     "bias_kestirimi": [
      39.4,
      -19.2
@@ -4928,28 +5623,32 @@
     "gospa": 117.55060769002992,
     "kacirma": 0.23841059602649006,
     "yanlis_iz": 0,
-    "id_switch": 5
+    "id_switch": 5,
+    "etiket": 0.6
    },
    "kamera": {
     "rmse": 7.265858144405316,
     "gospa": 274.48316076732374,
     "kacirma": 0.5649006622516556,
     "yanlis_iz": 0,
-    "id_switch": 4
+    "id_switch": 4,
+    "etiket": 0.7321156773211568
    },
    "konum": {
     "rmse": 40.33102031238511,
     "gospa": 331.2446941560909,
     "kacirma": 0.6940397350993377,
     "yanlis_iz": 0,
-    "id_switch": 3
+    "id_switch": 3,
+    "etiket": 1.0
    },
    "fuzyon_guvensiz": {
     "rmse": 9.622108068776111,
     "gospa": 40.96253597099924,
     "kacirma": 0.0456953642384106,
     "yanlis_iz": 0,
-    "id_switch": 3
+    "id_switch": 3,
+    "etiket": 1.0
    },
    "fuzyon": {
     "rmse": 9.622108068776111,
@@ -4957,6 +5656,7 @@
     "kacirma": 0.0456953642384106,
     "yanlis_iz": 0,
     "id_switch": 3,
+    "etiket": 1.0,
     "bias_kestirimi": [
      39.2,
      -19.2

@@ -144,10 +144,10 @@
     <div class="kart">
       <h2>Bu koşunun sonuçları</h2>
       <div class="tablo-kutu"><table>
-        <thead><tr><th>Konfigürasyon</th><th>GOSPA</th><th>RMSE</th><th>Kaçırma</th><th>Yanlış iz</th><th>ID sw.</th></tr></thead>
+        <thead><tr><th>Konfigürasyon</th><th>GOSPA</th><th>RMSE</th><th>Kaçırma</th><th>Yanlış iz</th><th>ID sw.</th><th>Etiket</th></tr></thead>
         <tbody id="metrikTablo"></tbody>
       </table></div>
-      <div class="not">GOSPA ve RMSE metre cinsindendir. Tek seed sonucudur; satıra tıklayınca o konfigürasyonun izleri gösterilir.
+      <div class="not">GOSPA ve RMSE metre cinsindendir; Etiket, eşleşen izlerde dost/diğer etiketinin doğruluğudur. Tek seed sonucudur; satıra tıklayınca o konfigürasyonun izleri gösterilir.
         30 seed'lik ortalama ± std tablosu README'dedir.</div>
     </div>
   </section>
@@ -229,7 +229,7 @@ function tabloyuDoldur() {
     const m = veri.konfigler[k].metrik;
     return `<tr data-k="${k}" class="${k === konfig ? "secili" : ""}"><td>${veri.konfigler[k].etiket}</td>
       <td>${m.gospa.toFixed(0)}</td><td>${m.rmse.toFixed(1)}</td><td>%${(100 * m.kacirma).toFixed(1)}</td>
-      <td>${m.yanlis_iz}</td><td>${m.id_switch}</td></tr>`;
+      <td>${m.yanlis_iz}</td><td>${m.id_switch}</td><td>%${(100 * m.etiket).toFixed(0)}</td></tr>`;
   }).join("");
   document.querySelectorAll("#metrikTablo tr").forEach(tr => tr.addEventListener("click", () => konfigSec(tr.dataset.k)));
 }

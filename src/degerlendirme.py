@@ -1,4 +1,4 @@
-"""Başarım ölçütleri: RMSE, GOSPA, kaçırma oranı, yanlış iz sayısı, ID switch."""
+"""Başarım ölçütleri: RMSE, GOSPA, kaçırma oranı, yanlış iz sayısı, ID switch, etiket doğruluğu."""
 
 import numpy as np
 from scipy.optimize import linear_sum_assignment
@@ -35,12 +35,16 @@ def degerlendir(gecmis, hedefler):
     - Kaçırma oranı: hiçbir ize eşlenmeyen (hedef, an) çiftlerinin oranı
     - Yanlış iz: ömrünün yarısından fazlasında hiçbir hedefe eşlenmeyen iz sayısı
     - ID switch: bir hedefi izleyen iz kimliğinin değiştiği durum sayısı
+    - Etiket doğruluğu: eşleşen (hedef, an) çiftlerinde izin dost/diğer etiketinin
+      hedefin gerçek türüyle aynı olma oranı. Konum bildirimi desteği olmayan izler
+      "diğer" sayılır.
     """
     hatalar_kare = []
     kacan, toplam = 0, 0
     iz_eslesme = {}           # iz_id -> [eşleşen an sayısı, toplam an sayısı]
     son_id = {h.hid: None for h in hedefler}
     id_switch = 0
+    etiket_dogru = 0
     gospa_degerleri = []
 
     for t, resim, _ in gecmis:
@@ -62,6 +66,7 @@ def degerlendir(gecmis, hedefler):
                 kacan += 1
                 continue
             iz_id = resim[eslesen[i]]["id"]
+            etiket_dogru += resim[eslesen[i]]["dost"] == h.dost
             if son_id[h.hid] is not None and son_id[h.hid] != iz_id:
                 id_switch += 1
             son_id[h.hid] = iz_id
@@ -75,5 +80,7 @@ def degerlendir(gecmis, hedefler):
 
     yanlis_iz = sum(1 for e, n in iz_eslesme.values() if e < 0.5 * n)
     rmse = float(np.sqrt(np.mean(hatalar_kare))) if hatalar_kare else float("nan")
+    eslesen_sayisi = toplam - kacan
+    etiket = etiket_dogru / eslesen_sayisi if eslesen_sayisi else float("nan")
     return dict(rmse=rmse, gospa=float(np.mean(gospa_degerleri)), kacirma=kacan / toplam,
-                yanlis_iz=yanlis_iz, id_switch=id_switch)
+                yanlis_iz=yanlis_iz, id_switch=id_switch, etiket=etiket)

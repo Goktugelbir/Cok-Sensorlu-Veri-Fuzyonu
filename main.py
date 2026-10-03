@@ -5,6 +5,7 @@ Kullanım:
     python main.py --hepsi
     python main.py --hepsi --tekrar 10   (daha az koşu, daha hızlı)
     python main.py --hepsi --gif-yok     (animasyonları atla)
+    python main.py --hepsi --ilk-seed 100 --gif-yok   (bağımsız doğrulama, seed 100-129)
 
 Her senaryo önce seed=42 ile bir kez koşturulur (animasyon ve özet figür için),
 ardından seed=42, 43, ... ile --tekrar kez koşturulup ölçütlerin ortalaması ve
@@ -15,6 +16,7 @@ import argparse
 import json
 import os
 import sys
+import time
 from multiprocessing import Pool
 from pathlib import Path
 
@@ -24,7 +26,7 @@ from scipy.stats import mannwhitneyu
 from src.degerlendirme import degerlendir
 from src.fuzyon import fuzyon_calistir
 from src.gorsel import KONFIG_ETIKET, gif_olustur, karsilastirma_grafigi, ozet_figur
-from src.saha import hedefleri_olustur
+from src.saha import SURE, hedefleri_olustur
 from src.sensorler import SENARYOLAR, SENSORLER, olcumleri_uret
 
 TOHUM = 42
@@ -39,16 +41,22 @@ KONFIGLER = {
     "fuzyon": (TUM_SENSORLER, True),
 }
 TEK_SENSORLER = ("radar", "kamera", "konum")
-OLCUTLER = ("rmse", "gospa", "kacirma", "yanlis_iz", "id_switch")
+OLCUTLER = ("rmse", "gospa", "kacirma", "yanlis_iz", "id_switch", "etiket")
 
 
-def senaryo_kos(senaryo, hedefler, tohum=TOHUM):
-    """Bir senaryoyu tüm konfigürasyonlarla bir kez koşturur ve değerlendirir."""
+def senaryo_kos(senaryo, hedefler, tohum=TOHUM, sureler=None):
+    """Bir senaryoyu tüm konfigürasyonlarla bir kez koşturur ve değerlendirir.
+
+    sureler sözlüğü verilirse her konfigürasyonun füzyon süresi (s) buna yazılır.
+    """
     rng = np.random.default_rng(tohum)
     olcumler = olcumleri_uret(hedefler, senaryo, rng)
     gecmisler, metrikler = {}, {}
     for ad, (sensorler, guven) in KONFIGLER.items():
+        t0 = time.perf_counter()
         gecmis, merkez = fuzyon_calistir(olcumler, sensorler, guven_agirliklandirma=guven)
+        if sureler is not None:
+            sureler[ad] = time.perf_counter() - t0
         gecmisler[ad] = gecmis
         metrikler[ad] = degerlendir(gecmis, hedefler)
         if ad == "fuzyon":
@@ -96,8 +104,8 @@ def tablo_yazdir(senaryo, ozet, kosular):
     n = len(kosular["fuzyon"])
     print(f"\n=== Senaryo: {senaryo}  ({n} koşu, ortalama ± std) ===")
     print(f"{'Konfigürasyon':<40}{'RMSE (m)':>14}{'GOSPA (m)':>15}{'Kaçırma (%)':>15}"
-          f"{'Yanlış iz':>14}{'ID switch':>14}")
-    print("-" * 112)
+          f"{'Yanlış iz':>14}{'ID switch':>14}{'Etiket (%)':>16}")
+    print("-" * 128)
     for ad in KONFIGLER:
         m = ozet[ad]
         print(f"{KONFIG_ETIKET[ad]:<40}"
@@ -105,7 +113,8 @@ def tablo_yazdir(senaryo, ozet, kosular):
               f"{m['gospa'][0]:>9.1f} ± {m['gospa'][1]:<4.1f}"
               f"{100 * m['kacirma'][0]:>8.1f} ± {100 * m['kacirma'][1]:<5.1f}"
               f"{m['yanlis_iz'][0]:>8.1f} ± {m['yanlis_iz'][1]:<4.1f}"
-              f"{m['id_switch'][0]:>8.1f} ± {m['id_switch'][1]:<4.1f}")
+              f"{m['id_switch'][0]:>8.1f} ± {m['id_switch'][1]:<4.1f}"
+              f"{100 * m['etiket'][0]:>9.1f} ± {100 * m['etiket'][1]:<5.1f}")
     print(f"Füzyonun en iyi tek sensörden düşük olduğu koşu sayısı: RMSE {kazanma_sayisi(kosular)}/{n}, "
           f"GOSPA {kazanma_sayisi(kosular, 'gospa')}/{n}")
 
@@ -126,8 +135,9 @@ def seed_kumesi_testi(ana, kosular_tum):
 
 
 def markdown_tablo(ozet_tum, kosular_tum, bias_tum):
-    satirlar = ["| Senaryo | Konfigürasyon | RMSE (m) | GOSPA (m) | Kaçırma (%) | Yanlış iz | ID switch |",
-                "|---|---|---:|---:|---:|---:|---:|"]
+    satirlar = ["| Senaryo | Konfigürasyon | RMSE (m) | GOSPA (m) | Kaçırma (%) | Yanlış iz | ID switch "
+                "| Etiket doğruluğu (%) |",
+                "|---|---|---:|---:|---:|---:|---:|---:|"]
     for senaryo, ozet in ozet_tum.items():
         for ad in KONFIGLER:
             m = ozet[ad]
@@ -137,7 +147,8 @@ def markdown_tablo(ozet_tum, kosular_tum, bias_tum):
                 f"| {m['gospa'][0]:.1f} ± {m['gospa'][1]:.1f} "
                 f"| {100 * m['kacirma'][0]:.1f} ± {100 * m['kacirma'][1]:.1f} "
                 f"| {m['yanlis_iz'][0]:.1f} ± {m['yanlis_iz'][1]:.1f} "
-                f"| {m['id_switch'][0]:.1f} ± {m['id_switch'][1]:.1f} |")
+                f"| {m['id_switch'][0]:.1f} ± {m['id_switch'][1]:.1f} "
+                f"| {100 * m['etiket'][0]:.1f} ± {100 * m['etiket'][1]:.1f} |")
     satirlar.append("")
     satirlar.append("| Senaryo | Füzyonun en iyi tek sensörden düşük olduğu koşu: RMSE | GOSPA |")
     satirlar.append("|---|---:|---:|")
@@ -179,7 +190,10 @@ def main():
     kayitlar, ornek_metrikler = {}, {}
     for senaryo in senaryolar:
         print(f"[{senaryo}] örnek koşu (seed={TOHUM})...")
-        olcumler, gecmisler, metrikler = senaryo_kos(senaryo, hedefler)
+        sureler = {}
+        olcumler, gecmisler, metrikler = senaryo_kos(senaryo, hedefler, sureler=sureler)
+        print(f"  füzyon süresi: {sureler['fuzyon']:.2f} s ({SURE:.0f} s'lik senaryo, "
+              f"gerçek zamanın ~{SURE / sureler['fuzyon']:.0f} katı hızlı)")
         kayitlar[senaryo] = (olcumler, gecmisler)
         ornek_metrikler[senaryo] = metrikler
         if not args.gif_yok:
