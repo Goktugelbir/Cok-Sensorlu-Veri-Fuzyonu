@@ -1,0 +1,122 @@
+{
+  "normal": {
+    "radar": {
+      "rmse": 15.102076748812697,
+      "kacirma": 0.013245033112582781,
+      "yanlis_iz": 0,
+      "id_switch": 0
+    },
+    "kamera": {
+      "rmse": 6.509610593137394,
+      "kacirma": 0.3390728476821192,
+      "yanlis_iz": 0,
+      "id_switch": 0
+    },
+    "konum": {
+      "rmse": 40.0921246721893,
+      "kacirma": 0.6079470198675496,
+      "yanlis_iz": 0,
+      "id_switch": 0
+    },
+    "fuzyon": {
+      "rmse": 8.218214513409484,
+      "kacirma": 0.010596026490066225,
+      "yanlis_iz": 0,
+      "id_switch": 0,
+      "bias_kestirimi": [
+        39.5,
+        -19.1
+      ]
+    }
+  },
+  "sis": {
+    "radar": {
+      "rmse": 15.102076748812697,
+      "kacirma": 0.013245033112582781,
+      "yanlis_iz": 0,
+      "id_switch": 0
+    },
+    "kamera": {
+      "rmse": 16.050637986602883,
+      "kacirma": 0.6516556291390728,
+      "yanlis_iz": 0,
+      "id_switch": 1
+    },
+    "konum": {
+      "rmse": 40.45353470763262,
+      "kacirma": 0.6119205298013245,
+      "yanlis_iz": 0,
+      "id_switch": 1
+    },
+    "fuzyon": {
+      "rmse": 12.125198411514058,
+      "kacirma": 0.010596026490066225,
+      "yanlis_iz": 0,
+      "id_switch": 0,
+      "bias_kestirimi": [
+        39.0,
+        -19.6
+      ]
+    }
+  },
+  "karistirma": {
+    "radar": {
+      "rmse": 39.72757183663987,
+      "kacirma": 0.046357615894039736,
+      "yanlis_iz": 0,
+      "id_switch": 1
+    },
+    "kamera": {
+      "rmse": 6.5970447320666645,
+      "kacirma": 0.33841059602649004,
+      "yanlis_iz": 0,
+      "id_switch": 0
+    },
+    "konum": {
+      "rmse": 40.40596032493258,
+      "kacirma": 0.614569536423841,
+      "yanlis_iz": 0,
+      "id_switch": 1
+    },
+    "fuzyon": {
+      "rmse": 8.406926642839068,
+      "kacirma": 0.010596026490066225,
+      "yanlis_iz": 0,
+      "id_switch": 0,
+      "bias_kestirimi": [
+        39.4,
+        -19.2
+      ]
+    }
+  },
+  "sensor_kaybi": {
+    "radar": {
+      "rmse": 14.401508277141302,
+      "kacirma": 0.23841059602649006,
+      "yanlis_iz": 0,
+      "id_switch": 5
+    },
+    "kamera": {
+      "rmse": 7.265858144405316,
+      "kacirma": 0.5649006622516556,
+      "yanlis_iz": 0,
+      "id_switch": 4
+    },
+    "konum": {
+      "rmse": 40.33102031238511,
+      "kacirma": 0.6940397350993377,
+      "yanlis_iz": 0,
+      "id_switch": 3
+    },
+    "fuzyon": {
+      "rmse": 9.622108068776111,
+      "kacirma": 0.0456953642384106,
+      "yanlis_iz": 0,
+      "id_switch": 3,
+      "bias_kestirimi": [
+        39.2,
+        -19.2
+      ]
+    }
+  }
+}
