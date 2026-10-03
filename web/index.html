@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Çok Sensörlü Veri Füzyonu</title>
+<style>
+  :root {
+    --zemin: #f9f9f7; --yuzey: #fcfcfb; --kart: #ffffff;
+    --metin: #0b0b0b; --ikincil: #52514e; --soluk: #898781;
+    --izgara: #e1e0d9; --eksen: #c3c2b7; --cerceve: rgba(11,11,11,0.10);
+    --fuzyon: #2a78d6; --radar: #eb6834; --kamera: #1baf7a; --konum: #4a3aa7;
+    --dost: #2a78d6; --dusman: #e34948; --gercek: #c3c2b7;
+    --iyi: #0ca30c; --uyari: #fab219; --kritik: #d03b3b;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; background: var(--zemin); color: var(--metin);
+         font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  header { padding: 14px 20px; border-bottom: 1px solid var(--cerceve); background: var(--kart);
+           display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  header h1 { font-size: 18px; margin: 0; font-weight: 650; }
+  header span { color: var(--ikincil); font-size: 13px; }
+  main { display: grid; grid-template-columns: 270px minmax(0, 1fr) 360px; gap: 16px; padding: 16px 20px; }
+  @media (max-width: 1150px) { main { grid-template-columns: 260px minmax(0, 1fr); }
+                              #sag { grid-column: 1 / -1; } }
+  @media (max-width: 760px) { main { grid-template-columns: 1fr; padding: 12px 16px; } }
+  .kart { background: var(--kart); border: 1px solid var(--cerceve); border-radius: 10px; padding: 14px; }
+  .kart + .kart { margin-top: 12px; }
+  h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--ikincil);
+       margin: 0 0 10px; font-weight: 600; }
+  label { display: block; font-size: 13px; color: var(--ikincil); margin: 8px 0 4px; }
+  select, input[type=number] { width: 100%; padding: 7px 8px; border: 1px solid var(--eksen);
+       border-radius: 6px; background: var(--kart); font: inherit; color: var(--metin); }
+  button { font: inherit; border-radius: 6px; padding: 8px 12px; border: 1px solid var(--eksen);
+           background: var(--kart); color: var(--metin); cursor: pointer; }
+  button:hover { background: #f0efec; }
+  button.ana { background: var(--fuzyon); border-color: var(--fuzyon); color: #fff; width: 100%; margin-top: 12px; }
+  button.ana:hover { background: #256abf; }
+  button:disabled { opacity: .55; cursor: wait; }
+  .katman { display: flex; align-items: center; gap: 8px; margin: 6px 0; font-size: 13px; cursor: pointer; }
+  .katman input { margin: 0; }
+  .nokta { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex: none; }
+  .cizgi { width: 16px; height: 3px; border-radius: 2px; display: inline-block; flex: none; }
+  #durumMetni { font-size: 12px; color: var(--ikincil); margin-top: 8px; min-height: 18px; }
+  #harita-kutu { position: relative; }
+  canvas { width: 100%; aspect-ratio: 1 / 1; display: block; border-radius: 8px; background: var(--yuzey);
+           border: 1px solid var(--cerceve); }
+  #zaman-satir { display: flex; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  #zaman { flex: 1; min-width: 160px; accent-color: var(--fuzyon); }
+  #zamanEtiket { font-variant-numeric: tabular-nums; min-width: 64px; text-align: right; color: var(--ikincil); }
+  #hiz { width: auto; }
+  #ipucu { position: absolute; pointer-events: none; background: var(--kart); border: 1px solid var(--cerceve);
+           border-radius: 8px; padding: 8px 10px; font-size: 12.5px; box-shadow: 0 4px 14px rgba(0,0,0,.12);
+           min-width: 170px; }
+  #ipucu b { font-size: 13px; }
+  #ipucu .satir { display: flex; justify-content: space-between; gap: 12px; color: var(--ikincil); }
+  #ipucu .satir span:last-child { color: var(--metin); font-variant-numeric: tabular-nums; }
+  .sensor { margin-bottom: 12px; }
+  .sensor-ust { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+  .rozet { font-size: 11px; padding: 2px 7px; border-radius: 10px; border: 1px solid var(--cerceve); }
+  .rozet.acik { color: #006300; } .rozet.uyari { color: #8a5a00; background: #fff6e0; }
+  .rozet.kapali { color: var(--kritik); background: #fdeaea; }
+  .bar { height: 6px; background: #f0efec; border-radius: 3px; margin-top: 6px; overflow: hidden; }
+  .bar div { height: 100%; border-radius: 3px; transition: width .2s; }
+  .guvenMetin { font-size: 11.5px; color: var(--soluk); margin-top: 3px; }
+  .tablo-kutu { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 12px; font-variant-numeric: tabular-nums; }
+  th, td { padding: 6px 5px; text-align: right; border-bottom: 1px solid var(--izgara); white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; white-space: normal; }
+  th { color: var(--ikincil); font-weight: 600; font-size: 11.5px; }
+  tbody tr { cursor: pointer; } tbody tr:hover { background: #f6f6f3; }
+  tbody tr.secili { background: #eaf2fc; }
+  .not { font-size: 12px; color: var(--soluk); margin-top: 8px; }
+  #yukleniyor { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+                background: rgba(252,252,251,.8); border-radius: 8px; font-size: 14px; color: var(--ikincil); }
+  #izListesi { font-size: 12.5px; }
+  #izListesi div { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid var(--izgara); }
+  #izListesi span:last-child { color: var(--ikincil); font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Çok Sensörlü Veri Füzyonu</h1>
+  <span>Radar + EO/termal kamera + konum bildirimi · simüle edilmiş sensör ölçümleri</span>
+</header>
+<main>
+  <section id="sol">
+    <div class="kart">
+      <h2>Senaryo</h2>
+      <label for="senaryo">Senaryo</label>
+      <select id="senaryo"></select>
+      <label for="seed">Seed</label>
+      <input id="seed" type="number" value="42" min="0" max="1000000">
+      <button id="kosBtn" class="ana">Koştur</button>
+      <div id="durumMetni"></div>
+    </div>
+    <div class="kart">
+      <h2>Gösterilen izler</h2>
+      <select id="konfig"></select>
+    </div>
+    <div class="kart">
+      <h2>Katmanlar</h2>
+      <label class="katman"><input type="checkbox" data-k="rota" checked><span class="cizgi" style="background:var(--gercek)"></span>Gerçek rotalar</label>
+      <label class="katman"><input type="checkbox" data-k="radar" checked><span class="nokta" style="background:var(--radar)"></span>Radar ölçümleri</label>
+      <label class="katman"><input type="checkbox" data-k="kamera" checked><span class="nokta" style="background:var(--kamera)"></span>Kamera ölçümleri</label>
+      <label class="katman"><input type="checkbox" data-k="konum" checked><span class="nokta" style="background:var(--konum)"></span>Konum bildirimi ölçümleri</label>
+      <label class="katman"><input type="checkbox" data-k="menzil" checked><span class="cizgi" style="background:repeating-linear-gradient(90deg,var(--kamera) 0 4px,transparent 4px 7px)"></span>Sensör menzilleri</label>
+      <label class="katman"><input type="checkbox" data-k="iz" checked><span class="cizgi" style="background:var(--dusman);height:4px"></span>Füzyon izleri</label>
+      <label class="katman"><input type="checkbox" data-k="etiket" checked><span class="cizgi" style="background:var(--soluk);height:1px"></span>İz etiketleri</label>
+    </div>
+  </section>
+
+  <section id="orta">
+    <div class="kart">
+      <div id="harita-kutu">
+        <canvas id="harita"></canvas>
+        <div id="ipucu" hidden></div>
+        <div id="yukleniyor" hidden>Hesaplanıyor…</div>
+      </div>
+      <div id="zaman-satir">
+        <button id="oynatBtn" title="Oynat / durdur (boşluk tuşu)">▶ Oynat</button>
+        <input id="zaman" type="range" min="0" max="300" step="0.1" value="0">
+        <span id="zamanEtiket">t = 0 s</span>
+        <select id="hiz" title="Oynatma hızı">
+          <option value="5">5×</option><option value="10" selected>10×</option>
+          <option value="20">20×</option><option value="40">40×</option>
+        </select>
+      </div>
+      <div class="not">Kırmızı: dost olmayan iz, mavi: dost iz. Etiket: iz ID'si, güven skoru, destekleyen sensörler
+        (R = radar, K = kamera, B = konum bildirimi). Bir izin ucuna gelince ayrıntılar görünür.</div>
+    </div>
+  </section>
+
+  <section id="sag">
+    <div class="kart">
+      <h2>Sensör durumu</h2>
+      <div id="sensorPanel"></div>
+    </div>
+    <div class="kart">
+      <h2>Anlık izler</h2>
+      <div id="izListesi"></div>
+    </div>
+    <div class="kart">
+      <h2>Bu koşunun sonuçları</h2>
+      <div class="tablo-kutu"><table>
+        <thead><tr><th>Konfigürasyon</th><th>GOSPA</th><th>RMSE</th><th>Kaçırma</th><th>Yanlış iz</th><th>ID sw.</th></tr></thead>
+        <tbody id="metrikTablo"></tbody>
+      </table></div>
+      <div class="not">GOSPA ve RMSE metre cinsindendir. Tek seed sonucudur; satıra tıklayınca o konfigürasyonun izleri gösterilir.
+        30 seed'lik ortalama ± std tablosu README'dedir.</div>
+    </div>
+  </section>
+</main>
+
+<script>
+const RENK = { radar: "#eb6834", kamera: "#1baf7a", konum: "#4a3aa7", dost: "#2a78d6",
+               dusman: "#e34948", gercek: "#c3c2b7", izgara: "#e1e0d9", metin: "#0b0b0b",
+               ikincil: "#52514e", soluk: "#898781", yuzey: "#fcfcfb" };
+const SENSOR_AD = { radar: "Radar", kamera: "EO/termal kamera", konum: "Konum bildirimi" };
+const KISA = { radar: "R", kamera: "K", konum: "B" };
+const OLCUM_PENCERE = 3, IZ_KUYRUK = 40;
+
+const $ = id => document.getElementById(id);
+const tuval = $("harita"), ctx = tuval.getContext("2d");
+let veri = null, konfig = "fuzyon", t = 0, oynuyor = false, sonZaman = null;
+let kareler = {}, kuyruklar = {}, basliklar = [], baslangicT = 0;   // seçili konfigürasyon için ön hesaplar
+const katman = {};
+document.querySelectorAll("[data-k]").forEach(c => {
+  katman[c.dataset.k] = c.checked;
+  c.addEventListener("change", () => { katman[c.dataset.k] = c.checked; ciz(); });
+});
+
+// ---------------------------------------------------------------- veri
+async function baslat() {
+  const bilgi = await (await fetch("/api/bilgi")).json();
+  $("senaryo").innerHTML = bilgi.senaryolar.map(s => `<option value="${s}">${s}</option>`).join("");
+  // Adres parametreleri: #senaryo=karistirma&seed=43&t=150&konfig=fuzyon
+  const p = new URLSearchParams(location.hash.slice(1));
+  $("senaryo").value = bilgi.senaryolar.includes(p.get("senaryo")) ? p.get("senaryo") : "sis";
+  if (p.get("seed")) $("seed").value = p.get("seed");
+  if (p.get("konfig") && bilgi.konfigler[p.get("konfig")]) konfig = p.get("konfig");
+  baslangicT = parseFloat(p.get("t") || "0") || 0;
+  $("konfig").innerHTML = Object.entries(bilgi.konfigler)
+    .map(([k, e]) => `<option value="${k}">${e}</option>`).join("");
+  $("konfig").value = konfig;
+  await kostur();
+}
+
+async function kostur() {
+  const senaryo = $("senaryo").value, seed = parseInt($("seed").value || "42", 10);
+  durdur();
+  $("kosBtn").disabled = true; $("yukleniyor").hidden = false;
+  $("durumMetni").textContent = `${senaryo}, seed=${seed} hesaplanıyor…`;
+  const bas = performance.now();
+  try {
+    const r = await fetch(`/api/kos?senaryo=${encodeURIComponent(senaryo)}&seed=${seed}`);
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.hata || r.statusText);
+    veri = d;
+    for (const ad in veri.olcumler) veri.olcumler[ad].sort((a, b) => a[0] - b[0]);
+    $("zaman").max = veri.sure;
+    $("durumMetni").textContent = `${senaryo}, seed=${seed} hazır (${((performance.now() - bas) / 1000).toFixed(1)} s)`;
+    konfigSec(konfig);
+    zamanAyarla(baslangicT); baslangicT = 0;
+    tabloyuDoldur();
+  } catch (e) {
+    $("durumMetni").textContent = "Hata: " + e.message;
+  } finally {
+    $("kosBtn").disabled = false; $("yukleniyor").hidden = true;
+  }
+}
+
+function konfigSec(k) {
+  konfig = k; $("konfig").value = k;
+  kareler = {}; kuyruklar = {};
+  for (const kare of veri.konfigler[k].kareler) {
+    kareler[Math.round(kare.t)] = kare;
+    for (const iz of kare.izler) {
+      (kuyruklar[iz[0]] ||= []).push([kare.t, iz[1], iz[2], iz[7]]);
+    }
+  }
+  document.querySelectorAll("#metrikTablo tr").forEach(tr => tr.classList.toggle("secili", tr.dataset.k === k));
+  ciz();
+}
+
+function tabloyuDoldur() {
+  $("metrikTablo").innerHTML = veri.konfig_sirasi.map(k => {
+    const m = veri.konfigler[k].metrik;
+    return `<tr data-k="${k}" class="${k === konfig ? "secili" : ""}"><td>${veri.konfigler[k].etiket}</td>
+      <td>${m.gospa.toFixed(0)}</td><td>${m.rmse.toFixed(1)}</td><td>%${(100 * m.kacirma).toFixed(1)}</td>
+      <td>${m.yanlis_iz}</td><td>${m.id_switch}</td></tr>`;
+  }).join("");
+  document.querySelectorAll("#metrikTablo tr").forEach(tr => tr.addEventListener("click", () => konfigSec(tr.dataset.k)));
+}
+
+// ---------------------------------------------------------------- çizim
+let olcek = 1, kenar = 28, boyut = 600;
+function tuvalBoyutla() {
+  const dpr = window.devicePixelRatio || 1, w = tuval.clientWidth;
+  tuval.width = Math.round(w * dpr); tuval.height = Math.round(w * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  boyut = w; kenar = Math.max(24, w * 0.045);
+  olcek = (w - 2 * kenar) / (veri ? veri.saha : 10000);
+  ciz();
+}
+const px = x => kenar + x * olcek;
+const py = y => boyut - kenar - y * olcek;
+
+function aralik(dizi, t0, t1) {   // zamana göre sıralı dizide [t0, t1] aralığının indeksleri
+  let lo = 0, hi = dizi.length;
+  while (lo < hi) { const m = (lo + hi) >> 1; if (dizi[m][0] < t0) lo = m + 1; else hi = m; }
+  let son = lo; while (son < dizi.length && dizi[son][0] <= t1) son++;
+  return [lo, son];
+}
+
+function ciz() {
+  ctx.clearRect(0, 0, boyut, boyut);
+  ctx.fillStyle = RENK.yuzey; ctx.fillRect(0, 0, boyut, boyut);
+  // ızgara
+  ctx.strokeStyle = RENK.izgara; ctx.lineWidth = 1; ctx.font = "11px system-ui, sans-serif";
+  ctx.fillStyle = RENK.soluk; ctx.textAlign = "center";
+  for (let km = 0; km <= 10; km++) {
+    const v = km * 1000;
+    ctx.beginPath(); ctx.moveTo(px(v), py(0)); ctx.lineTo(px(v), py(10000)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(px(0), py(v)); ctx.lineTo(px(10000), py(v)); ctx.stroke();
+    if (km % 2 === 0) { ctx.fillText(km, px(v), py(0) + 14); ctx.textAlign = "right";
+                        ctx.fillText(km, px(0) - 5, py(v) + 4); ctx.textAlign = "center"; }
+  }
+  if (!veri) return;
+  const sn = Math.min(veri.sure, Math.max(0, Math.round(t)));
+  ctx.save();
+  ctx.beginPath(); ctx.rect(px(0), py(10000), 10000 * olcek, 10000 * olcek); ctx.clip();
+
+  // menziller
+  if (katman.menzil) {
+    for (const ad of ["radar", "kamera"]) {
+      const s = veri.sensorler[ad], d = veri.durum[sn][ad];
+      ctx.setLineDash(d.aktif ? [6, 5] : [2, 4]);
+      ctx.strokeStyle = d.aktif ? RENK[ad] : RENK.soluk; ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.arc(px(s.konum[0]), py(s.konum[1]), d.menzil * olcek, 0, 2 * Math.PI); ctx.stroke();
+    }
+    ctx.setLineDash([]);
+  }
+  // gerçek rotalar
+  for (const h of veri.hedefler) {
+    if (katman.rota) {
+      ctx.strokeStyle = RENK.gercek; ctx.lineWidth = 1.2; ctx.beginPath();
+      h.rota.forEach(([x, y], i) => i ? ctx.lineTo(px(x), py(y)) : ctx.moveTo(px(x), py(y)));
+      ctx.stroke();
+    }
+    const i0 = Math.floor(t), f = t - i0, a = h.rota[Math.min(i0, h.rota.length - 1)],
+          b = h.rota[Math.min(i0 + 1, h.rota.length - 1)];
+    ctx.fillStyle = RENK.ikincil; ctx.beginPath();
+    ctx.arc(px(a[0] + (b[0] - a[0]) * f), py(a[1] + (b[1] - a[1]) * f), 3.5, 0, 2 * Math.PI); ctx.fill();
+  }
+  // ham ölçümler (son 3 saniye; yeni olanlar daha belirgin)
+  for (const ad of ["radar", "kamera", "konum"]) {
+    if (!katman[ad]) continue;
+    const dizi = veri.olcumler[ad], [i0, i1] = aralik(dizi, t - OLCUM_PENCERE, t);
+    ctx.fillStyle = RENK[ad];
+    for (let i = i0; i < i1; i++) {
+      const [ti, x, y] = dizi[i];
+      ctx.globalAlpha = 0.35 + 0.6 * (1 - (t - ti) / OLCUM_PENCERE);
+      ctx.beginPath(); ctx.arc(px(x), py(y), 2.6, 0, 2 * Math.PI); ctx.fill();
+    }
+  }
+  ctx.globalAlpha = 1;
+  // sensör simgeleri
+  for (const ad of ["radar", "kamera"]) {
+    const s = veri.sensorler[ad], d = veri.durum[sn][ad], x = px(s.konum[0]), y = py(s.konum[1]);
+    ctx.fillStyle = d.aktif ? RENK[ad] : RENK.soluk;
+    ctx.beginPath(); ctx.moveTo(x, y - 8); ctx.lineTo(x - 7, y + 5); ctx.lineTo(x + 7, y + 5); ctx.closePath(); ctx.fill();
+  }
+  ctx.restore();
+
+  // füzyon izleri
+  basliklar = [];
+  const kare = kareler[sn];
+  if (kare && katman.iz) {
+    for (const iz of kare.izler) {
+      const [id, x, y, vx, vy, skor, sens, dost] = iz;
+      const renk = dost ? RENK.dost : RENK.dusman;
+      const kuyruk = (kuyruklar[id] || []).filter(p => p[0] > sn - IZ_KUYRUK && p[0] <= sn);
+      ctx.strokeStyle = renk; ctx.lineWidth = 3.5; ctx.lineCap = "round"; ctx.lineJoin = "round";
+      ctx.beginPath();
+      kuyruk.forEach(([, kx, ky], i) => i ? ctx.lineTo(px(kx), py(ky)) : ctx.moveTo(px(kx), py(ky)));
+      ctx.stroke();
+      ctx.fillStyle = renk; ctx.strokeStyle = RENK.yuzey; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(px(x), py(y), 5.5, 0, 2 * Math.PI); ctx.fill(); ctx.stroke();
+      basliklar.push({ x: px(x), y: py(y), iz });
+      if (katman.etiket) {
+        const metin = `T${id} ${skor.toFixed(2)} [${sens.map(s => KISA[s]).join(",") || "-"}]`;
+        ctx.font = "600 11.5px system-ui, sans-serif"; ctx.textAlign = "left";
+        const w = ctx.measureText(metin).width;
+        ctx.fillStyle = "rgba(255,255,255,0.9)"; ctx.strokeStyle = renk; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.roundRect(px(x) + 9, py(y) - 22, w + 10, 18, 4); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = RENK.metin; ctx.fillText(metin, px(x) + 14, py(y) - 9);
+      }
+    }
+  }
+  panelleriGuncelle(sn, kare);
+}
+
+function panelleriGuncelle(sn, kare) {
+  const kullanilan = veri.konfigler[konfig] && kare ? kare.guven : {};
+  $("sensorPanel").innerHTML = ["radar", "kamera", "konum"].map(ad => {
+    const d = veri.durum[sn][ad];
+    const sinif = d.etiket === "KAPALI" ? "kapali" : d.etiket === "açık" ? "acik" : "uyari";
+    const g = kullanilan[ad];
+    const guvenHtml = g === undefined ? `<div class="guvenMetin">Bu konfigürasyonda kullanılmıyor</div>`
+      : `<div class="bar"><div style="width:${(100 * g).toFixed(0)}%;background:${RENK[ad]}"></div></div>
+         <div class="guvenMetin">Güven ${g.toFixed(2)}</div>`;
+    return `<div class="sensor"><div class="sensor-ust"><span><span class="nokta" style="background:${RENK[ad]}"></span>
+      ${SENSOR_AD[ad]}</span><span class="rozet ${sinif}">${d.etiket}</span></div>${guvenHtml}</div>`;
+  }).join("");
+  const izler = kare ? kare.izler : [];
+  $("izListesi").innerHTML = izler.length ? izler.map(iz =>
+    `<div><span style="color:${iz[7] ? RENK.dost : RENK.dusman};font-weight:600">T${iz[0]}</span>
+      <span>güven ${iz[5].toFixed(2)} · ${iz[6].map(s => KISA[s]).join(",") || "-"} · ${iz[7] ? "dost" : "diğer"}</span></div>`
+  ).join("") : `<div><span>Onaylı iz yok</span><span></span></div>`;
+}
+
+// ---------------------------------------------------------------- ipucu
+tuval.addEventListener("mousemove", e => {
+  const r = tuval.getBoundingClientRect(), mx = e.clientX - r.left, my = e.clientY - r.top;
+  let en = null, enD = 14;
+  for (const b of basliklar) { const d = Math.hypot(b.x - mx, b.y - my); if (d < enD) { en = b; enD = d; } }
+  const ip = $("ipucu");
+  if (!en) { ip.hidden = true; tuval.style.cursor = "default"; return; }
+  const [id, x, y, vx, vy, skor, sens, dost] = en.iz;
+  ip.innerHTML = `<b>İz T${id}</b> <span style="color:${dost ? RENK.dost : RENK.dusman}">${dost ? "dost" : "diğer"}</span>
+    <div class="satir"><span>Güven skoru</span><span>${skor.toFixed(2)}</span></div>
+    <div class="satir"><span>Destekleyen</span><span>${sens.map(s => SENSOR_AD[s]).join(", ") || "yok"}</span></div>
+    <div class="satir"><span>Konum</span><span>${(x / 1000).toFixed(2)}, ${(y / 1000).toFixed(2)} km</span></div>
+    <div class="satir"><span>Hız</span><span>${Math.hypot(vx, vy).toFixed(1)} m/s</span></div>`;
+  ip.hidden = false; tuval.style.cursor = "pointer";
+  const kutu = $("harita-kutu").getBoundingClientRect();
+  let left = e.clientX - kutu.left + 14, top = e.clientY - kutu.top + 14;
+  if (left + ip.offsetWidth > kutu.width) left -= ip.offsetWidth + 28;
+  if (top + ip.offsetHeight > kutu.height) top -= ip.offsetHeight + 28;
+  ip.style.left = left + "px"; ip.style.top = top + "px";
+});
+tuval.addEventListener("mouseleave", () => { $("ipucu").hidden = true; });
+
+// ---------------------------------------------------------------- oynatma
+function zamanAyarla(yeni) {
+  t = Math.max(0, Math.min(veri ? veri.sure : 300, yeni));
+  $("zaman").value = t; $("zamanEtiket").textContent = `t = ${Math.floor(t)} s`;
+  ciz();
+}
+function kare(zd) {
+  if (!oynuyor) return;
+  if (sonZaman !== null) zamanAyarla(t + (zd - sonZaman) / 1000 * parseFloat($("hiz").value));
+  sonZaman = zd;
+  if (t >= veri.sure) { durdur(); return; }
+  requestAnimationFrame(kare);
+}
+function oynat() {
+  if (!veri) return;
+  if (t >= veri.sure) zamanAyarla(0);
+  oynuyor = true; sonZaman = null; $("oynatBtn").textContent = "❚❚ Durdur";
+  requestAnimationFrame(kare);
+}
+function durdur() { oynuyor = false; $("oynatBtn").textContent = "▶ Oynat"; }
+
+$("oynatBtn").addEventListener("click", () => oynuyor ? durdur() : oynat());
+$("zaman").addEventListener("input", e => zamanAyarla(parseFloat(e.target.value)));
+$("kosBtn").addEventListener("click", kostur);
+$("konfig").addEventListener("change", e => konfigSec(e.target.value));
+document.addEventListener("keydown", e => {
+  if (e.code === "Space" && !["INPUT", "SELECT", "BUTTON"].includes(document.activeElement.tagName)) {
+    e.preventDefault(); oynuyor ? durdur() : oynat();
+  }
+});
+new ResizeObserver(tuvalBoyutla).observe(tuval);
+tuvalBoyutla();
+baslat();
+</script>
+</body>
+</html>

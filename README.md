@@ -6,7 +6,8 @@
 
 Radar, EO/termal kamera ve konum bildirimi sensörlerinden gelen simüle edilmiş
 konum ölçümlerini birleştirerek tek bir **ortak durum resmi** oluşturan ve
-füzyonun tek sensöre göre kazancını ölçen bir Python projesi [1, 5, 7].
+füzyonun tek sensöre göre kazancını ölçen bir Python projesi [1, 5]. Sonuçlar ayrıca
+yerel bir web arayüzünde etkileşimli olarak izlenebilir ([Web arayüzü](#web-arayüzü)).
 
 ![Özet](results/ozet.png)
 
@@ -70,16 +71,22 @@ etmek zorundadır.
    aşarsa sensörün güveni düşer ve ölçüm kovaryansı `R / güven` olarak
    büyütülür. Böylece karıştırılan radar ya da sisteki kamera, çelişkide daha
    az söz sahibi olur. Güveni düşük sensörün vuruşları da onaya daha az katkı
-   verir, bu da karıştırmanın ürettiği sahte izleri engeller.
+   verir, bu da karıştırmanın ürettiği sahte izleri engeller. Bu yaklaşım,
+   ölçüm gürültüsü kovaryansını çevrimiçi kestiren uyarlamalı Kalman
+   filtrelerinin [6] basitleştirilmiş bir biçimidir.
 6. **İz güven skoru:** `1 - Π(1 - katkı_s · güven_s · e^{-Δt_s/5})`. Her iz, son
    3 saniyede kendisini destekleyen sensörlerin listesini taşır (animasyonda
    `[R,K,B]` = radar, kamera, konum bildirimi).
 
 **Değerlendirme:** Füzyon zamanında her saniye onaylı izler gerçek hedeflere
-Macar algoritmasıyla eşlenir (eşik 250 m). Ölçütler, optimal atamaya dayalı
-çok hedefli izleme değerlendirmesiyle [8] aynı mantıktadır.
+Macar algoritmasıyla eşlenir (eşik 250 m).
 
-- **RMSE:** Eşleşen iz-hedef çiftlerinin konum hatası.
+- **GOSPA** [8] (p = 2, α = 2, c = 250 m): Her anda eşleşen çiftlerin konum
+  hatası ile kaçırılan ve sahte hedeflerin her biri için c²/2 cezası tek bir
+  uzaklıkta toplanır; tablo zaman ortalamasını verir. Kapsama ve doğruluğu
+  birlikte ölçtüğü için ana karşılaştırma ölçütüdür.
+- **RMSE:** Sadece eşleşen iz-hedef çiftlerinin konum hatası (kaçırılan
+  hedefleri cezalandırmaz).
 - **Kaçırma oranı:** İz atanmamış (hedef, an) çiftlerinin oranı.
 - **Yanlış iz:** Ömrünün yarısından fazlasında hiçbir hedefe eşlenmeyen iz.
 - **ID switch:** Bir hedefi izleyen iz kimliğinin değişmesi.
@@ -105,6 +112,7 @@ python main.py --hepsi              # tüm senaryolar, 30 seed (~3 dk, çok çek
 python main.py --hepsi --tekrar 5   # daha az koşu, daha hızlı
 python main.py --hepsi --gif-yok    # animasyonsuz
 python -m pytest                    # birim testleri
+python web.py                       # web arayüzü: http://localhost:8000
 ```
 
 Çıktılar `results/` klasörüne yazılır: `<senaryo>.gif`, `karsilastirma.png`,
@@ -117,6 +125,31 @@ python -m pytest                    # birim testleri
 > dosyalara yazılır: `karsilastirma_<senaryo>.png`, `sonuclar_<senaryo>.json`,
 > `sonuclar_<senaryo>.md`. Bu dosyalar git'e eklenmez (`.gitignore`). Ortak
 > `karsilastirma.png` ve `sonuclar.*` sadece `--hepsi` ile güncellenir.
+
+## Web arayüzü
+
+```bash
+python web.py              # tarayıcıda http://localhost:8000 açılır (Ctrl+C ile durur)
+python web.py --port 8080  # farklı port
+```
+
+Sadece Python standart kütüphanesiyle (`http.server`) çalışan yerel bir
+arayüz:
+
+- Senaryo ve seed seçilip **Koştur**'a basılır. Beş konfigürasyon paralel
+  koşturulur (~6 s); sonuçlar önbelleğe alınır.
+- Harita oynat/durdur ve zaman çubuğuyla oynar (boşluk tuşu da çalışır). Gerçek
+  rotalar, son 3 saniyenin ham ölçümleri, füzyon izleri ve sensör menzilleri
+  ayrı katmanlar olarak açılıp kapatılabilir.
+- Bir izin ucuna gelince ID, dost/diğer bilgisi, güven skoru, destekleyen
+  sensörler, konum ve hız görünür.
+- Sağdaki panel her sensörün anlık durumunu (açık / SİS / KARIŞTIRMA /
+  KAPALI) ve füzyonun ona verdiği güveni gösterir.
+- Sonuç tablosunda bir satıra tıklayınca o konfigürasyonun izleri gösterilir.
+  Örneğin "güven ağırlıklandırma kapalı" seçilince karıştırmadaki sahte izler
+  haritada görülür.
+- Belirli bir an doğrudan açılabilir:
+  `http://localhost:8000/#senaryo=karistirma&t=150&konfig=fuzyon_guvensiz`
 
 ## Örnek animasyon
 
@@ -138,79 +171,83 @@ farklıdır. **Füzyon (güven ağırlıklandırma kapalı)** satırı bir ablas
 aynı füzyon hattı, NIS tabanlı sensör güveni devre dışı bırakılarak (bütün
 sensörlerin güveni 1'de sabit) çalıştırılmıştır.
 
-| Senaryo | Konfigürasyon | RMSE (m) | Kaçırma (%) | Yanlış iz | ID switch |
-|---|---|---:|---:|---:|---:|
-| normal | Sadece radar | 14.8 ± 0.6 | 1.5 ± 0.1 | 0.0 ± 0.0 | 0.0 ± 0.0 |
-| normal | Sadece kamera | 6.4 ± 0.2 | 33.8 ± 0.0 | 0.0 ± 0.0 | 0.0 ± 0.0 |
-| normal | Sadece konum bildirimi | 40.2 ± 0.1 | 61.0 ± 0.3 | 0.0 ± 0.0 | 0.2 ± 0.4 |
-| normal | Füzyon (güven ağırlıklandırma kapalı) | 8.4 ± 0.5 | 1.1 ± 0.1 | 0.0 ± 0.0 | 0.0 ± 0.0 |
-| normal | **Füzyon** | 8.4 ± 0.5 | 1.1 ± 0.1 | 0.0 ± 0.0 | 0.0 ± 0.0 |
-| sis | Sadece radar | 14.8 ± 0.6 | 1.5 ± 0.1 | 0.0 ± 0.0 | 0.0 ± 0.0 |
-| sis | Sadece kamera | 16.0 ± 2.4 | 65.0 ± 0.2 | 0.2 ± 0.5 | 1.3 ± 0.8 |
-| sis | Sadece konum bildirimi | 40.2 ± 0.2 | 61.0 ± 0.3 | 0.0 ± 0.0 | 0.3 ± 0.5 |
-| sis | Füzyon (güven ağırlıklandırma kapalı) | 14.8 ± 1.6 | 1.2 ± 0.1 | 2.4 ± 1.8 | 2.5 ± 2.4 |
-| sis | **Füzyon** | 12.4 ± 0.7 | 1.1 ± 0.1 | 0.0 ± 0.0 | 0.0 ± 0.0 |
-| karistirma | Sadece radar | 41.3 ± 4.6 | 8.7 ± 4.8 | 0.0 ± 0.0 | 2.9 ± 1.7 |
-| karistirma | Sadece kamera | 6.4 ± 0.3 | 33.9 ± 0.0 | 0.0 ± 0.0 | 0.0 ± 0.0 |
-| karistirma | Sadece konum bildirimi | 40.3 ± 0.2 | 61.0 ± 0.2 | 0.0 ± 0.0 | 0.4 ± 0.5 |
-| karistirma | Füzyon (güven ağırlıklandırma kapalı) | 10.3 ± 1.8 | 1.3 ± 0.3 | 7.7 ± 2.4 | 1.0 ± 1.2 |
-| karistirma | **Füzyon** | 8.8 ± 0.7 | 1.1 ± 0.1 | 0.0 ± 0.0 | 0.0 ± 0.0 |
-| sensor_kaybi | Sadece radar | 14.4 ± 0.5 | 23.8 ± 0.2 | 0.0 ± 0.0 | 5.0 ± 0.0 |
-| sensor_kaybi | Sadece kamera | 7.5 ± 0.4 | 56.5 ± 0.0 | 0.0 ± 0.0 | 4.0 ± 0.0 |
-| sensor_kaybi | Sadece konum bildirimi | 40.2 ± 0.3 | 68.9 ± 0.2 | 0.0 ± 0.0 | 2.2 ± 0.4 |
-| sensor_kaybi | Füzyon (güven ağırlıklandırma kapalı) | 10.0 ± 0.5 | 4.6 ± 0.1 | 0.0 ± 0.0 | 3.0 ± 0.0 |
-| sensor_kaybi | **Füzyon** | 10.0 ± 0.5 | 4.6 ± 0.1 | 0.0 ± 0.0 | 3.0 ± 0.0 |
+| Senaryo | Konfigürasyon | RMSE (m) | GOSPA (m) | Kaçırma (%) | Yanlış iz | ID switch |
+|---|---|---:|---:|---:|---:|---:|
+| normal | Sadece radar | 14.8 ± 0.6 | 36.9 ± 1.4 | 1.5 ± 0.1 | 0.0 ± 0.0 | 0.0 ± 0.0 |
+| normal | Sadece kamera | 6.4 ± 0.2 | 197.3 ± 0.2 | 33.8 ± 0.0 | 0.0 ± 0.0 | 0.0 ± 0.0 |
+| normal | Sadece konum bildirimi | 40.2 ± 0.1 | 313.4 ± 0.6 | 61.0 ± 0.3 | 0.0 ± 0.0 | 0.2 ± 0.4 |
+| normal | Füzyon (güven ağırlıklandırma kapalı) | 8.4 ± 0.5 | 20.8 ± 0.9 | 1.1 ± 0.1 | 0.0 ± 0.0 | 0.0 ± 0.0 |
+| normal | **Füzyon** | 8.4 ± 0.5 | 20.8 ± 0.9 | 1.1 ± 0.1 | 0.0 ± 0.0 | 0.0 ± 0.0 |
+| sis | Sadece radar | 14.8 ± 0.6 | 36.9 ± 1.4 | 1.5 ± 0.1 | 0.0 ± 0.0 | 0.0 ± 0.0 |
+| sis | Sadece kamera | 16.0 ± 2.4 | 317.4 ± 2.2 | 65.0 ± 0.2 | 0.2 ± 0.5 | 1.3 ± 0.8 |
+| sis | Sadece konum bildirimi | 40.2 ± 0.2 | 313.5 ± 0.6 | 61.0 ± 0.3 | 0.0 ± 0.0 | 0.3 ± 0.5 |
+| sis | Füzyon (güven ağırlıklandırma kapalı) | 14.8 ± 1.6 | 45.1 ± 7.5 | 1.2 ± 0.1 | 2.4 ± 1.8 | 2.5 ± 2.4 |
+| sis | **Füzyon** | 12.4 ± 0.7 | 30.3 ± 1.4 | 1.1 ± 0.1 | 0.0 ± 0.0 | 0.0 ± 0.0 |
+| karistirma | Sadece radar | 41.3 ± 4.6 | 109.4 ± 19.6 | 8.7 ± 4.8 | 0.0 ± 0.0 | 2.9 ± 1.7 |
+| karistirma | Sadece kamera | 6.4 ± 0.3 | 197.3 ± 0.2 | 33.9 ± 0.0 | 0.0 ± 0.0 | 0.0 ± 0.0 |
+| karistirma | Sadece konum bildirimi | 40.3 ± 0.2 | 313.5 ± 0.5 | 61.0 ± 0.2 | 0.0 ± 0.0 | 0.4 ± 0.5 |
+| karistirma | Füzyon (güven ağırlıklandırma kapalı) | 10.3 ± 1.8 | 52.5 ± 9.6 | 1.3 ± 0.3 | 7.7 ± 2.4 | 1.0 ± 1.2 |
+| karistirma | **Füzyon** | 8.8 ± 0.7 | 21.7 ± 1.0 | 1.1 ± 0.1 | 0.0 ± 0.0 | 0.0 ± 0.0 |
+| sensor_kaybi | Sadece radar | 14.4 ± 0.5 | 117.6 ± 1.2 | 23.8 ± 0.2 | 0.0 ± 0.0 | 5.0 ± 0.0 |
+| sensor_kaybi | Sadece kamera | 7.5 ± 0.4 | 274.5 ± 0.1 | 56.5 ± 0.0 | 0.0 ± 0.0 | 4.0 ± 0.0 |
+| sensor_kaybi | Sadece konum bildirimi | 40.2 ± 0.3 | 330.1 ± 0.5 | 68.9 ± 0.2 | 0.0 ± 0.0 | 2.2 ± 0.4 |
+| sensor_kaybi | Füzyon (güven ağırlıklandırma kapalı) | 10.0 ± 0.5 | 41.2 ± 0.9 | 4.6 ± 0.1 | 0.0 ± 0.0 | 3.0 ± 0.0 |
+| sensor_kaybi | **Füzyon** | 10.0 ± 0.5 | 41.2 ± 0.9 | 4.6 ± 0.1 | 0.0 ± 0.0 | 3.0 ± 0.0 |
 
-| Senaryo | Füzyonun en iyi tek sensörden düşük RMSE verdiği koşu |
-|---|---:|
-| normal | 0/30 |
-| sis | 30/30 |
-| karistirma | 0/30 |
-| sensor_kaybi | 0/30 |
+| Senaryo | Füzyonun en iyi tek sensörden düşük olduğu koşu: RMSE | GOSPA |
+|---|---:|---:|
+| normal | 0/30 | 30/30 |
+| sis | 30/30 | 30/30 |
+| karistirma | 0/30 | 30/30 |
+| sensor_kaybi | 0/30 | 30/30 |
 
 ![Karşılaştırma](results/karsilastirma.png)
 
 ### Yorum
 
+- **Genel başarım (GOSPA):** Füzyon **dört senaryonun hepsinde, 30 koşunun
+  30'unda** en iyi tek sensörden daha düşük GOSPA veriyor. Normal senaryoda
+  füzyon 20.8 ± 0.9 m; en iyi tek sensör radar 36.9 ± 1.4 m, kamera
+  197.3 ± 0.2 m.
+- **RMSE ve kamera:** Sadece eşleşen izlere bakan RMSE'de, sis dışındaki
+  senaryolarda kamera füzyondan daha düşük çıkıyor (ör. normal: 6.4 ve 8.4 m).
+  Bunun sebebi kameranın hedeflerin %34-57'sini hiç görmemesi; RMSE'si sadece
+  menzili içindeki yakın hedeflerden hesaplanıyor. Kaçırılan hedefleri de
+  cezalandıran GOSPA bu yanılgıyı ortadan kaldırıyor (kamera 197 m, füzyon
+  21 m). Sis senaryosunda füzyon RMSE'de de 30/30 koşuda en iyi tek sensörden
+  daha iyi (12.4 ± 0.7 m; radar 14.8 ± 0.6 m).
 - **Kapsama:** Füzyon her senaryoda en düşük kaçırma oranını veriyor
   (%1.1-4.6). Tek sensörlerde bu oran %1.5-69 arasında.
-- **Doğruluk:** Füzyon her senaryoda radar ve konum bildiriminden daha doğru.
-  **Sis senaryosunda 30 koşunun 30'unda bütün tek sensörlerden daha düşük
-  RMSE veriyor** (12.4 ± 0.7 m; en iyi tek sensör radar 14.8 ± 0.6 m).
-- **Kamera ile karşılaştırma:** Normal, karıştırma ve sensör kaybında sadece
-  kameranın RMSE'si daha düşük (30 koşunun hiçbirinde füzyon kameranın altına
-  inmiyor). Ancak kamera bu sürede hedeflerin %34-57'sini hiç görmüyor;
-  RMSE'si sadece menzili içindeki yakın hedeflerden hesaplanıyor. Füzyon ise
-  uzak hedefleri de (radarın daha gürültülü ölçümleriyle) izliyor. RMSE'yi
-  kaçırma oranıyla birlikte okumak gerekir.
 - **Ablasyon, sensör güveninin değeri:** Güven ağırlıklandırma kapatılınca
-  karıştırma senaryosunda ortalama **7.7 ± 2.4 sahte iz** oluşuyor, RMSE
-  8.8'den 10.3 m'ye çıkıyor ve ID switch'ler beliriyor. Sis senaryosunda da
-  2.4 sahte iz, 2.5 ID switch ve 12.4 → 14.8 m RMSE artışı görülüyor. Normal
-  ve sensör kaybı senaryolarında iki satır aynı; bu beklenen bir sonuç, çünkü
-  bozulmuş bir sensör yokken güven zaten 1'de kalıyor. Bu sonuç hem yanlış iz
-  ölçütünün çalıştığını hem de iyileşmenin NIS mekanizmasından geldiğini
-  gösteriyor.
+  karıştırma senaryosunda ortalama **7.7 ± 2.4 sahte iz** oluşuyor ve GOSPA
+  21.7'den 52.5 m'ye çıkıyor (RMSE 8.8 → 10.3 m). Sis senaryosunda 2.4 sahte iz,
+  2.5 ID switch ve 30.3 → 45.1 m GOSPA artışı görülüyor. Normal ve sensör kaybı
+  senaryolarında iki satır aynı; bu beklenen bir sonuç, çünkü bozulmuş bir
+  sensör yokken güven zaten 1'de kalıyor. Bu sonuç hem yanlış iz ölçütünün
+  çalıştığını hem de iyileşmenin NIS mekanizmasından geldiğini gösteriyor.
 - **Bias düzeltme:** Konum bildirimindeki (35, -20) m sapma, seed=42 koşusunda
   her senaryoda ~(39, -19) m olarak kestiriliyor. Kalan hata ~4 m; tek başına
   konum bildiriminin hatası ise ~40 m.
 - **Karıştırma:** Radarın güveni karıştırma süresince ~0.1'e düşüyor. Radarın
-  tek başına RMSE'si 41.3 ± 4.6 m'ye çıkarken füzyon 8.8 ± 0.7 m'de kalıyor.
+  tek başına GOSPA'sı 109 m'ye, RMSE'si 41 m'ye çıkarken füzyon 21.7 m GOSPA ve
+  8.8 m RMSE'de kalıyor.
 - **Sensör kaybı (zayıf nokta):** Radar ve kamera 150-170 s arasında aynı anda
   kapalı. Dost olmayan hedeflerin izleri 6 s sonra siliniyor ve sensörler geri
-  gelince yeni ID ile başlıyor (her koşuda 3 ID switch).
+  gelince yeni ID ile başlıyor (her koşuda 3 ID switch). Füzyonun GOSPA'sı da
+  bu yüzden en yüksek bu senaryoda (41.2 m).
 
 ## Proje yapısı
 
 ```
 Cok-Sensorlu-Veri-Fuzyonu/
   main.py                  komut satırı, senaryo koşturma, tablo ve grafik üretimi
+  web.py, web/index.html   yerel web arayüzü (http.server + canvas)
   src/saha.py              saha ve hedef rotaları
   src/sensorler.py         sensör modelleri ve senaryo olayları
   src/kalman.py            sabit hız Kalman filtresi
   src/iliskilendirme.py    Mahalanobis kapılama + Macar algoritması
   src/fuzyon.py            füzyon merkezi (senkronizasyon, bias, güven, iz yönetimi)
-  src/degerlendirme.py     RMSE, kaçırma, yanlış iz, ID switch
+  src/degerlendirme.py     RMSE, GOSPA, kaçırma, yanlış iz, ID switch
   src/gorsel.py            GIF animasyon, karşılaştırma ve özet figürleri
   tests/                   pytest birim testleri
   .github/workflows/       her push'ta testleri çalıştıran GitHub Actions iş akışı
@@ -240,6 +277,8 @@ Cok-Sensorlu-Veri-Fuzyonu/
 - Uzun sensör kesintilerinden sonra kimlik korumak için iz yeniden bağlama
   (track re-identification).
 - Yoğun yanlış alarm ortamı için JPDA / MHT ilişkilendirme.
+- Rastgele sonlu küme (RFS) tabanlı çok hedefli filtreler (PHD, PMBM) [7] ile
+  iz başlatma ve silmenin olasılıksal olarak modellenmesi.
 - Sensör konumlarındaki ve zaman damgalarındaki hataların da kestirildiği tam
   sensör kaydı (registration).
 - Senaryo geometrisinin (rotalar, sensör yerleşimi) de rastgele örneklendiği
@@ -255,15 +294,17 @@ Cok-Sensorlu-Veri-Fuzyonu/
    *IEEE Transactions on Aerospace and Electronic Systems*, 52(4), 1679-1696,
    2016.
 4. P. Virtanen ve diğ., "SciPy 1.0: Fundamental Algorithms for Scientific
-   Computing in Python," *Nature Methods*, 17, 261-272, 2020.
+   Computing in Python," *Nature Methods*, 17(3), 261-272, 2020.
 5. B. Khaleghi, A. Khamis, F. O. Karray, S. N. Razavi, "Multisensor Data
    Fusion: A Review of the State-of-the-Art," *Information Fusion*, 14(1),
-   28-44, 2013.
+   28-44, 2013. DOI: 10.1016/j.inffus.2011.08.001
 6. Y. Huang, Y. Zhang, Z. Wu, N. Li, J. Chambers, "A Novel Adaptive Kalman
    Filter With Inaccurate Process and Measurement Noise Covariance Matrices,"
    *IEEE Transactions on Automatic Control*, 63(2), 594-601, 2018.
+   DOI: 10.1109/TAC.2017.2730480
 7. R. P. S. Mahler, *Advances in Statistical Multisource-Multitarget Information
-   Fusion*, Artech House, 2014.
+   Fusion*, Artech House, Boston, 2014.
 8. A. S. Rahmathullah, Á. F. García-Fernández, L. Svensson, "Generalized
    Optimal Sub-Pattern Assignment Metric," *20th International Conference on
-   Information Fusion (FUSION)*, 2017.
+   Information Fusion (FUSION)*, Xi'an, Çin, 182-189, 2017.
+   DOI: 10.23919/ICIF.2017.8009645

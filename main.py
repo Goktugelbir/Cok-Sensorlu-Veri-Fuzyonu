@@ -38,7 +38,7 @@ KONFIGLER = {
     "fuzyon": (TUM_SENSORLER, True),
 }
 TEK_SENSORLER = ("radar", "kamera", "konum")
-OLCUTLER = ("rmse", "kacirma", "yanlis_iz", "id_switch")
+OLCUTLER = ("rmse", "gospa", "kacirma", "yanlis_iz", "id_switch")
 
 
 def senaryo_kos(senaryo, hedefler, tohum=TOHUM):
@@ -73,44 +73,49 @@ def mc_ozetle(kosular):
     return ozet
 
 
-def kazanma_sayisi(kosular):
-    """Füzyonun RMSE'sinin, aynı koşudaki en iyi tek sensörden düşük olduğu koşu sayısı."""
-    return sum(f["rmse"] < min(kosular[t][i]["rmse"] for t in TEK_SENSORLER)
+def kazanma_sayisi(kosular, olcut="rmse"):
+    """Füzyonun ölçütünün, aynı koşudaki en iyi tek sensörden düşük olduğu koşu sayısı."""
+    return sum(f[olcut] < min(kosular[t][i][olcut] for t in TEK_SENSORLER)
                for i, f in enumerate(kosular["fuzyon"]))
 
 
 def tablo_yazdir(senaryo, ozet, kosular):
     n = len(kosular["fuzyon"])
     print(f"\n=== Senaryo: {senaryo}  ({n} koşu, ortalama ± std) ===")
-    print(f"{'Konfigürasyon':<40}{'RMSE (m)':>14}{'Kaçırma (%)':>15}{'Yanlış iz':>14}{'ID switch':>14}")
-    print("-" * 97)
+    print(f"{'Konfigürasyon':<40}{'RMSE (m)':>14}{'GOSPA (m)':>15}{'Kaçırma (%)':>15}"
+          f"{'Yanlış iz':>14}{'ID switch':>14}")
+    print("-" * 112)
     for ad in KONFIGLER:
         m = ozet[ad]
         print(f"{KONFIG_ETIKET[ad]:<40}"
               f"{m['rmse'][0]:>8.1f} ± {m['rmse'][1]:<4.1f}"
+              f"{m['gospa'][0]:>9.1f} ± {m['gospa'][1]:<4.1f}"
               f"{100 * m['kacirma'][0]:>8.1f} ± {100 * m['kacirma'][1]:<5.1f}"
               f"{m['yanlis_iz'][0]:>8.1f} ± {m['yanlis_iz'][1]:<4.1f}"
               f"{m['id_switch'][0]:>8.1f} ± {m['id_switch'][1]:<4.1f}")
-    print(f"Füzyon RMSE'si en iyi tek sensörden düşük olan koşu sayısı: {kazanma_sayisi(kosular)}/{n}")
+    print(f"Füzyonun en iyi tek sensörden düşük olduğu koşu sayısı: RMSE {kazanma_sayisi(kosular)}/{n}, "
+          f"GOSPA {kazanma_sayisi(kosular, 'gospa')}/{n}")
 
 
 def markdown_tablo(ozet_tum, kosular_tum):
-    satirlar = ["| Senaryo | Konfigürasyon | RMSE (m) | Kaçırma (%) | Yanlış iz | ID switch |",
-                "|---|---|---:|---:|---:|---:|"]
+    satirlar = ["| Senaryo | Konfigürasyon | RMSE (m) | GOSPA (m) | Kaçırma (%) | Yanlış iz | ID switch |",
+                "|---|---|---:|---:|---:|---:|---:|"]
     for senaryo, ozet in ozet_tum.items():
         for ad in KONFIGLER:
             m = ozet[ad]
             ad_metin = f"**{KONFIG_ETIKET[ad]}**" if ad == "fuzyon" else KONFIG_ETIKET[ad]
             satirlar.append(
                 f"| {senaryo} | {ad_metin} | {m['rmse'][0]:.1f} ± {m['rmse'][1]:.1f} "
+                f"| {m['gospa'][0]:.1f} ± {m['gospa'][1]:.1f} "
                 f"| {100 * m['kacirma'][0]:.1f} ± {100 * m['kacirma'][1]:.1f} "
                 f"| {m['yanlis_iz'][0]:.1f} ± {m['yanlis_iz'][1]:.1f} "
                 f"| {m['id_switch'][0]:.1f} ± {m['id_switch'][1]:.1f} |")
     satirlar.append("")
-    satirlar.append("| Senaryo | Füzyonun en iyi tek sensörden düşük RMSE verdiği koşu |")
-    satirlar.append("|---|---:|")
+    satirlar.append("| Senaryo | Füzyonun en iyi tek sensörden düşük olduğu koşu: RMSE | GOSPA |")
+    satirlar.append("|---|---:|---:|")
     for senaryo, kosular in kosular_tum.items():
-        satirlar.append(f"| {senaryo} | {kazanma_sayisi(kosular)}/{len(kosular['fuzyon'])} |")
+        n = len(kosular["fuzyon"])
+        satirlar.append(f"| {senaryo} | {kazanma_sayisi(kosular)}/{n} | {kazanma_sayisi(kosular, 'gospa')}/{n} |")
     return "\n".join(satirlar)
 
 

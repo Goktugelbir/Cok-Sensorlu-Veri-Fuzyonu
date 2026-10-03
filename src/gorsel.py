@@ -141,9 +141,11 @@ def karsilastirma_grafigi(ozet, yol, tekrar):
     """ozet[senaryo][konfig][ölçüt] = (ortalama, std) -> 2x2 gruplu çubuk grafik (hata çubuğu = ±1 std)."""
     senaryolar = list(ozet)
     konfigler = ["fuzyon", "fuzyon_guvensiz", "radar", "kamera", "konum"]
-    olcutler = [("rmse", "RMSE (m) — düşük iyi"), ("kacirma", "Kaçırma oranı (%) — düşük iyi"),
+    olcutler = [("gospa", "GOSPA (m): konum + kaçırma + sahte iz — düşük iyi"),
+                ("rmse", "RMSE (m), sadece eşleşen izler — düşük iyi"),
+                ("kacirma", "Kaçırma oranı (%) — düşük iyi"),
                 ("yanlis_iz", "Yanlış iz sayısı — düşük iyi"), ("id_switch", "ID switch sayısı — düşük iyi")]
-    fig, eksenler = plt.subplots(2, 2, figsize=(12, 7.5), dpi=110)
+    fig, eksenler = plt.subplots(2, 3, figsize=(16, 7.5), dpi=100)
     fig.patch.set_facecolor(RENK["zemin"])
     genislik = 0.16
     x = np.arange(len(senaryolar))
@@ -168,12 +170,15 @@ def karsilastirma_grafigi(ozet, yol, tekrar):
             ax.spines[k].set_visible(False)
         for k in ("left", "bottom"):
             ax.spines[k].set_color(RENK["gercek"])
+    # Altıncı hücre: lejant
+    lejant_ax = eksenler.flat[len(olcutler)]
+    lejant_ax.axis("off")
     tutamac, etiket = eksenler[0, 0].get_legend_handles_labels()
-    fig.legend(tutamac, etiket, loc="upper left", bbox_to_anchor=(0.015, 0.955), ncol=5, fontsize=8.5,
-               frameon=False)
+    lejant_ax.legend(tutamac, etiket, loc="center", fontsize=10, frameon=False,
+                     title="Hata çubuğu: ±1 standart sapma", title_fontsize=9)
     fig.suptitle(f"Füzyon ve tek sensör karşılaştırması ({tekrar} koşu, ortalama ± std)", fontsize=12,
                  color=RENK["metin"], x=0.02, ha="left")
-    fig.tight_layout(rect=(0, 0, 1, 0.92))
+    fig.tight_layout(rect=(0, 0, 1, 0.95))
     fig.savefig(yol, facecolor=fig.get_facecolor())
     plt.close(fig)
 
@@ -205,8 +210,8 @@ def ozet_figur(hedefler, veriler, yol):
                 p = np.array(k["p"]) / 1000
                 ax.plot(p[:, 0], p[:, 1], lw=2.0, color=RENK["dost"] if k["dost"] else RENK["dusman"])
             m = metrikler[sutun]
-            ax.set_title(f"{KONFIG_ETIKET[sutun]}\nRMSE {m['rmse']:.1f} m · kaçırma %{100 * m['kacirma']:.0f}"
-                         f" · ID sw. {m['id_switch']}", fontsize=9, loc="left", color=RENK["metin"])
+            ax.set_title(f"{KONFIG_ETIKET[sutun]}\nGOSPA {m['gospa']:.0f} m · RMSE {m['rmse']:.1f} m"
+                         f" · kaçırma %{100 * m['kacirma']:.0f}", fontsize=9, loc="left", color=RENK["metin"])
         eksenler[r, 0].annotate(aciklama, xy=(0, 1.2), xycoords="axes fraction", fontsize=10,
                                 fontweight="bold", color=RENK["metin"])
     fig.subplots_adjust(left=0.04, right=0.99, top=0.88, bottom=0.07, wspace=0.25, hspace=0.55)
