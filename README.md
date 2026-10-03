@@ -113,6 +113,7 @@ python main.py --senaryo sis        # tek senaryo: normal | sis | karistirma | s
 python main.py --hepsi              # tüm senaryolar, 30 seed (~3 dk, çok çekirdekli)
 python main.py --hepsi --tekrar 5   # daha az koşu, daha hızlı
 python main.py --hepsi --gif-yok    # animasyonsuz
+python main.py --hepsi --ilk-seed 100 --gif-yok   # bağımsız doğrulama (seed 100-129)
 python -m pytest                    # birim testleri
 python web.py                       # web arayüzü: http://localhost:8000
 ```
@@ -253,6 +254,26 @@ sensörlerin güveni 1'de sabit) çalıştırılmıştır.
   kapalı. Dost olmayan hedeflerin izleri 6 s sonra siliniyor ve sensörler geri
   gelince yeni ID ile başlıyor (her koşuda 3 ID switch). Füzyonun GOSPA'sı da
   bu yüzden en yüksek bu senaryoda (41.2 m).
+
+### Bağımsız doğrulama
+
+Parametreler geliştirme sırasında seed=42'ye bakılarak ayarlandı ve ana tablo
+da 42'den başlıyor. Bu yüzden aynı deney, ayarlamada hiç kullanılmamış
+**seed 100-129** ile tekrarlandı (`python main.py --hepsi --ilk-seed 100 --gif-yok`,
+tam tablo: [`results/dogrulama_seed100.md`](results/dogrulama_seed100.md)).
+
+| Senaryo | Füzyon GOSPA (m), seed 42-71 | Füzyon GOSPA (m), seed 100-129 | En iyi tek sensör GOSPA (m), seed 100-129 | Füzyon kazandı (GOSPA / RMSE), seed 100-129 |
+|---|---:|---:|---:|---:|
+| normal | 20.8 ± 0.9 | 20.5 ± 0.8 | 36.7 ± 1.4 (radar) | 30/30 · 0/30 |
+| sis | 30.3 ± 1.4 | 30.2 ± 1.5 | 36.7 ± 1.4 (radar) | 30/30 · 29/30 |
+| karistirma | 21.7 ± 1.0 | 21.5 ± 1.1 | 110.3 ± 19.0 (radar) | 30/30 · 0/30 |
+| sensor_kaybi | 41.2 ± 0.9 | 41.3 ± 1.0 | 117.4 ± 1.4 (radar) | 30/30 · 0/30 |
+
+Sonuçlar iki seed kümesinde de istatistiksel olarak aynı: Füzyon her
+senaryoda 30/30 koşuda en düşük GOSPA'yı veriyor. Ablasyondaki sahte iz
+sayısı (karıştırma: 7.9 ± 2.4) ve bias kestirim hatası (3.0 ± 1.6 m) da
+korunuyor. Tek fark, sis senaryosunda RMSE kazanımının 30/30 yerine 29/30
+koşuda gerçekleşmesi. Yani bulgular ayarlamada kullanılan seed'e özgü değil.
 
 ## Proje yapısı
 

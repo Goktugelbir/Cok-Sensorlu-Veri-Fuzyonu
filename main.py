@@ -149,13 +149,15 @@ def main():
     parser.add_argument("--tekrar", type=int, default=30,
                         help="istatistik için farklı seed'li koşu sayısı (varsayılan 30)")
     parser.add_argument("--gif-yok", action="store_true", help="GIF animasyonlarını üretme")
+    parser.add_argument("--ilk-seed", type=int, default=TOHUM,
+                        help="istatistik koşularının ilk seed'i (bağımsız doğrulama için ör. 100)")
     args = parser.parse_args()
 
     SONUC_DIZINI.mkdir(exist_ok=True)
     hedefler = hedefleri_olustur()
     senaryolar = list(SENARYOLAR) if args.hepsi else [args.senaryo]
     tekrar = max(1, args.tekrar)
-    tohumlar = list(range(TOHUM, TOHUM + tekrar))
+    tohumlar = list(range(args.ilk_seed, args.ilk_seed + tekrar))
 
     # 1) seed=42 ile örnek koşu: animasyon ve özet figür
     kayitlar, ornek_metrikler = {}, {}
@@ -193,6 +195,9 @@ def main():
     # senaryo adını taşıyan ayrı dosyalara yazılır (ör. karsilastirma_sis.png).
     ek = "" if args.hepsi else f"_{args.senaryo}"
     dosyalar = [f"karsilastirma{ek}.png", f"sonuclar{ek}.json", f"sonuclar{ek}.md"]
+    if args.ilk_seed != TOHUM:
+        # Bağımsız doğrulama koşusu: ana sonuçları ezmez
+        dosyalar = [f"dogrulama_seed{args.ilk_seed}{ek}.{u}" for u in ("png", "json", "md")]
     karsilastirma_grafigi(ozet_tum, SONUC_DIZINI / dosyalar[0], tekrar)
     json_veri = {"tekrar": tekrar, "tohumlar": tohumlar, "ozet": ozet_tum,
                  "kosular": kosular_tum, "bias_kestirimi": bias_tum,
