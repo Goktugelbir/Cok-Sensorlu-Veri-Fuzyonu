@@ -45,10 +45,12 @@ def _konfig_kos(senaryo, seed, ad):
         kareler.append({
             "t": t,
             "guven": {s: round(g, 3) for s, g in guvenler.items()},
-            # [id, x, y, vx, vy, skor, sensörler, dost]
+            # [id, x, y, vx, vy, skor, sensörler, dost, model_olasiliklari]
             "izler": [[iz["id"], round(float(iz["konum"][0]), 1), round(float(iz["konum"][1]), 1),
                        round(float(iz["hiz"][0]), 2), round(float(iz["hiz"][1]), 2),
-                       round(iz["skor"], 3), iz["sensorler"], iz["dost"]] for iz in resim],
+                       round(float(iz["skor"]), 3), iz["sensorler"], iz["dost"],
+                       [round(float(m), 2) for m in iz["model_olasiliklari"]] if iz.get("model_olasiliklari") is not None else None]
+                      for iz in resim],
         })
     return ad, {"etiket": KONFIG_ETIKET[ad], "metrik": metrik, "kareler": kareler}
 

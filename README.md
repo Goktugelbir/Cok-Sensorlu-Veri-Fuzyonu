@@ -28,9 +28,9 @@ yerel bir web arayüzünde etkileşimli olarak izlenebilir ([Web arayüzü](#web
 > **In English:** A Python demo that fuses simulated radar, EO/IR camera and
 > blue-force position reports into a single tactical picture. It covers time
 > alignment of delayed measurements, online bias estimation, Mahalanobis gating
-> with optimal assignment, constant-velocity Kalman filtering and NIS-based
-> sensor trust. Across four scenarios (normal, fog, jamming, sensor loss) and
-> 30 Monte Carlo runs, fusion beats the best single sensor in GOSPA in 30/30
+> with optimal assignment, IMM (Interacting Multiple Model: Constant Velocity + EKF Coordinated Turn)
+> filtering and NIS-based sensor trust. Across four scenarios (normal, fog, jamming, sensor loss)
+> and 30 Monte Carlo runs, fusion beats the best single sensor in GOSPA in 30/30
 > runs per scenario. The result is confirmed on a held-out seed set, and an
 > ablation shows that sensor trust prevents false tracks under jamming.
 
@@ -91,8 +91,14 @@ etmek zorundadır.
    yöntemini uygular; Macar algoritmasıyla aynı optimal atamayı bulur.
    Atanmayan ölçümden aday iz başlatılır; güven ağırlıklı 3 vuruşla iz onaylanır. Aday iz 2.5 s,
    onaylı iz 6 s güncellenmezse silinir. Çakışan çift izler birleştirilir [1].
-4. **Kalman filtresi** [2]**:** Sabit hız modeli [1] kullanılır; durum `[x, y, vx, vy]`,
-   süreç gürültüsü beyaz ivme σ = 1 m/s².
+4. **IMM (Interacting Multiple Model) Filtresi** [1, 2]**:** Manevralı ve düz giden hedefleri
+   aynı anda etkin izlemek için Sabit Hız (CV: `[x, y, vx, vy]`) ve Genişletilmiş Kalman
+   Filtresi (EKF) tabanlı Koordineli Dönüş (CT: `[x, y, vx, vy, ω]`) modelleri etkileşimli
+   olarak birleştirilmiştir. Markov geçiş olasılıkları (TPM) ve ölçüm inovasyonlarının
+   Gauss olabilirlikleri üzerinden model olasılıkları her adımda dinamik güncellenir.
+   Hedef düz rotada ilerlerken CV modeli (%80+), dönüş manevralarında ise açısal dönüş hızını
+   (ω) kestiren EKF CT modeli ağırlık kazanır. Durum ve kovaryanslar olasılık ağırlıklı
+   birleştirilerek füzyon merkezine sunulur.
 5. **Sensör güveni ve çelişki çözümü:** Her sensör için normalize inovasyon
    karesinin (NIS) [1, 6] hareketli ortalaması tutulur. Ortalama tolerans değerini (4)
    aşarsa sensörün güveni düşer ve ölçüm kovaryansı `R / güven` olarak
@@ -408,9 +414,10 @@ okunmalıdır:
   değişir. Sonuçların farklı saha düzenlerine genellenebilirliği test edilmedi.
 - **2 boyut, kartezyen ölçüm:** Yükseklik yoktur. Radar gerçekte menzil-açı
   ölçer; burada doğrudan (x, y) ölçtüğü varsayılır.
-- **Tek hareket modeli:** Sabit hız modeli manevralarda izin hedefin gerisinde
-  kalmasına yol açar. Bu, bias kestirimindeki küçük sistematik sapmanın da olası
-  kaynağıdır.
+- **Hareket modeli kısıtları:** Projeye eklenen IMM filtresi (sabit hız + koordineli dönüş)
+  sayesinde viraj ve dönüş manevralarında izin geride kalma problemi giderilmiştir; ancak
+  yüksek ivmeli doğrusal hızlanma/frenleme gibi ani manevralar için ilave ivme modelleri (ör. CA modeli)
+  düşünülebilir.
 - **Gecikmeli çıktı:** Durum resmi 2 s geriden gelir. Çalışma süresi gerçek
   zamanın çok altındadır, ama sistem gerçek bir veri akışı üzerinde denenmedi.
 - **Elle ayarlanmış parametreler:** Yukarıdaki parametreler sistematik bir
@@ -421,7 +428,7 @@ okunmalıdır:
 
 ## Gelecek çalışmalar
 
-- Manevralı hedefler için IMM (sabit hız + koordineli dönüş) filtre.
+- [x] **Manevralı hedefler için IMM filtre:** Tamamlandı (Sabit Hız + EKF Koordineli Dönüş modelleri arası etkileşimli geçiş, dinamik model olasılıkları taktik resme ve web arayüzüne eklendi).
 - Kutupsal (menzil-açı) radar ölçüm modeli ve EKF/UKF.
 - Gecikmeli ölçümleri pencere beklemeden işlemek için sırası bozuk ölçüm
   (OOSM) güncellemesi ile gerçek zamanlı çıktı.

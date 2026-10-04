@@ -19,7 +19,7 @@ from collections import defaultdict
 import numpy as np
 
 from .iliskilendirme import iliskilendir, maliyet_matrisi
-from .kalman import KalmanCV
+from .kalman import IMM, KalmanCV
 from .saha import SURE
 from .sensorler import FUZYON_GECIKMESI
 
@@ -41,7 +41,7 @@ REFERANS_SENSORLER = ("radar", "kamera")
 class Iz:
     def __init__(self, iz_id, z, R, t, sensor):
         self.id = iz_id
-        self.kf = KalmanCV(z, R)
+        self.kf = IMM(z, R)
         self.onayli = False
         self.vurus = 1
         self.son_guncelleme = t
@@ -233,11 +233,13 @@ class FuzyonMerkezi:
         for iz in self.izler:
             if not iz.onayli:
                 continue
+            model_mu = iz.kf.model_olasiliklari if isinstance(iz.kf, IMM) else None
             resim.append(dict(
                 id=iz.id, konum=iz.kf.konum, hiz=iz.kf.x[2:].copy(),
                 skor=self.guven_skoru(iz),
                 sensorler=sorted(s for s, ts in iz.sensor_son.items() if self.zaman - ts < 3.0),
-                dost=iz.dost_etiket is not None))
+                dost=iz.dost_etiket is not None,
+                model_olasiliklari=model_mu))
         return resim
 
 

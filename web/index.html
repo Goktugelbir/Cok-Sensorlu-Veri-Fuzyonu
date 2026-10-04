@@ -355,10 +355,12 @@ function panelleriGuncelle(sn, kare) {
       ${SENSOR_AD[ad]}</span><span class="rozet ${sinif}">${d.etiket}</span></div>${guvenHtml}</div>`;
   }).join("");
   const izler = kare ? kare.izler : [];
-  $("izListesi").innerHTML = izler.length ? izler.map(iz =>
-    `<div><span style="color:${iz[7] ? RENK.dost : RENK.dusman};font-weight:600">T${iz[0]}</span>
-      <span>güven ${iz[5].toFixed(2)} · ${iz[6].map(s => KISA[s]).join(",") || "-"} · ${iz[7] ? "dost" : "diğer"}</span></div>`
-  ).join("") : `<div><span>Onaylı iz yok</span><span></span></div>`;
+  $("izListesi").innerHTML = izler.length ? izler.map(iz => {
+    const mu = iz[8];
+    const mod = mu ? ` · ${mu[1] > 0.35 ? "Dönüş (%"+Math.round(mu[1]*100)+")" : "Düz (%"+Math.round(mu[0]*100)+")"}` : "";
+    return `<div><span style="color:${iz[7] ? RENK.dost : RENK.dusman};font-weight:600">T${iz[0]}</span>
+      <span>güven ${iz[5].toFixed(2)}${mod} · ${iz[6].map(s => KISA[s]).join(",") || "-"} · ${iz[7] ? "dost" : "diğer"}</span></div>`;
+  }).join("") : `<div><span>Onaylı iz yok</span><span></span></div>`;
 }
 
 // ---------------------------------------------------------------- ipucu
@@ -368,9 +370,11 @@ tuval.addEventListener("mousemove", e => {
   for (const b of basliklar) { const d = Math.hypot(b.x - mx, b.y - my); if (d < enD) { en = b; enD = d; } }
   const ip = $("ipucu");
   if (!en) { ip.hidden = true; tuval.style.cursor = "default"; return; }
-  const [id, x, y, vx, vy, skor, sens, dost] = en.iz;
+  const [id, x, y, vx, vy, skor, sens, dost, mu] = en.iz;
+  const immHtml = mu ? `<div class="satir"><span>Model (IMM)</span><span>CV %${Math.round(mu[0]*100)} / CT %${Math.round(mu[1]*100)}</span></div>` : "";
   ip.innerHTML = `<b>İz T${id}</b> <span style="color:${dost ? RENK.dost : RENK.dusman}">${dost ? "dost" : "diğer"}</span>
     <div class="satir"><span>Güven skoru</span><span>${skor.toFixed(2)}</span></div>
+    ${immHtml}
     <div class="satir"><span>Destekleyen</span><span>${sens.map(s => SENSOR_AD[s]).join(", ") || "yok"}</span></div>
     <div class="satir"><span>Konum</span><span>${(x / 1000).toFixed(2)}, ${(y / 1000).toFixed(2)} km</span></div>
     <div class="satir"><span>Hız</span><span>${Math.hypot(vx, vy).toFixed(1)} m/s</span></div>`;
