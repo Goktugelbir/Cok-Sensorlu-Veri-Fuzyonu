@@ -10,7 +10,9 @@ Adımlar:
    (radar/kamera) desteklenen izlere göre hesaplanan artıkların ortalamasıyla
    kestirilir ve ölçümlerden çıkarılır.
 3. İlişkilendirme: Mahalanobis kapılama + optimal atama (linear_sum_assignment).
-4. Kalman güncellemesi: sensör güvenine göre ölçeklenmiş R ile.
+4. Filtre güncellemesi: sensör güvenine göre ölçeklenmiş R ile. Varsayılan
+   hareket modeli IMM'dir (sabit hız + koordineli dönüş); ablasyon için tek
+   başına sabit hız (CV) Kalman filtresi de seçilebilir.
 5. İz yönetimi: yeni iz başlatma, onaylama, silme ve çift izleri birleştirme.
 """
 
@@ -18,7 +20,7 @@ from collections import defaultdict
 
 import numpy as np
 
-from .iliskilendirme import iliskilendir, maliyet_matrisi
+from .iliskilendirme import ATANAMAZ, iliskilendir, maliyet_matrisi
 from .kalman import IMM, KalmanCV
 from .saha import SURE
 from .sensorler import FUZYON_GECIKMESI
@@ -32,16 +34,25 @@ OLGUN_IZ_VURUS = 10         # bias örneği alınacak izin en az vuruş sayısı
 KALIBRASYON_SIGMA = 60.0    # bias öğrenilene kadar konum bildirimi için kapı belirsizliği (m)
 BIAS_KALAN_SIGMA = 3.0      # bias kestirimindeki kalan belirsizlik (m)
 NIS_TOLERANS = 4.0          # sensör güveni bu NIS ortalamasının üstünde düşmeye başlar
-GENIS_KAPI = 100.0         # yeni iz bastırma ve güven ölçümü için geniş Mahalanobis eşiği
+NIS_BEKLENEN = 2.0          # tutarlı bir sensörde NIS ortalaması (2 boyutlu ölçüm); başlangıç değeri
+NIS_EMA_KATSAYI = 0.05      # NIS hareketli ortalamasında yeni ölçümün ağırlığı
+NIS_UST_SINIR = 50.0        # tek bir aykırı ölçümün ortalamaya katkısının üst sınırı
+GUVEN_ALT_SINIR = 0.05      # sensör güveninin inebileceği en düşük değer
+GENIS_KAPI = 100.0          # yeni iz bastırma ve güven ölçümü için geniş Mahalanobis eşiği
+DESTEK_PENCERESI = 3.0      # bir sensörün izi "destekliyor" sayıldığı son katkıdan beri geçen süre (s)
+SKOR_SONUM = 5.0            # iz güven skorunda sensör katkısının üstel sönüm süresi (s)
+BIRLESTIRME_MESAFE = 50.0   # bu konum farkının altındaki iki onaylı iz birleştirilir (m)...
+BIRLESTIRME_HIZ = 8.0       # ...hız farkı da bunun altındaysa (m/s)
 # Güven skorunda her sensörün temel katkısı
 SENSOR_KATKI = {"radar": 0.6, "kamera": 0.7, "konum": 0.8}
 REFERANS_SENSORLER = ("radar", "kamera")
+HAREKET_MODELLERI = ("imm", "cv")  # IMM: sabit hız + koordineli dönüş; CV: sadece sabit hız
 
 
 class Iz:
-    def __init__(self, iz_id, z, R, t, sensor):
+    def __init__(self, iz_id, z, R, t, sensor, hareket_modeli="imm"):
         self.id = iz_id
-        self.kf = IMM(z, R)
+        self.kf = IMM(z, R) if hareket_modeli == "imm" else KalmanCV(z, R)
         self.onayli = False
         self.vurus = 1
         self.son_guncelleme = t
@@ -50,15 +61,18 @@ class Iz:
 
 
 class FuzyonMerkezi:
-    def __init__(self, sensorler, guven_agirliklandirma=True):
+    def __init__(self, sensorler, guven_agirliklandirma=True, hareket_modeli="imm"):
+        if hareket_modeli not in HAREKET_MODELLERI:
+            raise ValueError(f"bilinmeyen hareket modeli: {hareket_modeli}")
         self.sensorler = list(sensorler)
+        self.hareket_modeli = hareket_modeli
         # Kapalıysa tüm sensörlerin güveni 1'de sabit kalır (ablasyon deneyi için)
         self.guven_agirliklandirma = guven_agirliklandirma
         self.zaman = 0.0
         self.izler = []
         self.sonraki_id = 1
         self.tampon = []
-        self.nis_ema = {s: 2.0 for s in self.sensorler}
+        self.nis_ema = {s: NIS_BEKLENEN for s in self.sensorler}
         self.guven = {s: 1.0 for s in self.sensorler}
         self.bias_artiklar = defaultdict(list)
         self.bias = {s: np.zeros(2) for s in self.sensorler}
@@ -120,7 +134,7 @@ class FuzyonMerkezi:
                 continue
             for i, iz in enumerate(self.izler):
                 if iz.dost_etiket is not None and iz.dost_etiket != o.etiket:
-                    M[i, j] = 1e9
+                    M[i, j] = ATANAMAZ
         eslesmeler, _, bos_olcumler = iliskilendir(M)
 
         kalibrasyonda = sensor == "konum" and self.referans_var and not self._bias_hazir(sensor)
@@ -147,7 +161,7 @@ class FuzyonMerkezi:
         for j in bos_olcumler:
             if self._onayli_ize_yakin(Z[j], R_etkin[j]):
                 continue
-            yeni = Iz(self.sonraki_id, Z[j], R_etkin[j], t, sensor)
+            yeni = Iz(self.sonraki_id, Z[j], R_etkin[j], t, sensor, self.hareket_modeli)
             yeni.dost_etiket = olcumler[j].etiket
             self.izler.append(yeni)
             self.sonraki_id += 1
@@ -178,12 +192,13 @@ class FuzyonMerkezi:
                 y, S = iz.kf.inovasyon(z, R)
                 nis_min = min(nis_min, float(y @ np.linalg.solve(S, y)))
             if nis_min < GENIS_KAPI:
-                self.nis_ema[sensor] = 0.95 * self.nis_ema[sensor] + 0.05 * min(nis_min, 50.0)
-        self.guven[sensor] = float(np.clip(NIS_TOLERANS / self.nis_ema[sensor], 0.05, 1.0))
+                self.nis_ema[sensor] = ((1 - NIS_EMA_KATSAYI) * self.nis_ema[sensor]
+                                        + NIS_EMA_KATSAYI * min(nis_min, NIS_UST_SINIR))
+        self.guven[sensor] = float(np.clip(NIS_TOLERANS / self.nis_ema[sensor], GUVEN_ALT_SINIR, 1.0))
 
     def _bias_ogren(self, iz, o, t):
         """Konum bildirimi artıklarını, referans sensörle desteklenen izlerde biriktirir."""
-        destekli = any(t - iz.sensor_son.get(s, -np.inf) < 3.0 for s in REFERANS_SENSORLER)
+        destekli = any(t - iz.sensor_son.get(s, -np.inf) < DESTEK_PENCERESI for s in REFERANS_SENSORLER)
         # Yeni başlatılan izin hız kestirimi henüz oturmamıştır (hedefin gerisinde kalır);
         # bu yüzden sadece olgun izlerden örnek alınır
         if not (iz.onayli and destekli and iz.vurus >= OLGUN_IZ_VURUS):
@@ -212,7 +227,7 @@ class FuzyonMerkezi:
                     continue
                 d = np.linalg.norm(i1.kf.x[:2] - i2.kf.x[:2])
                 dv = np.linalg.norm(i1.kf.x[2:] - i2.kf.x[2:])
-                if d < 50.0 and dv < 8.0:
+                if d < BIRLESTIRME_MESAFE and dv < BIRLESTIRME_HIZ:
                     silinecek.add(i2.id)
                     for s, ts in i2.sensor_son.items():
                         i1.sensor_son[s] = max(ts, i1.sensor_son.get(s, -np.inf))
@@ -223,7 +238,7 @@ class FuzyonMerkezi:
         """0-1 arası iz güveni: güncel sensör katkılarının birleşimi."""
         kalan = 1.0
         for s, ts in iz.sensor_son.items():
-            p = SENSOR_KATKI[s] * self.guven[s] * np.exp(-(self.zaman - ts) / 5.0)
+            p = SENSOR_KATKI[s] * self.guven[s] * np.exp(-(self.zaman - ts) / SKOR_SONUM)
             kalan *= (1.0 - p)
         return 1.0 - kalan
 
@@ -233,22 +248,24 @@ class FuzyonMerkezi:
         for iz in self.izler:
             if not iz.onayli:
                 continue
-            model_mu = iz.kf.model_olasiliklari if isinstance(iz.kf, IMM) else None
+            model_mu = getattr(iz.kf, "model_olasiliklari", None)  # sadece IMM izlerinde
             resim.append(dict(
                 id=iz.id, konum=iz.kf.konum, hiz=iz.kf.x[2:].copy(),
+                P_konum=iz.kf.P[:2, :2].copy(),  # konum kovaryansı (filtre tutarlılığı / NEES için)
                 skor=self.guven_skoru(iz),
-                sensorler=sorted(s for s, ts in iz.sensor_son.items() if self.zaman - ts < 3.0),
+                sensorler=sorted(s for s, ts in iz.sensor_son.items() if self.zaman - ts < DESTEK_PENCERESI),
                 dost=iz.dost_etiket is not None,
                 model_olasiliklari=model_mu))
         return resim
 
 
-def fuzyon_calistir(olcumler, sensorler, kayit_araligi=1.0, guven_agirliklandirma=True):
+def fuzyon_calistir(olcumler, sensorler, kayit_araligi=1.0, guven_agirliklandirma=True,
+                    hareket_modeli="imm"):
     """Verilen sensörlerle tüm senaryoyu koşturur.
 
     Dönüş: [(füzyon_zamanı, durum_resmi, sensör_güvenleri), ...] (kayit_araligi saniyede bir)
     """
-    merkez = FuzyonMerkezi(sensorler, guven_agirliklandirma)
+    merkez = FuzyonMerkezi(sensorler, guven_agirliklandirma, hareket_modeli)
     tum = sorted((o for s in sensorler for o in olcumler[s]), key=lambda o: o.t_varis)
     gecmis = []
     k_idx = 0

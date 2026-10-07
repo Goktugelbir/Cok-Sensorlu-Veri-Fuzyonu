@@ -24,6 +24,19 @@ def gospa(gercek, tahmin, c=GOSPA_C):
     return float(np.sqrt(konum + c ** 2 / 2 * eksik_sahte))
 
 
+def eslestir(gercek, tahmin):
+    """Gerçek hedefleri izlere optimal atamayla (Öklid mesafesi) eşler.
+
+    ESLESME_ESIGI'nden uzak çiftler eşleşmiş sayılmaz.
+    Dönüş: {hedef_indeksi: (iz_indeksi, mesafe)}
+    """
+    if not len(tahmin):
+        return {}
+    D = np.linalg.norm(gercek[:, None, :] - tahmin[None, :, :], axis=2)
+    satir, sutun = linear_sum_assignment(D)
+    return {i: (j, D[i, j]) for i, j in zip(satir, sutun) if D[i, j] <= ESLESME_ESIGI}
+
+
 def degerlendir(gecmis, hedefler):
     """Füzyon geçmişini gerçek rotalarla karşılaştırır.
 
@@ -52,13 +65,9 @@ def degerlendir(gecmis, hedefler):
         tahmin = np.array([iz["konum"] for iz in resim]).reshape(-1, 2)
         gospa_degerleri.append(gospa(gercek, tahmin))
         eslesen = {}
-        if len(tahmin):
-            D = np.linalg.norm(gercek[:, None, :] - tahmin[None, :, :], axis=2)
-            satir, sutun = linear_sum_assignment(D)
-            for i, j in zip(satir, sutun):
-                if D[i, j] <= ESLESME_ESIGI:
-                    eslesen[i] = j
-                    hatalar_kare.append(D[i, j] ** 2)
+        for i, (j, d) in eslestir(gercek, tahmin).items():
+            eslesen[i] = j
+            hatalar_kare.append(d ** 2)
 
         for i, h in enumerate(hedefler):
             toplam += 1

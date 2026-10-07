@@ -5,8 +5,17 @@ __pycache__/
 venv/
 .idea/
 .vscode/
+.DS_Store
+Thumbs.db
 
 # Tek senaryo koşularının çıktıları (python main.py --senaryo ...)
 results/karsilastirma_*.png
 results/sonuclar_*.json
 results/sonuclar_*.md
+results/nees_*.png
+
+# Bağımsız doğrulama koşusu tek senaryoyla çalıştırılırsa (python main.py --senaryo ... --ilk-seed ...)
+results/dogrulama_seed*_*.*
+
+# GIF aracının (araclar/sahne3d_gif.py) farklı bir çıktı adıyla denemeleri
+results/sahne3d_*.gif

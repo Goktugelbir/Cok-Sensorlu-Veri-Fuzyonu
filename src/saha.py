@@ -22,6 +22,7 @@ class Hedef:
     dost: bool
     zaman: np.ndarray = field(repr=False)     # (N,)
     konum: np.ndarray = field(repr=False)     # (N, 2)
+    hava: bool = False  # hava aracı mı; sadece görselleştirmede kullanılır (simülasyon 2 boyutludur)
 
     def konum_at(self, t):
         """t anındaki gerçek konumu doğrusal ara değerleme ile döndürür."""
@@ -59,10 +60,11 @@ def hedefleri_olustur():
         # Düz rota, sabit hız
         dict(hid=1, ad="Araç-1", dost=False, baslangic=(1500, 7000), yon=-20,
              hiz=lambda t: 10.0, donus=lambda t: 0.0),
-        # Dönüşlü rota: düz uçuş, sonra uzun bir sola dönüş
-        dict(hid=2, ad="İHA-1", dost=False, baslangic=(8800, 2000), yon=110,
+        # Dönüşlü rota: düz uçuş, uzun bir sola dönüş, ardından sert sağa kırılma
+        # (210-222 s: 12 s'de 90°, merkezcil ivme ~2.9 m/s²; sabit hız modelini zorlar)
+        dict(hid=2, ad="İHA-1", dost=False, hava=True, baslangic=(8800, 2000), yon=110,
              hiz=lambda t: 22.0,
-             donus=lambda t: 1.5 if 60 <= t < 150 else (-1.0 if 210 <= t < 250 else 0.0)),
+             donus=lambda t: 1.5 if 60 <= t < 150 else (-7.5 if 210 <= t < 222 else 0.0)),
         # Yavaş hareket eden insan grubu, hafif kıvrımlı
         dict(hid=3, ad="İnsan Grubu", dost=False, baslangic=(4600, 3600), yon=70,
              hiz=lambda t: 1.5, donus=lambda t: 0.3 * np.sin(t / 30.0)),
@@ -72,12 +74,12 @@ def hedefleri_olustur():
              else _yumusak_gecis(t, 190, 210, 16.0, 5.0),
              donus=lambda t: 0.0),
         # Dönüşlü ve hız değiştiren dost İHA
-        dict(hid=5, ad="Dost İHA", dost=True, baslangic=(9200, 8800), yon=200,
+        dict(hid=5, ad="Dost İHA", dost=True, hava=True, baslangic=(9200, 8800), yon=200,
              hiz=lambda t: _yumusak_gecis(t, 150, 170, 18.0, 12.0),
              donus=lambda t: 2.0 if 120 <= t < 150 else 0.0),
     ]
     hedefler = []
     for d in tanimlar:
         zaman, konum = _rota_uret(np.array(d["baslangic"], float), d["yon"], d["hiz"], d["donus"])
-        hedefler.append(Hedef(d["hid"], d["ad"], d["dost"], zaman, konum))
+        hedefler.append(Hedef(d["hid"], d["ad"], d["dost"], zaman, konum, d.get("hava", False)))
     return hedefler

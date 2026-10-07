@@ -5,7 +5,8 @@ Kullanım:
     python web.py --port 8080
 
 Sadece Python standart kütüphanesi (http.server) kullanılır. Sayfa web/index.html
-dosyasıdır; veriler /api/kos?senaryo=sis&seed=42 adresinden JSON olarak gelir.
+dosyasıdır (2D harita); 3D sahne web/sahne3d.js içindedir ve web/vendor/ altındaki
+three.js'i kullanır. Veriler /api/kos?senaryo=sis&seed=42 adresinden JSON olarak gelir.
 """
 
 import argparse
@@ -25,7 +26,7 @@ from src.degerlendirme import degerlendir
 from src.fuzyon import fuzyon_calistir
 from src.gorsel import KONFIG_ETIKET
 from src.saha import SAHA_BOYUTU, SURE, hedefleri_olustur
-from src.sensorler import SENARYOLAR, SENSORLER, olcumleri_uret, sensor_durumu
+from src.sensorler import KARISTIRICI_KONUM, SENARYOLAR, SENSORLER, olcumleri_uret, sensor_durumu
 
 WEB_DIZINI = Path(__file__).parent / "web"
 _onbellek = {}
@@ -37,8 +38,8 @@ def _konfig_kos(senaryo, seed, ad):
     """Tek bir konfigürasyonu koşturur (ayrı süreçte çalışır)."""
     hedefler = hedefleri_olustur()
     olcumler = olcumleri_uret(hedefler, senaryo, np.random.default_rng(seed))
-    sensorler, guven = KONFIGLER[ad]
-    gecmis, _ = fuzyon_calistir(olcumler, sensorler, guven_agirliklandirma=guven)
+    sensorler, guven, model = KONFIGLER[ad]
+    gecmis, _ = fuzyon_calistir(olcumler, sensorler, guven_agirliklandirma=guven, hareket_modeli=model)
     metrik = degerlendir(gecmis, hedefler)
     kareler = []
     for t, resim, guvenler in gecmis:
@@ -76,7 +77,8 @@ def kos(senaryo, seed):
         "sensorler": {ad: {"konum": None if np.isnan(s.konum).any() else s.konum.tolist(),
                            "menzil": None if np.isinf(s.menzil) else s.menzil}
                       for ad, s in SENSORLER.items()},
-        "hedefler": [{"id": h.hid, "ad": h.ad, "dost": h.dost,
+        "karistirici": KARISTIRICI_KONUM.tolist() if "karistirma" in SENARYOLAR[senaryo] else None,
+        "hedefler": [{"id": h.hid, "ad": h.ad, "dost": h.dost, "hava": h.hava,
                       "rota": [[round(float(x), 1), round(float(y), 1)]
                                for x, y in (h.konum_at(t) for t in adimlar)]}
                      for h in hedefler],
@@ -106,6 +108,10 @@ def _durum_ozeti(senaryo, ad, t):
 
 
 class Isleyici(SimpleHTTPRequestHandler):
+    # Windows kayıt defteri .js için text/plain döndürebilir; ES modülleri doğru MIME türü ister
+    extensions_map = {**SimpleHTTPRequestHandler.extensions_map,
+                      ".js": "text/javascript", ".mjs": "text/javascript"}
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(WEB_DIZINI), **kwargs)
 

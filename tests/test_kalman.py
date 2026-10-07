@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.kalman import KalmanCV, KalmanCT, IMM, cv_matrisleri, ct_matrisleri
+from src.kalman import IMM, KalmanCT, KalmanCV, ct_matrisleri, cv_matrisleri, tpm_dt
 
 
 def test_gecis_matrisi_sabit_hiz():
@@ -135,3 +135,29 @@ def test_imm_tahmin_sonrasi_konum_degisir():
     konum2 = imm.konum.copy()
     # vx > 0 olduğu için x artmış olmalı
     assert konum2[0] > konum1[0]
+
+
+# --- Geçiş matrisinin zamana ölçeklenmesi ---
+
+def test_tpm_dt_bir_saniyede_ayni_kisa_surede_birime_yakin():
+    tpm = np.array([[0.99, 0.01], [0.10, 0.90]])
+    assert np.allclose(tpm_dt(tpm, 1.0), tpm)
+    T = tpm_dt(tpm, 0.01)
+    assert np.allclose(T.sum(axis=1), 1.0)
+    assert np.allclose(T, np.eye(2), atol=2e-3)
+
+
+def test_imm_olasiliklari_cok_sayida_kisa_tahminde_dagilmaz():
+    """Tahmin çağrı sıklığı model olasılıklarını değiştirmemeli.
+
+    Füzyon merkezi tahmini saniyede 10'dan fazla çağırır. Geçişler dt'ye
+    ölçeklenmezse olasılıklar her çağrıda %50/%50'ye çekilir.
+    """
+    tek = IMM([0, 0], np.eye(2) * 25.0)
+    cok = IMM([0, 0], np.eye(2) * 25.0)
+    tek.tahmin(1.0)
+    for _ in range(20):
+        cok.tahmin(0.05)
+    beklenen = tek.tpm.T @ np.array([0.9, 0.1])
+    assert np.allclose(tek.model_olasiliklari, beklenen)
+    assert np.allclose(cok.model_olasiliklari, beklenen, atol=0.01)

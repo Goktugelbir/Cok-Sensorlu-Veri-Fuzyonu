@@ -44,8 +44,35 @@
   .cizgi { width: 16px; height: 3px; border-radius: 2px; display: inline-block; flex: none; }
   #durumMetni { font-size: 12px; color: var(--ikincil); margin-top: 8px; min-height: 18px; }
   #harita-kutu { position: relative; }
-  canvas { width: 100%; aspect-ratio: 1 / 1; display: block; border-radius: 8px; background: var(--yuzey);
+  #harita { width: 100%; aspect-ratio: 1 / 1; display: block; border-radius: 8px; background: var(--yuzey);
            border: 1px solid var(--cerceve); }
+  .gorunum-sec { display: inline-flex; border: 1px solid var(--eksen); border-radius: 7px; overflow: hidden;
+                 margin-bottom: 10px; }
+  .gorunum-sec button { border: 0; border-radius: 0; padding: 6px 14px; font-size: 13px; }
+  .gorunum-sec button + button { border-left: 1px solid var(--eksen); }
+  .gorunum-sec button.secili { background: var(--fuzyon); color: #fff; }
+  #sahne-kutu { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 8px; overflow: hidden;
+                background: #07111f; border: 1px solid var(--cerceve); }
+  #sahne-kutu > canvas { display: block; }
+  #sahne-etiketler { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .s3-etiket { position: absolute; left: 0; top: 0; white-space: nowrap; font-size: 11.5px; font-weight: 600;
+               padding: 2px 7px; border-radius: 5px; color: #e9f0f8; background: rgba(8,18,32,.78);
+               border: 1px solid rgba(160,190,230,.25); }
+  .s3-etiket.dost { border-color: #4c9bff; } .s3-etiket.diger { border-color: #ff5a5a; }
+  .s3-etiket.hedef { background: transparent; border: 0; color: #9fb3c8; font-weight: 500; padding: 0; }
+  .s3-etiket.sensor { font-weight: 500; } .s3-etiket.tehdit { border-color: #ff3b3b; color: #ffb3b3; }
+  .s3-etiket .donus { color: #ffc44d; }
+  .sahne-ust { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; gap: 8px;
+               justify-content: space-between; flex-wrap: wrap; pointer-events: none; }
+  .sahne-ust > * { pointer-events: auto; }
+  .sahne-ust select, .sahne-ust label, .sahne-ust button { width: auto; font-size: 12.5px; padding: 5px 9px;
+               background: rgba(8,18,32,.82); color: #dfe7f2; border: 1px solid rgba(160,190,230,.3);
+               border-radius: 6px; margin: 0; display: inline-flex; align-items: center; gap: 6px; }
+  .sahne-ust button:hover { background: rgba(30,50,80,.9); }
+  .sahne-alt { position: absolute; left: 10px; right: 10px; bottom: 8px; font-size: 11.5px; color: #8fa4bd;
+               pointer-events: none; }
+  #sahne-hata { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+                color: #dfe7f2; padding: 24px; text-align: center; }
   #zaman-satir { display: flex; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
   #zaman { flex: 1; min-width: 160px; accent-color: var(--fuzyon); }
   #zamanEtiket { font-variant-numeric: tabular-nums; min-width: 64px; text-align: right; color: var(--ikincil); }
@@ -66,7 +93,7 @@
   .guvenMetin { font-size: 11.5px; color: var(--soluk); margin-top: 3px; }
   .tablo-kutu { overflow-x: auto; }
   table { border-collapse: collapse; width: 100%; font-size: 12px; font-variant-numeric: tabular-nums; }
-  th, td { padding: 6px 5px; text-align: right; border-bottom: 1px solid var(--izgara); white-space: nowrap; }
+  th, td { padding: 6px 3px; text-align: right; border-bottom: 1px solid var(--izgara); white-space: nowrap; }
   th:first-child, td:first-child { text-align: left; white-space: normal; }
   th { color: var(--ikincil); font-weight: 600; font-size: 11.5px; }
   tbody tr { cursor: pointer; } tbody tr:hover { background: #f6f6f3; }
@@ -113,6 +140,22 @@
 
   <section id="orta">
     <div class="kart">
+      <div class="gorunum-sec" role="tablist">
+        <button data-mod="2d" class="secili">2D harita</button><button data-mod="3d">3D sahne</button>
+      </div>
+      <div id="sahne-kutu" hidden>
+        <div id="sahne-etiketler"></div>
+        <div class="sahne-ust">
+          <select id="sahneKamera" title="Kamera"><option value="genel">Kamera: genel bakış</option></select>
+          <span>
+            <label title="Kamera sahnenin etrafında yavaşça döner"><input type="checkbox" id="sahneDon"> Otomatik dönüş</label>
+            <button id="sahneSifirla" title="Kamerayı başlangıç konumuna al">Sıfırla</button>
+          </span>
+        </div>
+        <div class="sahne-alt">Sürükle: döndür · sağ tık: kaydır · tekerlek: yakınlaştır. Yükseklik görseldir;
+          simülasyon 2 boyutludur ve füzyon izleri (renkli şeritler) zemindeki kestirimlerdir.</div>
+        <div id="sahne-hata" hidden>3D sahne yüklenemedi. Tarayıcınız WebGL ve JavaScript modüllerini desteklemiyor olabilir.</div>
+      </div>
       <div id="harita-kutu">
         <canvas id="harita"></canvas>
         <div id="ipucu" hidden></div>
@@ -144,7 +187,7 @@
     <div class="kart">
       <h2>Bu koşunun sonuçları</h2>
       <div class="tablo-kutu"><table>
-        <thead><tr><th>Konfigürasyon</th><th>GOSPA</th><th>RMSE</th><th>Kaçırma</th><th>Yanlış iz</th><th>ID sw.</th><th>Etiket</th></tr></thead>
+        <thead><tr><th>Konfigürasyon</th><th>GOSPA</th><th>RMSE</th><th>Kaçırma</th><th title="Yanlış iz">Y. iz</th><th title="ID switch">ID sw.</th><th title="Dost/diğer etiket doğruluğu">Etiket</th></tr></thead>
         <tbody id="metrikTablo"></tbody>
       </table></div>
       <div class="not">GOSPA ve RMSE metre cinsindendir; Etiket, eşleşen izlerde dost/diğer etiketinin doğruluğudur. Tek seed sonucudur; satıra tıklayınca o konfigürasyonun izleri gösterilir.
@@ -163,7 +206,7 @@ const OLCUM_PENCERE = 3, IZ_KUYRUK = 40;
 
 const $ = id => document.getElementById(id);
 const tuval = $("harita"), ctx = tuval.getContext("2d");
-let veri = null, konfig = "fuzyon", t = 0, oynuyor = false, sonZaman = null;
+let veri = null, konfig = "fuzyon", t = 0, oynuyor = false, sonZaman = null, mod = "2d";
 let kareler = {}, kuyruklar = {}, basliklar = [], baslangicT = 0;   // seçili konfigürasyon için ön hesaplar
 const katman = {};
 document.querySelectorAll("[data-k]").forEach(c => {
@@ -181,6 +224,7 @@ async function baslat() {
   if (p.get("seed")) $("seed").value = p.get("seed");
   if (p.get("konfig") && bilgi.konfigler[p.get("konfig")]) konfig = p.get("konfig");
   baslangicT = parseFloat(p.get("t") || "0") || 0;
+  if (p.get("gorunum") === "3d") modSec("3d");
   $("konfig").innerHTML = Object.entries(bilgi.konfigler)
     .map(([k, e]) => `<option value="${k}">${e}</option>`).join("");
   $("konfig").value = konfig;
@@ -199,6 +243,7 @@ async function kostur() {
     if (!r.ok) throw new Error(d.hata || r.statusText);
     veri = d;
     for (const ad in veri.olcumler) veri.olcumler[ad].sort((a, b) => a[0] - b[0]);
+    window.sahne3d?.veriAyarla(veri);
     $("zaman").max = veri.sure;
     $("durumMetni").textContent = `${senaryo}, seed=${seed} hazır (${((performance.now() - bas) / 1000).toFixed(1)} s)`;
     konfigSec(konfig);
@@ -255,6 +300,14 @@ function aralik(dizi, t0, t1) {   // zamana göre sıralı dizide [t0, t1] aral�
 }
 
 function ciz() {
+  if (mod === "3d") {
+    if (veri && window.sahne3d) {
+      const sn = Math.min(veri.sure, Math.max(0, Math.round(t)));
+      window.sahne3d.guncelle({ t, kareler, kuyruklar, katman });
+      panelleriGuncelle(sn, kareler[sn]);
+    }
+    return;
+  }
   ctx.clearRect(0, 0, boyut, boyut);
   ctx.fillStyle = RENK.yuzey; ctx.fillRect(0, 0, boyut, boyut);
   // ızgara
@@ -357,7 +410,7 @@ function panelleriGuncelle(sn, kare) {
   const izler = kare ? kare.izler : [];
   $("izListesi").innerHTML = izler.length ? izler.map(iz => {
     const mu = iz[8];
-    const mod = mu ? ` · ${mu[1] > 0.35 ? "Dönüş (%"+Math.round(mu[1]*100)+")" : "Düz (%"+Math.round(mu[0]*100)+")"}` : "";
+    const mod = mu ? ` · ${mu[1] > 0.5 ? "Dönüş (%"+Math.round(mu[1]*100)+")" : "Düz (%"+Math.round(mu[0]*100)+")"}` : "";
     return `<div><span style="color:${iz[7] ? RENK.dost : RENK.dusman};font-weight:600">T${iz[0]}</span>
       <span>güven ${iz[5].toFixed(2)}${mod} · ${iz[6].map(s => KISA[s]).join(",") || "-"} · ${iz[7] ? "dost" : "diğer"}</span></div>`;
   }).join("") : `<div><span>Onaylı iz yok</span><span></span></div>`;
@@ -411,6 +464,29 @@ function durdur() { oynuyor = false; $("oynatBtn").textContent = "▶ Oynat"; }
 $("oynatBtn").addEventListener("click", () => oynuyor ? durdur() : oynat());
 $("zaman").addEventListener("input", e => zamanAyarla(parseFloat(e.target.value)));
 $("kosBtn").addEventListener("click", kostur);
+
+// ---------------------------------------------------------------- 2D / 3D görünüm
+function modSec(yeni) {
+  mod = yeni;
+  document.querySelectorAll(".gorunum-sec button").forEach(b => b.classList.toggle("secili", b.dataset.mod === yeni));
+  $("harita-kutu").hidden = yeni === "3d";
+  $("sahne-kutu").hidden = yeni !== "3d";
+  if (yeni === "3d") {
+    if (!window.sahne3d) { $("sahne-hata").hidden = !sahneYuklenemedi; return; }
+    window.sahne3d.goster($("sahne-kutu"));
+    if (veri) window.sahne3d.veriAyarla(veri);
+  } else {
+    window.sahne3d?.gizle();
+    tuvalBoyutla();
+  }
+  ciz();
+}
+let sahneYuklenemedi = false;
+window.addEventListener("sahne3d-hazir", () => { $("sahne-hata").hidden = true; if (mod === "3d") modSec("3d"); });
+document.querySelectorAll(".gorunum-sec button").forEach(b => b.addEventListener("click", () => modSec(b.dataset.mod)));
+$("sahneKamera").addEventListener("change", e => window.sahne3d?.takipSec(e.target.value));
+$("sahneSifirla").addEventListener("click", () => window.sahne3d?.kameraSifirla());
+$("sahneDon").addEventListener("change", e => window.sahne3d?.otomatikDonus(e.target.checked));
 $("konfig").addEventListener("change", e => konfigSec(e.target.value));
 document.addEventListener("keydown", e => {
   if (e.code === "Space" && !["INPUT", "SELECT", "BUTTON"].includes(document.activeElement.tagName)) {
@@ -421,5 +497,10 @@ new ResizeObserver(tuvalBoyutla).observe(tuval);
 tuvalBoyutla();
 baslat();
 </script>
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/addons/" } }
+</script>
+<script type="module" src="./sahne3d.js"
+        onerror="sahneYuklenemedi = true; document.getElementById('sahne-hata').hidden = false"></script>
 </body>
 </html>

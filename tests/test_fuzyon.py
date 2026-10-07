@@ -52,3 +52,25 @@ def test_normal_senaryoda_sensor_guvenleri_yuksek_kalir(hedefler):
     gecmis, _ = fuzyon_calistir(_olcumler(hedefler, "normal"), TUM)
     son = gecmis[-1][2]
     assert all(g > 0.9 for g in son.values())
+
+
+def test_imm_sert_donuste_cvden_iyi(hedefler):
+    """İHA-1'in sert sağa kırılması (210-222 s) sabit hız modelini zorlar; IMM daha iyi izler."""
+    olcumler = _olcumler(hedefler, "normal")
+    imm = degerlendir(fuzyon_calistir(olcumler, TUM, hareket_modeli="imm")[0], hedefler)
+    cv = degerlendir(fuzyon_calistir(olcumler, TUM, hareket_modeli="cv")[0], hedefler)
+    assert imm["gospa"] < cv["gospa"]
+    assert imm["rmse"] < cv["rmse"]
+
+
+def test_imm_model_olasiliklari_duz_ve_donuste_ayrisir(hedefler):
+    gecmis, _ = fuzyon_calistir(_olcumler(hedefler, "normal"), TUM)
+    iha = hedefler[1]
+    duz, donus = [], []
+    for t, resim, _ in gecmis:
+        gercek = iha.konum_at(t)
+        yakin = [iz for iz in resim if np.linalg.norm(iz["konum"] - gercek) < 100.0]
+        if yakin:
+            (donus if 212 <= t < 224 else duz).append(yakin[0]["model_olasiliklari"][1])
+    assert np.mean(duz) < 0.3
+    assert np.mean(donus) > 0.5

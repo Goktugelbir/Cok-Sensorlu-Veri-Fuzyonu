@@ -18,9 +18,6 @@ H_CV = np.array([[1.0, 0.0, 0.0, 0.0],
 H_CT = np.array([[1.0, 0.0, 0.0, 0.0, 0.0],
                  [0.0, 1.0, 0.0, 0.0, 0.0]])
 
-# Geriye dönük uyumluluk: eski koddan import edilen H
-H = H_CV
-
 
 # ---------------------------------------------------------------------------
 # Sabit hız (CV) modeli
@@ -81,7 +78,7 @@ class KalmanCV:
 # Koordineli dönüş (CT) modeli — EKF (Extended Kalman Filter)
 # ---------------------------------------------------------------------------
 
-def ct_matrisleri(dt, ivme_sigma, omega_sigma, x_state):
+def ct_matrisleri(dt, ivme_sigma, omega_gurultu, x_state):
     """Koordineli dönüş modeli: doğrusal olmayan durum tahmini ve Jacobian.
 
     Durum: [x, y, vx, vy, omega]. CT modeli omega'da doğrusal olmadığından,
@@ -136,7 +133,7 @@ def ct_matrisleri(dt, ivme_sigma, omega_sigma, x_state):
         [dt3 / 2, 0, dt2, 0],
         [0, dt3 / 2, 0, dt2],
     ])
-    Q[4, 4] = omega_sigma ** 2 * dt
+    Q[4, 4] = omega_gurultu ** 2 * dt
     return x_tahmin, F, Q
 
 
@@ -148,20 +145,21 @@ class KalmanCT:
     ölçümlerinden dolaylı olarak kestirilir.
     """
 
-    def __init__(self, konum, R, hiz_sigma=30.0, ivme_sigma=1.0, omega_sigma=0.3):
+    def __init__(self, konum, R, hiz_sigma=30.0, ivme_sigma=1.0, omega_sigma=0.3, omega_gurultu=None):
         self.x = np.array([konum[0], konum[1], 0.0, 0.0, 0.0])
         self.P = np.zeros((5, 5))
         self.P[:2, :2] = R
         self.P[2:4, 2:4] = np.eye(2) * hiz_sigma ** 2
-        self.P[4, 4] = omega_sigma ** 2
+        self.P[4, 4] = omega_sigma ** 2  # başlangıç dönüş hızı belirsizliği
         self.ivme_sigma = ivme_sigma
-        self.omega_sigma = omega_sigma
+        # Dönüş hızının süreç gürültüsü (rad/s/√s); verilmezse başlangıç belirsizliğiyle aynı alınır
+        self.omega_gurultu = omega_sigma if omega_gurultu is None else omega_gurultu
 
     def tahmin(self, dt):
         """Durumu dt kadar ileri taşır (EKF: doğrusal olmayan tahmin + Jacobian)."""
         if dt <= 0:
             return
-        x_tahmin, F, Q = ct_matrisleri(dt, self.ivme_sigma, self.omega_sigma, self.x)
+        x_tahmin, F, Q = ct_matrisleri(dt, self.ivme_sigma, self.omega_gurultu, self.x)
         self.x = x_tahmin
         self.P = F @ self.P @ F.T + Q
 
@@ -190,39 +188,45 @@ class KalmanCT:
 # IMM (Interacting Multiple Model) filtresi
 # ---------------------------------------------------------------------------
 
-# Varsayılan Markov geçiş matrisi: modeller arası geçiş olasılıkları
-# TPM[i, j] = P(model j'ye geçiş | şu an model i)
-# Manevralara zamanında tepki vermek için geçiş olasılığı dengelendi
+# Markov geçiş matrisi, 1 saniyelik aralık için tanımlıdır:
+# TPM[i, j] = P(1 s sonra model j | şu an model i)
+# Füzyon merkezi tahmini düzensiz aralıklarla çağırır (her sensör taramasında ve
+# her 0.2 s'lik adımda, saniyede 10'dan fazla kez). Matris adım başına uygulansaydı
+# model olasılıkları her çağrıda durağan dağılıma (%50/%50) çekilirdi; bu yüzden
+# geçişler sürekli zamanlı Markov zinciri gibi dt'ye göre ölçeklenir (tpm_dt).
 VARSAYILAN_TPM = np.array([
-    [0.90, 0.10],   # CV -> CT geçiş olasılığı (manevra tespiti için yeterli duyarlılık)
-    [0.10, 0.90],   # CT -> CV geçiş olasılığı
+    [0.99, 0.01],   # CV'de kalma / CT'ye geçiş (1 s içinde)
+    [0.10, 0.90],   # CV'ye dönüş / CT'de kalma (1 s içinde)
 ])
 
 # Başlangıç model olasılıkları (CV'ye öncelik)
 VARSAYILAN_MODEL_OLASILIK = np.array([0.9, 0.1])
 
-
-def _cv_durum_ct(x_cv):
-    """CV durumunu CT durumuna genişletir: omega=0 eklenir."""
-    return np.array([x_cv[0], x_cv[1], x_cv[2], x_cv[3], 0.0])
-
-
-def _ct_durum_cv(x_ct):
-    """CT durumundan CV durumuna daraltır: omega atılır."""
-    return x_ct[:4].copy()
+# Değerler seed 42-47 üzerinde CV ile karşılaştırılarak seçildi (README: Ayar parametreleri)
+OMEGA_SIGMA = 0.05     # yeni iz ve CV'den gelen karışım için dönüş hızı belirsizliği (rad/s)
+OMEGA_GURULTU = 0.01   # CT modelinde dönüş hızının süreç gürültüsü (rad/s/√s)
+CV_IVME_SIGMA = 1.0    # IMM içindeki CV modelinin beyaz ivme gürültüsü (m/s²)
+CT_IVME_SIGMA = 0.5    # IMM içindeki CT modelinin beyaz ivme gürültüsü (m/s²)
 
 
-def _cv_P_ct(P_cv):
-    """CV kovaryansını CT boyutuna genişletir."""
-    P = np.zeros((5, 5))
-    P[:4, :4] = P_cv
-    P[4, 4] = 0.3 ** 2  # omega için varsayılan belirsizlik
-    return P
+def tpm_dt(tpm_1s, dt):
+    """1 saniyelik geçiş matrisini dt süresine ölçekler.
 
-
-def _ct_P_cv(P_ct):
-    """CT kovaryansından CV boyutuna daraltır."""
-    return P_ct[:4, :4].copy()
+    Her modelde kalma olasılığı p_ii(dt) = p_ii^dt olur; çıkış olasılığı diğer
+    modellere 1 saniyelik matristeki oranlarla dağıtılır. dt = 1'de matris
+    aynen geri gelir, dt -> 0'da birim matrise yaklaşır.
+    """
+    if tpm_1s.shape == (2, 2):
+        # İki model: çıkış olasılığı doğrudan diğer modele gider (hızlı yol)
+        a, b = tpm_1s[0, 0] ** dt, tpm_1s[1, 1] ** dt
+        return np.array([[a, 1.0 - a], [1.0 - b, b]])
+    kalma = np.diag(tpm_1s)
+    kalma_dt = kalma ** dt
+    cikis_1s = 1.0 - kalma
+    oran = np.divide(1.0 - kalma_dt, cikis_1s, out=np.zeros_like(kalma), where=cikis_1s > 0)
+    T = tpm_1s * oran[:, None]
+    T[np.diag_indices_from(T)] = kalma_dt
+    return T
 
 
 class IMM:
@@ -231,132 +235,81 @@ class IMM:
     Dışarıdan bakıldığında KalmanCV ile aynı arayüzü sunar (tahmin,
     inovasyon, guncelle, konum). Füzyon merkezi bu sınıfı KalmanCV yerine
     doğrudan kullanabilir.
+
+    Her tahmin adımında: (1) model geçişleri dt'ye ölçeklenmiş TPM ile
+    uygulanır ve modeller karıştırılır, (2) her model kendi dinamiğiyle ileri
+    taşınır. Her ölçümde model olasılıkları Gauss olabilirlikleriyle güncellenir.
     """
 
-    def __init__(self, konum, R, hiz_sigma=30.0, ivme_sigma=1.0, omega_sigma=0.3,
+    def __init__(self, konum, R, hiz_sigma=30.0, cv_ivme_sigma=CV_IVME_SIGMA,
+                 ct_ivme_sigma=CT_IVME_SIGMA, omega_sigma=OMEGA_SIGMA, omega_gurultu=OMEGA_GURULTU,
                  tpm=None, baslangic_olasilik=None):
         self.filtreler = [
-            KalmanCV(konum, R, hiz_sigma, ivme_sigma),
-            KalmanCT(konum, R, hiz_sigma, ivme_sigma, omega_sigma),
+            KalmanCV(konum, R, hiz_sigma, cv_ivme_sigma),
+            KalmanCT(konum, R, hiz_sigma, ct_ivme_sigma, omega_sigma, omega_gurultu),
         ]
         self.tpm = tpm if tpm is not None else VARSAYILAN_TPM.copy()
-        self.mu = (baslangic_olasilik if baslangic_olasilik is not None
+        self.mu = (np.array(baslangic_olasilik, float) if baslangic_olasilik is not None
                    else VARSAYILAN_MODEL_OLASILIK.copy())
-        self.ivme_sigma = ivme_sigma
-        self._n_model = 2
-        self._c_bar = self.tpm.T @ self.mu
+        self.omega_sigma = omega_sigma
         self._birlestir()  # _x_comb ve _P_comb'u başlat
 
-    # ---------- model durum/kovaryansi okuma/yazma yardımcıları ----------
+    # ---------- model durumları ortak (5 boyutlu) biçimde ----------
 
-    def _durum_al(self, j):
-        """Model j'nin durumunu ortak (5 boyutlu) formatta döndürür."""
-        if j == 0:
-            return _cv_durum_ct(self.filtreler[0].x)
-        return self.filtreler[1].x.copy()
+    def _durumlar(self):
+        """Modellerin durum ve kovaryansları, ortak 5 boyutlu biçimde.
 
-    def _durum_koy(self, j, x):
-        """Ortak formattaki durumu model j'ye yazar."""
-        if j == 0:
-            self.filtreler[0].x = _ct_durum_cv(x)
-        else:
-            self.filtreler[1].x = x.copy()
+        CV modeli, omega = 0 olan bir CT modeli gibi genişletilir. Omega
+        belirsizliği olarak omega_sigma kullanılır; böylece karışım CT modelinin
+        dönüş hızı kestirimini sıfıra kilitlemez.
+        """
+        cv, ct = self.filtreler
+        x_cv = np.zeros(5)
+        x_cv[:4] = cv.x
+        P_cv = np.zeros((5, 5))
+        P_cv[:4, :4] = cv.P
+        P_cv[4, 4] = self.omega_sigma ** 2
+        return x_cv, P_cv, ct.x, ct.P
 
-    def _P_al(self, j):
-        """Model j'nin kovaryansını ortak (5x5) formatta döndürür."""
-        if j == 0:
-            return _cv_P_ct(self.filtreler[0].P)
-        return self.filtreler[1].P.copy()
+    @staticmethod
+    def _karisim(w0, x0, P0, x1, P1):
+        """İki bileşenli Gauss karışımının ortalaması ve kovaryansı (moment eşleme).
 
-    def _P_koy(self, j, P):
-        """Ortak formattaki kovaryansı model j'ye yazar."""
-        if j == 0:
-            self.filtreler[0].P = _ct_P_cv(P)
-        else:
-            self.filtreler[1].P = P.copy()
+        w0 + w1 = 1 olduğundan yayılma terimi tek bir dış çarpıma iner:
+        Σ w_i (x_i - x)(x_i - x)ᵀ = w0 · w1 · (x0 - x1)(x0 - x1)ᵀ.
+        """
+        w1 = 1.0 - w0
+        d = x0 - x1
+        return w0 * x0 + w1 * x1, w0 * P0 + w1 * P1 + (w0 * w1) * np.outer(d, d)
 
     # ---------- IMM adımları ----------
 
-    def _etkilesim(self):
-        """Etkileşim adımı: karışım olasılıkları ve karıştırılmış durumlar.
-
-        Her model j için, modellerin ağırlıklı karışımından yeni bir başlangıç
-        durumu ve kovaryansı hesaplanır.
-        """
-        n = self._n_model
-        c_bar = self.tpm.T @ self.mu  # her model j için normalleştirme
-        c_bar = np.maximum(c_bar, 1e-30)
-
-        # Karışım ağırlıkları: mu_{i|j} = TPM[i,j] * mu[i] / c_bar[j]
-        mu_ij = np.zeros((n, n))
-        for i in range(n):
-            for j in range(n):
-                mu_ij[i, j] = self.tpm[i, j] * self.mu[i] / c_bar[j]
-
-        # Her model j için karıştırılmış durum ve kovaryans
-        durumlar = [self._durum_al(i) for i in range(n)]
-        kovaryanlar = [self._P_al(i) for i in range(n)]
-        dim = 5  # ortak boyut
-
-        for j in range(n):
-            x_mix = np.zeros(dim)
-            for i in range(n):
-                x_mix += mu_ij[i, j] * durumlar[i]
-
-            P_mix = np.zeros((dim, dim))
-            for i in range(n):
-                d = durumlar[i] - x_mix
-                P_mix += mu_ij[i, j] * (kovaryanlar[i] + np.outer(d, d))
-
-            self._durum_koy(j, x_mix)
-            self._P_koy(j, P_mix)
-
-        self._c_bar = c_bar
+    def _etkilesim(self, dt):
+        """Etkileşim adımı: model geçişleri ve karıştırılmış başlangıç durumları."""
+        T = tpm_dt(self.tpm, dt)
+        c_bar = np.maximum(T.T @ self.mu, 1e-30)      # öngörülen model olasılıkları
+        mu_ij = T * self.mu[:, None] / c_bar[None, :]  # mu_{i|j}; sütunların toplamı 1
+        x_cv, P_cv, x_ct, P_ct = self._durumlar()
+        cv, ct = self.filtreler
+        x, P = self._karisim(mu_ij[0, 0], x_cv, P_cv, x_ct, P_ct)
+        cv.x, cv.P = x[:4], P[:4, :4]
+        ct.x, ct.P = self._karisim(mu_ij[0, 1], x_cv, P_cv, x_ct, P_ct)
+        self.mu = c_bar / c_bar.sum()
 
     def _model_olasilik_guncelle(self, z, R):
-        """Ölçüm olabilirliklerinden model olasılıklarını günceller."""
-        n = self._n_model
-        L = np.zeros(n)
-        for j in range(n):
-            y, S = self.filtreler[j].inovasyon(z, R)
-            # Gauss olabilirlik (log → exp güvenli)
-            sign, logdet = np.linalg.slogdet(S)
-            if sign <= 0:
-                L[j] = 1e-30
-                continue
-            S_inv = np.linalg.inv(S)
-            mahal = float(y @ S_inv @ y)
-            L[j] = np.exp(-0.5 * (mahal + logdet + 2 * np.log(2 * np.pi)))
-            L[j] = max(L[j], 1e-30)
-
-        mu_yeni = self._c_bar * L
-        toplam = mu_yeni.sum()
-        if toplam > 0:
-            mu_yeni /= toplam
-        else:
-            mu_yeni = np.ones(n) / n
-        self.mu = mu_yeni
+        """Ölçüm olabilirliklerinden model olasılıklarını günceller (log uzayında)."""
+        log_L = np.zeros(len(self.filtreler))
+        for j, f in enumerate(self.filtreler):
+            y, S = f.inovasyon(z, R)
+            _, logdet = np.linalg.slogdet(S)
+            log_L[j] = -0.5 * (float(y @ np.linalg.solve(S, y)) + logdet)
+        log_mu = np.log(np.maximum(self.mu, 1e-300)) + log_L
+        mu = np.exp(log_mu - log_mu.max())
+        self.mu = mu / mu.sum()
 
     def _birlestir(self):
-        """Birleştirme adımı: model çıkışlarının ağırlıklı ortalaması."""
-        n = self._n_model
-        dim = 5
-
-        durumlar = [self._durum_al(j) for j in range(n)]
-        kovaryanlar = [self._P_al(j) for j in range(n)]
-
-        x_comb = np.zeros(dim)
-        for j in range(n):
-            x_comb += self.mu[j] * durumlar[j]
-
-        P_comb = np.zeros((dim, dim))
-        for j in range(n):
-            d = durumlar[j] - x_comb
-            P_comb += self.mu[j] * (kovaryanlar[j] + np.outer(d, d))
-
-        # Birleşik sonucu sakla (dışarıya sunmak için)
-        self._x_comb = x_comb
-        self._P_comb = P_comb
+        """Birleştirme adımı: model çıkışlarının olasılık ağırlıklı karışımı."""
+        self._x_comb, self._P_comb = self._karisim(self.mu[0], *self._durumlar())
 
     # ---------- Dışa açık arayüz (KalmanCV uyumlu) ----------
 
@@ -364,7 +317,7 @@ class IMM:
         """Durumu dt kadar ileri taşır (etkileşim + model tahminleri)."""
         if dt <= 0:
             return
-        self._etkilesim()
+        self._etkilesim(dt)
         for f in self.filtreler:
             f.tahmin(dt)
         self._birlestir()
@@ -378,23 +331,14 @@ class IMM:
     def guncelle(self, z, R):
         """Her modeli ayrı ayrı günceller, olasılıkları yeniler, birleştirir.
 
-        Normalize inovasyon karesini (NIS) döndürür (birleşik durumdan).
+        Normalize inovasyon karesini (NIS) birleşik durumdan döndürür.
         """
-        # Birleşik inovasyon (NIS hesabı için)
         y, S = self.inovasyon(z, R)
-        S_inv = np.linalg.inv(S)
-        nis = float(y @ S_inv @ y)
-
-        # Model olasılıklarını güncelle (ölçüm olabilirliklerine göre)
+        nis = float(y @ np.linalg.solve(S, y))
         self._model_olasilik_guncelle(z, R)
-
-        # Her modeli kendi filtresiyle güncelle
         for f in self.filtreler:
             f.guncelle(z, R)
-
-        # Birleştir
         self._birlestir()
-
         return nis
 
     @property
@@ -406,35 +350,15 @@ class IMM:
         """KalmanCV uyumlu durum vektörü [x, y, vx, vy] (4 boyutlu)."""
         return self._x_comb[:4].copy()
 
-    @x.setter
-    def x(self, deger):
-        """Dışarıdan durum ataması (uyumluluk için)."""
-        # Güncelle: hem birleşik hem bireysel filtrelere yansıt
-        x5 = np.zeros(5)
-        x5[:4] = deger
-        if hasattr(self, '_x_comb'):
-            x5[4] = self._x_comb[4]
-        self._x_comb = x5
-        self._durum_koy(0, x5)
-        self._durum_koy(1, x5)
-
     @property
     def P(self):
         """KalmanCV uyumlu kovaryans matrisi (4x4)."""
         return self._P_comb[:4, :4].copy()
 
-    @P.setter
-    def P(self, deger):
-        """Dışarıdan kovaryans ataması (uyumluluk için)."""
-        P5 = np.zeros((5, 5))
-        P5[:4, :4] = deger
-        if hasattr(self, '_P_comb'):
-            P5[4, 4] = self._P_comb[4, 4]
-        else:
-            P5[4, 4] = 0.3 ** 2
-        self._P_comb = P5
-        self._P_koy(0, P5)
-        self._P_koy(1, P5)
+    @property
+    def omega(self):
+        """Birleşik dönüş hızı kestirimi (rad/s)."""
+        return float(self._x_comb[4])
 
     @property
     def model_olasiliklari(self):

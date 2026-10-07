@@ -6,6 +6,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.lines import Line2D
+from matplotlib.ticker import FixedLocator, FuncFormatter, NullLocator
 from PIL import Image
 
 from .saha import SAHA_BOYUTU
@@ -16,13 +17,17 @@ RENK = {
     "fuzyon": "#2a78d6", "radar": "#eb6834", "kamera": "#1baf7a", "konum": "#4a3aa7",
     "dost": "#2a78d6", "dusman": "#e34948",
     "gercek": "#c3c2b7", "metin": "#0b0b0b", "ikincil": "#52514e", "izgara": "#e1e0d9",
-    "zemin": "#fcfcfb",
+    "zemin": "#fcfcfb", "cv": "#b8458f", "bant": "#e8e6df", "manevra": "#f4efe2",
 }
 SENSOR_ETIKET = {"radar": "Radar", "kamera": "EO/termal kamera", "konum": "Konum bildirimi"}
 KISALTMA = {"radar": "R", "kamera": "K", "konum": "B"}
 KONFIG_ETIKET = {"radar": "Sadece radar", "kamera": "Sadece kamera",
                  "konum": "Sadece konum bildirimi", "fuzyon": "Füzyon",
-                 "fuzyon_guvensiz": "Füzyon (güven ağırlıklandırma kapalı)"}
+                 "fuzyon_guvensiz": "Füzyon (güven ağırlıklandırma kapalı)",
+                 "fuzyon_cv": "Füzyon (IMM kapalı, sadece CV)"}
+ABLASYON_DESEN = {"fuzyon_guvensiz": "///", "fuzyon_cv": "..."}
+# Ablasyon çubukları: dolgu, kenar (desen) rengi. CV ablasyonu her grafikte eflatunla gösterilir
+ABLASYON_STIL = {"fuzyon_guvensiz": ("#86b6ef", RENK["fuzyon"]), "fuzyon_cv": ("#e7c3db", RENK["cv"])}
 KONFIG_RENK = {"fuzyon": RENK["fuzyon"], "radar": RENK["radar"],
                "kamera": RENK["kamera"], "konum": RENK["konum"]}
 
@@ -140,14 +145,14 @@ def gif_olustur(senaryo, hedefler, olcumler, gecmis, yol, kare_araligi=3.0, iz_k
 def karsilastirma_grafigi(ozet, yol, tekrar):
     """ozet[senaryo][konfig][ölçüt] = (ortalama, std) -> 2x2 gruplu çubuk grafik (hata çubuğu = ±1 std)."""
     senaryolar = list(ozet)
-    konfigler = ["fuzyon", "fuzyon_guvensiz", "radar", "kamera", "konum"]
+    konfigler = ["fuzyon", "fuzyon_guvensiz", "fuzyon_cv", "radar", "kamera", "konum"]
     olcutler = [("gospa", "GOSPA (m): konum + kaçırma + sahte iz — düşük iyi"),
                 ("rmse", "RMSE (m), sadece eşleşen izler — düşük iyi"),
                 ("kacirma", "Kaçırma oranı (%) — düşük iyi"),
                 ("yanlis_iz", "Yanlış iz sayısı — düşük iyi"), ("id_switch", "ID switch sayısı — düşük iyi")]
     fig, eksenler = plt.subplots(2, 3, figsize=(16, 7.5), dpi=100)
     fig.patch.set_facecolor(RENK["zemin"])
-    genislik = 0.16
+    genislik = 0.135
     x = np.arange(len(senaryolar))
     for ax, (anahtar, baslik) in zip(eksenler.flat, olcutler):
         ax.set_facecolor(RENK["zemin"])
@@ -156,10 +161,10 @@ def karsilastirma_grafigi(ozet, yol, tekrar):
             std = np.array([ozet[s][k][anahtar][1] for s in senaryolar], float)
             if anahtar == "kacirma":
                 ort, std = ort * 100, std * 100
-            # Ablasyon (güven kapalı) füzyonla aynı aileden: açık mavi + tarama deseni
-            stil = (dict(color="#86b6ef", hatch="///", edgecolor=RENK["fuzyon"], linewidth=0)
-                    if k == "fuzyon_guvensiz" else dict(color=KONFIG_RENK[k]))
-            ax.bar(x + (i - 2) * genislik, ort, genislik * 0.9, yerr=std, label=KONFIG_ETIKET[k],
+            # Ablasyonlar açık dolgu + tarama deseniyle ayrılır
+            stil = (dict(color=ABLASYON_STIL[k][0], hatch=ABLASYON_DESEN[k], edgecolor=ABLASYON_STIL[k][1],
+                         linewidth=0) if k in ABLASYON_DESEN else dict(color=KONFIG_RENK[k]))
+            ax.bar(x + (i - 2.5) * genislik, ort, genislik * 0.9, yerr=std, label=KONFIG_ETIKET[k],
                    error_kw=dict(ecolor=RENK["ikincil"], elinewidth=0.8, capsize=2), zorder=2, **stil)
         ax.set_xticks(x, senaryolar, fontsize=9, color=RENK["metin"])
         ax.set_title(baslik, fontsize=10, color=RENK["metin"], loc="left")
@@ -216,4 +221,78 @@ def ozet_figur(hedefler, veriler, yol):
                                 fontweight="bold", color=RENK["metin"])
     fig.subplots_adjust(left=0.04, right=0.99, top=0.88, bottom=0.07, wspace=0.25, hspace=0.55)
     fig.savefig(yol, facecolor=fig.get_facecolor(), bbox_inches="tight")
+    plt.close(fig)
+
+
+def nees_grafigi(zaman, nees, hedefler, yol, tekrar, odak="İHA-1", manevralar=()):
+    """Filtre tutarlılığı: IMM ve sadece CV füzyonunun konum NEES'i.
+
+    nees[konfig] = (n_koşu, n_hedef, n_an) dizisi ("fuzyon" = IMM, "fuzyon_cv" = CV).
+    Sol: odak hedefin ANEES'i zamana göre ve %95 kabul bandı (log ölçek).
+    Sağ: hedef bazında bütün örneklerin NEES ortalaması.
+    manevralar: [(t0, t1, açıklama), ...] sol panelde gölgelenir.
+    """
+    from .tutarlilik import BOYUT, anees, kabul_bandi
+    seriler = [("fuzyon", "Füzyon (IMM)", RENK["fuzyon"], "-", "o"),
+               ("fuzyon_cv", "Füzyon (sadece CV)", RENK["cv"], "--", "D")]
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 4.8), dpi=100, gridspec_kw={"width_ratios": [1.9, 1]})
+    fig.patch.set_facecolor(RENK["zemin"])
+    i_odak = [h.ad for h in hedefler].index(odak)
+
+    for ax in (ax1, ax2):
+        ax.set_facecolor(RENK["zemin"])
+        for k in ("top", "right"):
+            ax.spines[k].set_visible(False)
+        for k in ("left", "bottom"):
+            ax.spines[k].set_color(RENK["gercek"])
+        ax.tick_params(colors=RENK["ikincil"], labelsize=8.5)
+
+    # Sol panel: odak hedef
+    for t0, t1, aciklama in manevralar:
+        ax1.axvspan(t0, t1, color=RENK["manevra"], zorder=0)
+        ax1.text((t0 + t1) / 2, 0.97, aciklama, transform=ax1.get_xaxis_transform(), ha="center", va="top",
+                 fontsize=8, color=RENK["ikincil"])
+    _, n_imm = anees(nees["fuzyon"])
+    alt, ust = kabul_bandi(n_imm[i_odak])
+    ax1.fill_between(zaman, alt, ust, color=RENK["bant"], lw=0, zorder=1, label="%95 kabul bandı")
+    ax1.axhline(BOYUT, color=RENK["ikincil"], lw=0.8, ls=":", zorder=1)
+    for k, etiket, renk, cizgi, _ in seriler:
+        ort, _ = anees(nees[k])
+        ax1.plot(zaman, ort[i_odak], color=renk, lw=2, ls=cizgi, label=etiket, zorder=3)
+    ax1.set_yscale("log")
+    ax1.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:g}"))
+    ax1.set_xlim(zaman[0], zaman[-1])
+    ax1.set_xlabel("zaman (s)", color=RENK["ikincil"], fontsize=9)
+    ax1.set_ylabel(f"ANEES ({tekrar} koşu ortalaması)", color=RENK["ikincil"], fontsize=9)
+    ax1.set_title(f"{odak}: konum NEES'i — tutarlı filtrede bantta kalır (beklenen {BOYUT})", fontsize=10,
+                  color=RENK["metin"], loc="left")
+    ax1.grid(axis="y", color=RENK["izgara"], lw=0.6, zorder=0)
+    ax1.legend(loc="upper left", bbox_to_anchor=(0, 0.9), fontsize=8.5, frameon=False)
+
+    # Sağ panel: hedef bazında ortalama NEES (nokta grafiği)
+    y = np.arange(len(hedefler))
+    for (k, etiket, renk, _, isaret), kayma in zip(seriler, (-0.12, 0.12)):
+        A = np.asarray(nees[k], float)
+        ortalama = [np.nanmean(A[:, i]) for i in range(len(hedefler))]
+        ax2.scatter(ortalama, y + kayma, s=46, color=renk, marker=isaret, label=etiket, zorder=3,
+                    edgecolors=RENK["zemin"], linewidths=1.5)
+        if k == "fuzyon_cv":
+            ax2.annotate(f"{ortalama[i_odak]:.1f}", (ortalama[i_odak], i_odak + kayma), xytext=(7, -3),
+                         textcoords="offset points", fontsize=8.5, color=RENK["metin"])
+    ax2.axvline(BOYUT, color=RENK["ikincil"], lw=0.8, ls=":", zorder=1)
+    ax2.text(BOYUT, len(hedefler) - 0.45, f" beklenen {BOYUT}", fontsize=8, color=RENK["ikincil"], va="bottom")
+    ax2.set_xscale("log")
+    ax2.xaxis.set_major_locator(FixedLocator([1, 2, 5, 10, 20, 50]))
+    ax2.xaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:g}"))
+    ax2.xaxis.set_minor_locator(NullLocator())
+    ax2.set_yticks(y, [h.ad for h in hedefler], fontsize=9, color=RENK["metin"])
+    ax2.set_ylim(-0.6, len(hedefler) - 0.1)
+    ax2.invert_yaxis()
+    ax2.grid(axis="x", color=RENK["izgara"], lw=0.6, zorder=0)
+    ax2.set_xlabel("ortalama NEES (log)", color=RENK["ikincil"], fontsize=9)
+    ax2.set_title("Hedef bazında ortalama NEES", fontsize=10, color=RENK["metin"], loc="left")
+    ax2.legend(loc="lower right", fontsize=8.5, frameon=False)
+
+    fig.tight_layout()
+    fig.savefig(yol, facecolor=fig.get_facecolor())
     plt.close(fig)
